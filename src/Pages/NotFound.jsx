@@ -1,9 +1,9 @@
 function NotFound() {
-    return ( 
-        <>
-        <h1>404 Not Found</h1>
-        </>
-     );
+  return (
+    <>
+      <div className="bg-base-100 min-h-screen  flex items-center justify-center text-5xl ">404 Not Found</div>
+    </>
+  );
 }
 
 export default NotFound;

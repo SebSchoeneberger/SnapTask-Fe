@@ -1,8 +1,13 @@
-# React + Vite
+# SnapTask Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Setup
 
-Currently, two official plugins are available:
+- `npm i` to install dependencies
+- create a `.env.development.local`:
+  - `VITE_API_URL` set to `http://localhost:3333` assuming your backend API is running on port 3333
+- The server defaults to port `5173`, although you can override this in the script sections in `package.json`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Commands
+
+- `npm run dev`: Starts development server, pulling environment variables from `.env.development.local` file
+
