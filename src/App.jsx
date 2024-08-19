@@ -17,7 +17,9 @@ import Reports from "./Pages/Reports";
 import NotFound from "./Pages/NotFound";
 import ProtectedLayout from "./Layouts/ProtectedLayout";
 import Profile from "./Pages/Profile";
+import AuthProvider from "./Context/AuthProvider";
 import Areas from "./Pages/Areas";
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,6 +43,9 @@ const router = createBrowserRouter(
   )
 );
 
-const App = () => <RouterProvider router={router} />;
+const App = () => 
+  <AuthProvider>
+    <RouterProvider router={router} />
+  </AuthProvider>;
 
 export default App;
