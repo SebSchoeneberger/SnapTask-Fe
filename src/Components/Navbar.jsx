@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import ThemesSwap from "./ThemesSwap";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -44,7 +44,7 @@ const Navbar = () => {
 
         <div className="flex-none gap-1">
           <div className="dropdown dropdown-end">
-            <Link to="src/Pages/Faq.jsx">
+            <NavLink to="faq">
               <div
                 tabIndex={0}
                 role="button"
@@ -67,8 +67,8 @@ const Navbar = () => {
                   </svg>
                 </div>
               </div>
-            </Link>
-            <Link to="src/Pages/Profile.jsx">
+            </NavLink>
+            <NavLink to="profile">
               <div
                 tabIndex={0}
                 role="button"
@@ -96,7 +96,7 @@ const Navbar = () => {
                   </svg>
                 </div>
               </div>
-            </Link>
+            </NavLink>
           </div>
 
           <div className="dropdown dropdown-end">
