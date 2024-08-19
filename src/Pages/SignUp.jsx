@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../Context/AuthProvider.jsx"
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import image1 from "../assets/7178573_61336.svg"
 import { toast } from "react-toastify";
@@ -20,22 +21,22 @@ function SignUp() {
       const [showPassword, setShowPassword] = useState(false);
       const [showConfirmPassword, setShowConfirmPassword] = useState(false);
       const [isLoading, setIsLoading] = useState(false);
+      const { signUp } = useContext(AuthContext);
 
-    const onSubmit = async (data) => {
+      const onSubmit = async (data) => {
         delete data.confirmPassword;
         setIsLoading(true);
-
+    
         try {
-            const res = await axios.post(`${API_URL}/auth/signup`, data);           
-                if (res.status === 200) {
-                navigate('/login');
-                toast.success('Registration Successfull. Welcome to Task QR!');
-                }
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setIsLoading(false);
-            }
+            await signUp(data);
+            navigate('/dashboard');
+            toast.success('Registration Successful. Welcome to Task QR!');
+        } catch (error) {
+            toast.error(`Sign up Failed: ${error.message}`);
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const password = watch("password");

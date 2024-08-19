@@ -8,6 +8,7 @@ import Dashboard from "./Pages/Dashboard";
 import NotFound from "./Pages/NotFound";
 import ProtectedLayout from "./Layouts/ProtectedLayout";
 import Profile from "./Pages/Profile";
+import AuthProvider from "./Context/AuthProvider";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +27,9 @@ const router = createBrowserRouter(
   )
 );
 
-const App = () => <RouterProvider router={router} />;
+const App = () => 
+  <AuthProvider>
+    <RouterProvider router={router} />
+  </AuthProvider>;
 
 export default App;

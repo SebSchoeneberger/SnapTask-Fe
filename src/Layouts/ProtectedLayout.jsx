@@ -1,10 +1,13 @@
 import React, { useContext } from "react";
 import { Outlet, Navigate } from "react-router-dom";
+import { AuthContext } from "../Context/AuthProvider";
 
 function ProtectedLayout() {
-  const { userInfo } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
 
-  return userInfo ? <Outlet /> : <Navigate to="/login" />;
+  return <>
+  {!loading && <>{user ? <Outlet /> : <Navigate to="/login" />}</>}
+  </>;
 }
 
 export default ProtectedLayout;
