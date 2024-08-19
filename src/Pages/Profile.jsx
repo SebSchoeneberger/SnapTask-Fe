@@ -262,9 +262,9 @@ export default function Profile() {
 const ConfirmPopup = ({ deleteConfirmed }) => {
   return (
     <dialog id="confirmPopup" className="modal">
-      <div className="modal-box bg-base-300">
+      <div className="modal-box bg-base-100">
         <h3 className="font-bold text-lg">Confirmation</h3>
-        <p className="py-4">Are you sure you want to permanantly delete your account?</p>
+        <p className="py-4 font-semibold">Are you sure you want to permanantly delete your account?</p>
         <div className="modal-action">
           <form method="dialog" className="flex justify-between w-full">
             {/* if there is a button in form, it will close the modal */}
