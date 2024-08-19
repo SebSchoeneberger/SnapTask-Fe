@@ -44,7 +44,7 @@ const Navbar = () => {
 
         <div className="flex-none gap-1">
           <div className="dropdown dropdown-end">
-            <Link to="/faq">
+            <Link to="src/Pages/Faq.jsx">
               <div
                 tabIndex={0}
                 role="button"
@@ -68,7 +68,7 @@ const Navbar = () => {
                 </div>
               </div>
             </Link>
-            <Link>
+            <Link to="src/Pages/Profile.jsx">
               <div
                 tabIndex={0}
                 role="button"
