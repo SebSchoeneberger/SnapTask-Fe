@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-const storageKey = "hex-diary-theme";
+const storageKey = "snap-task-theme";
 
 export default function ThemesSwap() {
   const themesSwap = ["emerald", "dim"];
