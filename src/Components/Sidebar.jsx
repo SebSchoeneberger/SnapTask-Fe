@@ -1,12 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Sidebar() {
   return (
     <>
-      <ul className="menu rounded-box w-56 flex-col gap-3">
+      <ul className="menu rounded-box w-56 flex-col gap-3 mt-10">
         <li>
-          <Link to="/dashboard">
+          <NavLink to="/dashboard">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -22,10 +22,10 @@ function Sidebar() {
               />
             </svg>
             Dashboard
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/areas">
+          <NavLink to="areas">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -41,10 +41,10 @@ function Sidebar() {
               />
             </svg>
             Areas
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/Tasks">
+          <NavLink to="tasks">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -60,10 +60,10 @@ function Sidebar() {
               />
             </svg>
             Tasks
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/People">
+          <NavLink to="people">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -79,10 +79,10 @@ function Sidebar() {
               />
             </svg>
             People
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/reports">
+          <NavLink to="reports">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -98,7 +98,7 @@ function Sidebar() {
               />
             </svg>
             Reports
-          </Link>
+          </NavLink>
         </li>
       </ul>
     </>
