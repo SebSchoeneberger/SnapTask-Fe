@@ -21,6 +21,8 @@ const AuthProvider = ({ children }) => {
             setUser(null);
             localStorage.removeItem("token");
             console.error("Login error:", error);
+            throw error;
+            
         }
     };
 
@@ -36,6 +38,7 @@ const AuthProvider = ({ children }) => {
             setUser(null);
             localStorage.removeItem("token");
             console.error("Sign up error:", error);
+            throw error;
         }
     };
 

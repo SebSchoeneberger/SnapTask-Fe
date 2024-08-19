@@ -47,7 +47,7 @@ function SignUp() {
            <div className="border p-8 flex flex-col justify-center items-center">
 
             <img className="h-40 w-auto" src={image1} alt="QR code Picture" />
-            <h1 className="text-2xl p-3">Register to Task QR!</h1>
+            <h1 className="text-2xl p-3">Register to SnapTask!</h1>
             <p className="pb-3">Already have an account? <Link to="/login" className="text-blue-500 underline hover:text-blue-700">Login here</Link> </p>
 
             <button className="btn btn-wide">
