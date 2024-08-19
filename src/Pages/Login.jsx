@@ -15,16 +15,22 @@ function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const { login } = useContext(AuthContext);
+    const [authError, setAuthError] = useState("");
 
     const onSubmit = async (data) => {
         setIsLoading(true);
+        setAuthError("");
     
         try {
             await login(data);
             navigate('/dashboard');
             toast.success('Login Successful. Enjoy Snaptask!');
         } catch (error) {
-            toast.error(`Login Failed: ${error.message}`); 
+            if (error.response && error.response.status === 401) {
+                setAuthError("Email or Password is incorrect"); 
+            } else {
+                console.error(error);
+            } 
         } finally {
             setIsLoading(false);
         }
@@ -112,6 +118,9 @@ function Login() {
                         </button>
                     </label>
                     {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
+                    {authError && <p style={{ color: 'red' }}>{authError}</p>}
+
+                    <Link className="text-sm hover:text-blue-500 hover:underline">Forgot Password?</Link>
     
                     <button type="submit" className="btn" disabled={isLoading}>
                         {isLoading ? (<span className="loading loading-dots loading-md"></span>) : "Login"}
