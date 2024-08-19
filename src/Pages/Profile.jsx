@@ -12,7 +12,7 @@ export default function Profile() {
 
   const [loading, setLoading] = useState(true);
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmMzM2IyZDhlZWZiNTA2OThjNTc4MWQiLCJlbWFpbCI6ImphbmVAZG9lLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyNDA3NTM0OSwiZXhwIjoxNzI0MTYxNzQ5fQ.dDpuaamihGs0AZmG8zpRXdiLaXdF5F6uH3bprK6oObs";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmJmNzAwOWI2MGE0NjY4ZDdlMjNiM2EiLCJlbWFpbCI6ImpvaG5AZG9lLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyNDA3NjU5NCwiZXhwIjoxNzI0MTYyOTk0fQ.uXZHrFkU7YKlXSLFGqLMYSKJ208oAOC2lGady83mllE";
 
   const [userData, setUserData] = useState(null);
   const [passwordError, setPasswordError] = useState("");
@@ -118,7 +118,7 @@ export default function Profile() {
       });
   }
 
-  const windowMarkup = "min-h-screen border-[2px] border-solid border-base-300 w-full m-auto text-left  px-12 my-4";
+  const windowMarkup = "min-h-screen border-[2px] border-solid border-base-content border-opacity-40 w-full m-auto text-left  px-12 my-4";
 
   if (loading)
     return (
@@ -139,7 +139,7 @@ export default function Profile() {
               <p className="font-bold mt-2">Profile</p>
               <p className="text-xs">Your personal information and account security settings</p>
             </div>
-            <div className="w-[60%]">
+            <div className="w-[60%] flex flex-col gap-2">
               {/* <p className="font-bold">Avatar</p> */}
               <label className="form-control w-full ">
                 <div className="label">
@@ -197,7 +197,7 @@ export default function Profile() {
               <p className="font-bold mt-2">Set Password</p>
               <p className="text-xs">Choose a new password</p>
             </div>
-            <div className="w-[60%]">
+            <div className="w-[60%] flex flex-col gap-2">
               <label className="form-control w-full ">
                 <div className="label">
                   <span className="label-text font-semibold">Current password</span>
