@@ -3,13 +3,17 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import LoadingSpinner from "../Components/LoadingSpinner";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function Profile() {
-  const url = `http://localhost:3333/auth/me`;
+  const url = `${API_URL}/auth/me`;
+
   const [loading, setLoading] = useState(true);
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmJmNzAwOWI2MGE0NjY4ZDdlMjNiM2EiLCJlbWFpbCI6ImpvaG5AZG9lLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyNDA2NDU2MCwiZXhwIjoxNzI0MTUwOTYwfQ.SXPJLdCKIynH6C8bysnabT1Ynt_s_jnywtcaqj8H1ts";
 
   const [userData, setUserData] = useState(null);
+  const [passwordError, setPasswordError] = useState("");
 
   useEffect(() => {
     axios
@@ -36,17 +40,57 @@ export default function Profile() {
   } = useForm();
 
   function handleChange(e) {
-    console.log(e.target.value);
+    // console.log(e.target.value);
+    setPasswordError("");
     setUserData({ ...userData, [e.target.name]: e.target.value });
+  }
+
+  function onSubmit(data) {
+    const updateUrl = `${API_URL}/users/${userData.id}`;
+    console.log(data);
+    setPasswordError("");
+
+    if (data.currentPassword.length > 0 || data.newPassword.length > 0 || data.confirmNewPassword.length > 0) {
+      if (data.currentPassword.length == 0 || data.newPassword.length == 0 || data.confirmNewPassword.length == 0) {
+        // alert("Please enter your current password and a new password");
+        setPasswordError("Please enter your current password and a new password");
+        return;
+      }
+      if (data.newPassword !== data.confirmNewPassword) {
+        setPasswordError("Passwords dont match");
+        return;
+      }
+    }
+
+    setLoading(true);
+    axios
+      .put(
+        updateUrl,
+        { firstName: userData.firstName, lastName: userData.lastName, email: userData.email, password: data.newPassword },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+
+  function handleDelete(e) {
+    console.log("delete account");
   }
 
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="min-h-screen border-[2px] border-solid border-base-300 max-w-[60rem] m-auto text-left px-12">
+    <div className="min-h-screen border-[2px] border-solid border-base-300 max-w-[60rem] m-auto text-left px-12 my-4">
       <p className="text-2xl font-bold pt-12">My Settings</p>
 
-      <form onSubmit={handleSubmit((data) => console.log(data))}>
+      <form onSubmit={handleSubmit((data) => onSubmit(data))}>
         <div className="flex mt-8 gap-12">
           <div className="w-[40%]">
             <p className="font-bold mt-2">Profile</p>
@@ -101,7 +145,7 @@ export default function Profile() {
                 value={userData.email}
                 onChange={handleChange}
               />
-              {errors.email && <p className="text-error">Email is required.</p>}
+              {errors.email && <p className="text-error font-semibold">Email is required.</p>}
             </label>
           </div>
         </div>
@@ -148,6 +192,7 @@ export default function Profile() {
                 className="input input-bordered w-full"
               />
             </label>
+            <p className="text-error font-semibold">{passwordError}</p>
           </div>
         </div>
         <div className="flex justify-end my-12">
@@ -158,10 +203,12 @@ export default function Profile() {
         <div className="border-[2px] border-base-content "></div>
         <p className="font-bold mt-8">Delete account</p>
         <p className="text-xs">You can't re-activate your account again. It wil delete your account permanantly.</p>
-        <div className="flex justify-end my-12">
-          <button className="btn bg-red-500 text-white">Delete Account</button>
-        </div>
       </form>
+      <div className="flex justify-end my-12">
+        <button onClick={handleDelete} className="btn bg-red-500 text-white">
+          Delete Account
+        </button>
+      </div>
     </div>
   );
 }
