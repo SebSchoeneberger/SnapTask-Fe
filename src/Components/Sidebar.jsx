@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Sidebar() {
   return (
     <>
       <ul className="menu rounded-box w-56 flex-col gap-3">
         <li>
-          <a>
+          <Link to="/dashboard">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -21,10 +22,10 @@ function Sidebar() {
               />
             </svg>
             Dashboard
-          </a>
+          </Link>
         </li>
         <li>
-          <a>
+          <Link to="/areas">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -40,10 +41,10 @@ function Sidebar() {
               />
             </svg>
             Areas
-          </a>
+          </Link>
         </li>
         <li>
-          <a>
+          <Link to="/Tasks">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -59,10 +60,10 @@ function Sidebar() {
               />
             </svg>
             Tasks
-          </a>
+          </Link>
         </li>
         <li>
-          <a>
+          <Link to="/People">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -78,10 +79,10 @@ function Sidebar() {
               />
             </svg>
             People
-          </a>
+          </Link>
         </li>
         <li>
-          <a>
+          <Link to="/reports">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -97,7 +98,7 @@ function Sidebar() {
               />
             </svg>
             Reports
-          </a>
+          </Link>
         </li>
       </ul>
     </>
