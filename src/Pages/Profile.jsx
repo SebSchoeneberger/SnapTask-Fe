@@ -4,14 +4,14 @@ import axios from "axios";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
+import { getToken } from "../Utils/TokenUtils";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Profile() {
-  const url = `${API_URL}/auth/me`;
+  const token = getToken();
 
+  const url = `${API_URL}/auth/me`;
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem("token");
   const [showPassword, setShowPassword] = useState(false);
   const [userData, setUserData] = useState(null);
   const [passwordError, setPasswordError] = useState("");

@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-const API_URL = import.meta.env.VITE_API_URL;
 import LoadingSpinner from "../Components/LoadingSpinner";
+import { getToken } from "../Utils/TokenUtils";
 
 function Dashboard() {
-  const token = localStorage.getItem("token");
+  const token = getToken();
+
+  const API_URL = import.meta.env.VITE_API_URL;
   const [areas, setAreas] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [filteredTasks, setFilteredTasks] = useState([]);
