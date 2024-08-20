@@ -2,13 +2,12 @@ import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { getToken, storeToken } from "../Utils/TokenUtils";
 
-
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const API_URL = import.meta.env.VITE_API_URL;
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const API_URL = import.meta.env.VITE_API_URL;
 
     const login = async (data) => {
         try {
@@ -72,11 +71,11 @@ const AuthProvider = ({ children }) => {
         }
     }, []);
 
-    return (
-        <AuthContext.Provider value={{ user, login, signUp, logout, loading }}>
-            { children }
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider value={{ user, login, signUp, logout, loading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;
