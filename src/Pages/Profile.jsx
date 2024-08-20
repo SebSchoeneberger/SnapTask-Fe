@@ -53,9 +53,19 @@ export default function Profile() {
     // console.log(data);
     setPasswordError("");
 
-    if (data.currentPassword.length > 0 || data.newPassword.length > 0 || data.confirmNewPassword.length > 0) {
-      if (data.currentPassword.length == 0 || data.newPassword.length == 0 || data.confirmNewPassword.length == 0) {
-        setPasswordError("Please enter your current password and a new password");
+    if (
+      data.currentPassword.length > 0 ||
+      data.newPassword.length > 0 ||
+      data.confirmNewPassword.length > 0
+    ) {
+      if (
+        data.currentPassword.length == 0 ||
+        data.newPassword.length == 0 ||
+        data.confirmNewPassword.length == 0
+      ) {
+        setPasswordError(
+          "Please enter your current password and a new password"
+        );
         return;
       }
       if (data.newPassword !== data.confirmNewPassword) {
@@ -65,7 +75,12 @@ export default function Profile() {
     }
 
     setLoading(true);
-    setUserData({ ...userData, currentPassword: "", newPassword: "", confirmNewPassword: "" });
+    setUserData({
+      ...userData,
+      currentPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
+    });
     axios
       .put(
         updateUrl,
@@ -118,7 +133,8 @@ export default function Profile() {
       });
   }
 
-  const windowMarkup = "min-h-screen border-[2px] border-solid border-base-content border-opacity-40 w-full m-auto text-left  px-12 my-4";
+  const windowMarkup =
+    "min-h-screen border-[2px] border-solid border-base-content border-opacity-40 w-full m-auto text-left  px-12 my-4";
 
   if (loading)
     return (
@@ -127,7 +143,12 @@ export default function Profile() {
       </div>
     );
 
-  if (userData === null) return <div className="min-h-screen text-4xl flex items-center justify-center w-full">User doesn't exist</div>;
+  if (userData === null)
+    return (
+      <div className="min-h-screen text-4xl flex items-center justify-center w-full">
+        User doesn't exist
+      </div>
+    );
 
   return (
     <div className={windowMarkup}>
@@ -137,7 +158,9 @@ export default function Profile() {
           <div className="flex mt-8 gap-12">
             <div className="w-[40%]">
               <p className="font-bold mt-2">Profile</p>
-              <p className="text-xs">Your personal information and account security settings</p>
+              <p className="text-xs">
+                Your personal information and account security settings
+              </p>
             </div>
             <div className="w-[60%] flex flex-col gap-2">
               {/* <p className="font-bold">Avatar</p> */}
@@ -172,7 +195,9 @@ export default function Profile() {
           <div className="flex mt-8 gap-12 items-center">
             <div className="w-[40%]">
               <p className="font-bold">Email address</p>
-              <p className="text-xs">Your email is used to login into the platform</p>
+              <p className="text-xs">
+                Your email is used to login into the platform
+              </p>
             </div>
             <div className="w-[60%]">
               <label className="form-control w-full ">
@@ -188,7 +213,9 @@ export default function Profile() {
                   value={userData.email}
                   onChange={handleChange}
                 />
-                {errors.email && <p className="text-error font-semibold">Email is required.</p>}
+                {errors.email && (
+                  <p className="text-error font-semibold">Email is required.</p>
+                )}
               </label>
             </div>
           </div>
@@ -200,7 +227,9 @@ export default function Profile() {
             <div className="w-[60%] flex flex-col gap-2">
               <label className="form-control w-full ">
                 <div className="label">
-                  <span className="label-text font-semibold">Current password</span>
+                  <span className="label-text font-semibold">
+                    Current password
+                  </span>
                 </div>
                 <input
                   {...register("currentPassword", { required: false })}
@@ -226,7 +255,9 @@ export default function Profile() {
               </label>
               <label className="form-control w-full ">
                 <div className="label">
-                  <span className="label-text font-semibold">Re-type new password</span>
+                  <span className="label-text font-semibold">
+                    Re-type new password
+                  </span>
                 </div>
                 <input
                   {...register("confirmNewPassword", { required: false })}
@@ -246,7 +277,10 @@ export default function Profile() {
           </div>
           <div className="border-[2px] border-base-content "></div>
           <p className="font-bold mt-8">Delete account</p>
-          <p className="text-xs">You can't re-activate your account again. It wil delete your account permanantly.</p>
+          <p className="text-xs">
+            You can't re-activate your account again. It wil delete your account
+            permanantly.
+          </p>
         </form>
         <div className="flex justify-end my-12">
           <button onClick={handleDelete} className="btn bg-red-500 text-white">
@@ -264,11 +298,16 @@ const ConfirmPopup = ({ deleteConfirmed }) => {
     <dialog id="confirmPopup" className="modal">
       <div className="modal-box bg-base-100">
         <h3 className="font-bold text-lg">Confirmation</h3>
-        <p className="py-4 font-semibold">Are you sure you want to permanantly delete your account?</p>
+        <p className="py-4 font-semibold">
+          Are you sure you want to permanantly delete your account?
+        </p>
         <div className="modal-action">
           <form method="dialog" className="flex justify-between w-full">
             {/* if there is a button in form, it will close the modal */}
-            <button onClick={deleteConfirmed} className="btn btn-outline btn-error">
+            <button
+              onClick={deleteConfirmed}
+              className="btn btn-outline btn-error"
+            >
               Confirm
             </button>
             <button className="btn btn-outline">Cancel</button>
