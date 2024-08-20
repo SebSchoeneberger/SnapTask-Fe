@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-const API_URL = import.meta.env.VITE_API_URL;
 import LoadingSpinner from "../Components/LoadingSpinner";
+import { getToken } from "../Utils/TokenUtils";
 
 function Dashboard() {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmJmNzAwOWI2MGE0NjY4ZDdlMjNiM2EiLCJlbWFpbCI6ImpvaG5AZG9lLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyNDA3NjU5NCwiZXhwIjoxNzI0MTYyOTk0fQ.uXZHrFkU7YKlXSLFGqLMYSKJ208oAOC2lGady83mllE";
+  const token = getToken();
+
+  const API_URL = import.meta.env.VITE_API_URL;
   const [areas, setAreas] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [filteredTasks, setFilteredTasks] = useState([]);
@@ -21,11 +22,12 @@ function Dashboard() {
     setSelectedArea(e.target.value);
     if (e.target.value == "All") {
       setFilteredTasks(tasks);
-      setTasksRemaining(tasks.length);
+      setTasksRemaining(tasks);
     } else {
       const filteredTasks = tasks.filter((x) => x.area.name == e.target.value);
       setFilteredTasks(filteredTasks);
-      setTasksRemaining(filteredTasks.length);
+      setTasksRemaining(filteredTasks);
+      //   console.log(filteredTasks);
     }
   }
 
