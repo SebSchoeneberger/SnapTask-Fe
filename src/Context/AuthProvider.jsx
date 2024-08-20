@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
+import { getToken, storeToken } from "../Utils/TokenUtils";
 
 
 export const AuthContext = createContext();
@@ -14,12 +15,11 @@ const AuthProvider = ({ children }) => {
             const res = await axios.post(`${API_URL}/auth/login`, data);
             if (res.status === 200) {
                 setUser(res.data.user);
-                console.log(res.data)
-                localStorage.setItem("token", res.data.token)
+                storeToken(res.data.token);
             }
         } catch (error) {
             setUser(null);
-            localStorage.removeItem("token");
+            storeToken(null);
             console.error("Login error:", error);
             throw error;
             
@@ -31,12 +31,11 @@ const AuthProvider = ({ children }) => {
             const res = await axios.post(`${API_URL}/auth/signup`, data);           
             if (res.status === 200) {
                 setUser(res.data.user);
-                console.log(res.data)
-                localStorage.setItem("token", res.data.token)
+                storeToken(res.data.token);
             }
         } catch (error) {
             setUser(null);
-            localStorage.removeItem("token");
+            storeToken(null);
             console.error("Sign up error:", error);
             throw error;
         }
@@ -44,24 +43,33 @@ const AuthProvider = ({ children }) => {
 
     const logout = () => {
         setUser(null);
-        localStorage.removeItem("token");
+        storeToken(null);
         console.log("User logged out successfully");
     };
 
+
     useEffect(() => {
-        axios.get(`${API_URL}/auth/me`,{
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            }
-        })
-        .then((res) => {
-            setUser(res.data.user)
-        })
-        .catch((err) => {
-            console.error(err);
-            setUser(null);
-        })
-        .finally(() => {setLoading(false)})
+        const token = getToken();
+        if (token) {
+            axios.get(`${API_URL}/auth/me`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+            .then((res) => {
+                setUser(res.data.user);
+            })
+            .catch((err) => {
+                console.error(err);
+                setUser(null);
+                storeToken(null);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+        } else {
+            setLoading(false);
+        }
     }, []);
 
     return (
