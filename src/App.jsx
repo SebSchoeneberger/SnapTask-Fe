@@ -1,10 +1,5 @@
 import "./App.css";
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import MainLayout from "./Layouts/MainLayout";
 import Home from "./Pages/Home";
 import SignUp from "./Pages/SignUp";
@@ -20,17 +15,16 @@ import Profile from "./Pages/Profile";
 import AuthProvider from "./Context/AuthProvider";
 import Areas from "./Pages/Areas";
 
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
       <Route index element={<Home />} />
       <Route path="signup" element={<SignUp />} />
       <Route path="login" element={<Login />} />
-      <Route path="profile" element={<Profile />} />
       <Route path="faq" element={<Faq />} />
 
       <Route path="/" element={<ProtectedLayout />}>
+        <Route path="profile" element={<Profile />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="people" element={<People />} />
         <Route path="areas" element={<Areas />} />
@@ -43,9 +37,10 @@ const router = createBrowserRouter(
   )
 );
 
-const App = () => 
+const App = () => (
   <AuthProvider>
     <RouterProvider router={router} />
-  </AuthProvider>;
+  </AuthProvider>
+);
 
 export default App;

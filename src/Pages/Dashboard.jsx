@@ -1,31 +1,33 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-const API_URL = import.meta.env.VITE_API_URL;
 import LoadingSpinner from "../Components/LoadingSpinner";
+import { getToken } from "../Utils/TokenUtils";
 
 function Dashboard() {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmJmNzAwOWI2MGE0NjY4ZDdlMjNiM2EiLCJlbWFpbCI6ImpvaG5AZG9lLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyNDA3NjU5NCwiZXhwIjoxNzI0MTYyOTk0fQ.uXZHrFkU7YKlXSLFGqLMYSKJ208oAOC2lGady83mllE";
+  const token = getToken();
+
+  const API_URL = import.meta.env.VITE_API_URL;
   const [areas, setAreas] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [filteredTasks, setFilteredTasks] = useState([]);
-  const [tasksRemaining, setTasksRemaining] = useState(0);
   const [loadingAreas, setLoadingAreas] = useState(true);
   const [loadingTasks, setLoadingTasks] = useState(true);
   const [selectedArea, setSelectedArea] = useState("All");
+  const [stats, setStats] = useState({ recordsToday: 0, hoursWorked: 0, onTimeRate: 0, tasksRemaining: 0 });
+
   const areasUrl = `${API_URL}/areas/`;
-  const tasksUrl = `${API_URL}/tasks/`;
+  const tasksUrl = `${API_URL}/reports/dashboard/weeklyTasks/`;
+  const statsUrl = `${API_URL}/reports/dashboard/stats/`;
 
   function handleChange(e) {
     setSelectedArea(e.target.value);
     if (e.target.value == "All") {
       setFilteredTasks(tasks);
-      setTasksRemaining(tasks.length);
     } else {
       const filteredTasks = tasks.filter((x) => x.area.name == e.target.value);
       setFilteredTasks(filteredTasks);
-      setTasksRemaining(filteredTasks.length);
+      //   console.log(filteredTasks);
     }
   }
 
@@ -49,8 +51,9 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
+    const param = selectedArea === "All" ? "" : `?area=${selectedArea}`;
     axios
-      .get(tasksUrl, {
+      .get(`${tasksUrl}${param}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -59,16 +62,39 @@ function Dashboard() {
       .then((response) => {
         setTasks(response.data);
         setFilteredTasks(response.data);
-        const remaining = response.data.filter((x) => x.status == "New");
-        setTasksRemaining(remaining);
-        // console.log(remaining);
       })
       .catch((error) => {
         // console.error(error);
         toast.error("Error loading areas");
       })
       .finally(() => setLoadingTasks(false));
-  }, []);
+  }, [selectedArea]);
+
+  useEffect(() => {
+    // console.log(selectedArea);
+    setLoadingTasks(true);
+    const param = selectedArea === "All" ? "" : `?area=${selectedArea}`;
+
+    axios
+      .get(`${statsUrl}${param}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        // params: {
+        //   area: selectedArea,
+        // },
+      })
+      .then((response) => {
+        setStats(response.data);
+        // console.log(response.data);
+      })
+      .catch((error) => {
+        // console.error(error);
+        toast.error("Error loading stats");
+      })
+      .finally(() => setLoadingTasks(false));
+  }, [selectedArea]);
 
   const borderMarkup = "border-[2px] border-base-content p-3 my-4";
 
@@ -89,7 +115,7 @@ function Dashboard() {
           </option>
           {areas.map((area, index) => {
             return (
-              <option key={index} className="bg-base-200" value={area.name}>
+              <option key={index} className="bg-base-200" value={area._id}>
                 {area.name}
               </option>
             );
@@ -100,19 +126,19 @@ function Dashboard() {
           <div className="flex justify-between font-semibold">
             <div>
               <p>Records received today</p>
-              <p className="text-3xl">52</p>
+              <p className="text-3xl">{stats.recordsToday}</p>
             </div>
             <div>
               <p>Hours worked</p>
-              <p className="text-3xl">52</p>
+              <p className="text-3xl">{stats.hoursWorked}</p>
             </div>
             <div>
               <p>On time finished rate</p>
-              <p className="text-3xl">90%</p>
+              <p className="text-3xl">{stats.onTimeRate}</p>
             </div>
             <div>
               <p>Tasks remaining</p>
-              <p className="text-3xl">{tasksRemaining.length}</p>
+              <p className="text-3xl">{stats.tasksRemaining}</p>
             </div>
           </div>
         </div>
