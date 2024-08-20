@@ -5,21 +5,24 @@ import Sidebar from "../Components/Sidebar";
 import Footer from "../Components/Footer";
 import Toast from "../Components/Toast";
 import { AuthContext } from "../Context/AuthProvider";
+import ColorProvider from "../Context/ColorProvider";
 
 function MainLayout() {
   const { user } = useContext(AuthContext);
 
   return (
     <>
-      <Navbar />
-      {user ? (
-        <div className="flex">
-          <Sidebar />
+      <ColorProvider>
+        <Navbar />
+        {user ? (
+          <div className="flex">
+            <Sidebar />
+            <Outlet />
+          </div>
+        ) : (
           <Outlet />
-        </div>
-      ) : (
-        <Outlet />
-      )}
+        )}
+      </ColorProvider>
       <Footer />
       <Toast />
     </>

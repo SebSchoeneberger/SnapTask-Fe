@@ -3,6 +3,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { getToken } from "../Utils/TokenUtils";
+import LineChart from "../Components/LineChart";
+import DoughnutChart from "../Components/DoughnutChart";
 
 function Dashboard() {
   const token = getToken();
@@ -195,6 +197,15 @@ function Dashboard() {
                 <p className="text-3xl">{stats.tasksRemaining}</p>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="flex w-full items-center flex-wrap">
+          <div className="w-2/3 p-8 rounded-xl border-[0px] border-primary">
+            <LineChart />
+          </div>
+          <div className="w-1/3 p-4 rounded-xl border-[0px] border-primary">
+            <DoughnutChart completed={17} overdue={3} inProgress={10} />
           </div>
         </div>
 
