@@ -233,7 +233,7 @@ export default function Profile() {
                     onChange={handleChange}
                     type={showPassword ? "text" : "password"}
                     placeholder="Type here"
-                    className={`input input-bordered`}
+                    className={`input input-bordered w-full`}
                   />
                   <div className="absolute right-4 top-3">
                     <ShowPasswordButton handleShowPassword={handleShowPassword} showPassword={showPassword} />
@@ -251,7 +251,7 @@ export default function Profile() {
                     onChange={handleChange}
                     type={showPassword ? "text" : "password"}
                     placeholder="Type here"
-                    className={`input input-bordered `}
+                    className={`input input-bordered w-full`}
                   />
                   <div className="absolute right-4 top-3">
                     <ShowPasswordButton handleShowPassword={handleShowPassword} showPassword={showPassword} />
