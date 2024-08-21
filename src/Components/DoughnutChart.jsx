@@ -6,15 +6,28 @@ import { ColorContext } from "../Context/ColorProvider";
 // Register necessary components with Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DoughnutChart = () => {
+const DoughnutChart = ({ tasks }) => {
+  if (!tasks) return;
   const { colors } = useContext(ColorContext);
 
+  const chartsTasks = {
+    New: 0,
+    Finished: 0,
+    Overdue: 0,
+  };
+
+  for (let i = 0; i < tasks.length; i++) {
+    if (tasks[i].status === "New") chartsTasks["New"]++;
+    else if (tasks[i].status === "Finished") chartsTasks["Finished"]++;
+    else chartsTasks["Overdue"]++;
+  }
+
   const data = {
-    labels: ["Completed", "In Progress", "Overdue"],
+    labels: Object.keys(chartsTasks),
     datasets: [
       {
         label: "Tasks",
-        data: [12, 17, 3],
+        data: Object.values(chartsTasks),
         backgroundColor: [colors.primary, colors.info, colors.accent],
         // hoverBackgroundColor: [colors.primary, colors.info, colors.accent],
         borderColor: [colors.primary, colors.info, colors.accent],

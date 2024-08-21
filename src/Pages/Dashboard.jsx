@@ -64,6 +64,7 @@ function Dashboard() {
       .then((response) => {
         setTasks(response.data);
         setFilteredTasks(response.data);
+        // console.log(response.data);
       })
       .catch((error) => {
         // console.error(error);
@@ -205,10 +206,10 @@ function Dashboard() {
 
         <div className="flex w-full items-center flex-wrap">
           <div className="w-2/3 p-8 rounded-xl border-[0px] border-primary">
-            <LineChart />
+            <LineChart tasks={filteredTasks} />
           </div>
           <div className="w-1/3 p-4 rounded-xl border-[0px] border-primary">
-            <DoughnutChart completed={17} overdue={3} inProgress={10} />
+            <DoughnutChart tasks={filteredTasks} />
           </div>
         </div>
 
