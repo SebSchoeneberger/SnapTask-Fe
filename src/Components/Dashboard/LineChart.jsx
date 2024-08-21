@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend } from "chart.js";
-import { ColorContext } from "../Context/ColorProvider";
+import { ColorContext } from "../../Context/ColorProvider";
 
 // Register the required components with Chart.js
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
@@ -95,6 +95,7 @@ export default function LineChart({ tasks }) {
         beginAtZero: true,
         ticks: {
           color: colors.baseContent, // Color for X-axis labels
+          stepSize: 1,
         },
         grid: {
           // color: colors.neutral, // Color for grid lines

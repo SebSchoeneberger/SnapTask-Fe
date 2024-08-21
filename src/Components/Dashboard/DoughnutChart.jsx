@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { ColorContext } from "../Context/ColorProvider";
+import { ColorContext } from "../../Context/ColorProvider";
 
 // Register necessary components with Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);

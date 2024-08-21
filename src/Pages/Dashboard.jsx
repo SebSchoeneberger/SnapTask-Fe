@@ -3,8 +3,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { getToken } from "../Utils/TokenUtils";
-import LineChart from "../Components/LineChart";
-import DoughnutChart from "../Components/DoughnutChart";
+import LineChart from "../Components/Dashboard/LineChart";
+import DoughnutChart from "../Components/Dashboard/DoughnutChart";
+import Pagination from "../Components/Dashboard/Pagination";
+import TaskDetailsPopup from "../Components/Dashboard/TaskDetailsPopup";
 
 function Dashboard() {
   const token = getToken();
@@ -28,7 +30,9 @@ function Dashboard() {
   const tasksUrl = `${API_URL}/reports/dashboard/weeklyTasks/`;
   const statsUrl = `${API_URL}/reports/dashboard/stats/`;
 
+  // Handle area change
   function handleChange(e) {
+    setPage(1);
     setSelectedArea(e.target.value);
     if (e.target.value == "All") {
       setFilteredTasks(tasks);
@@ -39,6 +43,7 @@ function Dashboard() {
     }
   }
 
+  // Getting areas
   useEffect(() => {
     axios
       .get(areasUrl, {
@@ -58,18 +63,21 @@ function Dashboard() {
       .finally(() => setLoadingAreas(false));
   }, []);
 
+  // Getting tasks within last week
   useEffect(() => {
-    const param = selectedArea === "All" ? "" : `?area=${selectedArea}`;
+    const param = selectedArea === "All" ? "" : `area=${selectedArea}`;
     axios
-      .get(`${tasksUrl}${param}`, {
+      .get(`${tasksUrl}?page=${page}&perPage=${perPage}&${param}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        setTasks(response.data);
-        setFilteredTasks(response.data);
+        setTasks(response.data.tasks);
+        setFilteredTasks(response.data.tasks);
+        setTotalTasks(response.data.total);
+        setTotalPages(response.data.pages);
         // console.log(response.data);
       })
       .catch((error) => {
@@ -77,8 +85,9 @@ function Dashboard() {
         toast.error("Error loading areas");
       })
       .finally(() => setLoadingTasks(false));
-  }, [selectedArea, perPage]);
+  }, [selectedArea, perPage, page]);
 
+  // Getting stats for dashboard
   useEffect(() => {
     // console.log(selectedArea);
     setLoadingTasks(true);
@@ -106,10 +115,10 @@ function Dashboard() {
   }, [selectedArea]);
 
   const borderMarkup = ""; //border-[2px] border-base-content p-3 my-4 font-semibold";
-  // const tableHeaderMarkup = "font-bold";
 
+  // Handle per page change
   function handlePerPageChange(e) {
-    // console.log(e.target.value);
+    setPage(1);
     setPerPage(e.target.value);
   }
 
@@ -283,7 +292,7 @@ function Dashboard() {
                 </div>
                 <Pagination page={page} setPage={setPage} totalPages={totalPages} />
               </div>
-              <TaskDetails task={selectedTask} />
+              <TaskDetailsPopup task={selectedTask} />
             </div>
           ) : (
             <LoadingSpinner />
@@ -295,62 +304,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-
-const TaskDetails = ({ task }) => {
-  return (
-    <dialog id="taskDetails" className="modal">
-      {task && (
-        <div className="modal-box max-w-[40rem]">
-          <div className="flex justify-between items-center">
-            <h3 className="font-bold text-lg">{task.title}</h3>
-
-            <form method="dialog">
-              <button className="btn btn-sm btn-circle  absolute right-2 top-2">✕</button>
-            </form>
-          </div>
-          <div className="flex justify-between">
-            <p className="py-4">
-              Status: <strong>{task.status}</strong>
-            </p>
-            <p className="py-4">
-              Priority:<strong> {task.priority}</strong>
-            </p>
-          </div>
-
-          <p className="py-12 font-semibold text-lg">{task.description}</p>
-          <div className="flex justify-between">
-            <p>
-              Created by:{" "}
-              <strong>
-                {task.creator.firstName} {task.creator.lastName}
-              </strong>
-            </p>
-            <div className="text-sm">
-              <p className="py-0">
-                Created at: <strong>{Date(task.createdAt).split(" ").slice(0, 4).join(" ")}</strong>
-              </p>
-              <p className="py-0">
-                Due Date: <strong>{Date(task.dueDate).split(" ").slice(0, 4).join(" ")}</strong>
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-    </dialog>
-  );
-};
-
-const Pagination = ({ page, setPage, totalPages }) => {
-  return (
-    <div className="join">
-      {page > 1 && <button className="join-item btn btn-sm">«</button>}
-      <button className="join-item btn btn-sm">{page}</button>
-      <button className="join-item btn btn-sm btn-disabled">...</button>
-      <button className="join-item btn btn-sm">{totalPages}</button>
-      {/* <button className="join-item btn btn-sm">1</button>
-      <button className="join-item btn btn-sm">99</button>
-      <button className="join-item btn btn-sm">100</button> */}
-      {page < totalPages && <button className="join-item btn btn-sm">»</button>}
-    </div>
-  );
-};
