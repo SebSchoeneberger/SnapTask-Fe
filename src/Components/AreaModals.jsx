@@ -9,10 +9,11 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 
 // Create new area Modal
-export function CreateAreaModal() {
+export function CreateAreaModal({ updateAreas }) {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
-    const { user } = useContext(AuthContext); 
+    const { user } = useContext(AuthContext);
+    const [users, setUsers] = useState([]);
     const token = getToken();
 
     const onSubmit = async (data) => {
@@ -31,6 +32,7 @@ export function CreateAreaModal() {
             toast.success("Area created successfully!");
             reset();
             document.getElementById('my_modal_5').close();
+            updateAreas();
         } catch (error) {
             toast.error(`Error creating area: ${error.message}`);
             console.error(error);
@@ -38,6 +40,22 @@ export function CreateAreaModal() {
             setIsLoading(false);
         }
     };
+
+    useEffect(()=>{
+
+        axios.get(`${API_URL}/users`,{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then((res) =>{
+            setUsers(res.data)
+        })
+        .catch((error) => {
+            toast.error("Error loading areas");
+            console.error(error);
+        })
+    },[])
 
     function handleClose(e) {
         e.preventDefault();
@@ -112,12 +130,12 @@ export function CreateAreaModal() {
                           {...register("contact")} />
                     </label>
 
-                    <select className="select select-bordered w-full max-w-xs" defaultValue="">
+                    <select className="select select-bordered w-full max-w-xs" defaultValue="" {...register("users")}>
                         <option value="" disabled>Assign Staff</option>
-                        <option value="user1">User 1</option>
-                        <option value="user2">User 2</option>
-                        <option value="user3">User 3</option>
-                        <option value="user4">User 4</option>
+                        {users.map((user, index) => {
+                            return ( <option key={index} value={user._id}> {user.firstName} {user.lastName}</option>
+                            ) 
+                        })}
                     </select>
 
                     <button className="btn" type="submit" disabled={isLoading}>Create</button>
@@ -130,11 +148,12 @@ export function CreateAreaModal() {
 
 
 // Update Area Modal
-export function UpdateAreaModal({ areaData }) {
+export function UpdateAreaModal({ areaData, updateAreas }) {
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: areaData || {}
     });
     const [isLoading, setIsLoading] = useState(false);
+    const [users, setUsers] = useState([]);
     const token = getToken();
 
     useEffect(() => {
@@ -142,6 +161,22 @@ export function UpdateAreaModal({ areaData }) {
             reset(areaData);
         }
     }, [areaData, reset]);
+
+    useEffect(()=>{
+
+        axios.get(`${API_URL}/users`,{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then((res) =>{
+            setUsers(res.data)
+        })
+        .catch((error) => {
+            toast.error("Error loading areas");
+            console.error(error);
+        })
+    },[])
 
     const onSubmit = async (data) => {
         setIsLoading(true);
@@ -153,6 +188,7 @@ export function UpdateAreaModal({ areaData }) {
             });
             toast.success("Area updated successfully!");
             document.getElementById('update_area_modal').close();
+            updateAreas();
         } catch (error) {
             toast.error(`Error updating area: ${error.message}`);
             console.error(error);
@@ -218,6 +254,14 @@ export function UpdateAreaModal({ areaData }) {
                             {...register("contact")}
                         />
                     </label>
+
+                    <select className="select select-bordered w-full max-w-xs" defaultValue="" {...register("users")}>
+                        <option value="" disabled>Assign Staff</option>
+                        {users.map((user, index) => {
+                            return ( <option key={index} value={user._id}> {user.firstName} {user.lastName}</option>
+                            ) 
+                        })}
+                    </select>
 
                     <button className="btn" type="submit" disabled={isLoading}>Update</button>
                 </form>
