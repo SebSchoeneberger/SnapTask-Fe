@@ -3,6 +3,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { getToken } from "../Utils/TokenUtils";
+import LineChart from "../Components/LineChart";
+import DoughnutChart from "../Components/DoughnutChart";
 
 function Dashboard() {
   const token = getToken();
@@ -96,33 +98,36 @@ function Dashboard() {
       .finally(() => setLoadingTasks(false));
   }, [selectedArea]);
 
-  const borderMarkup = "border-[2px] border-base-content p-3 my-4 font-semibold";
+  const borderMarkup = ""; //border-[2px] border-base-content p-3 my-4 font-semibold";
+  // const tableHeaderMarkup = "font-bold";
 
-  if (loadingAreas || loadingTasks)
+  if (loadingAreas)
     return (
-      <div className="min-h-screen border-[2px] border-base-content w-full text-left px-12">
+      <div className="min-h-screen  w-full m-auto text-left px-12  mb-8">
         <LoadingSpinner />
       </div>
     );
 
   return (
-    <div className="min-h-screen border-[2px] border-base-content max-w-[90rem] m-auto text-left px-12 ">
+    <div className="min-h-screen border-[2px] border-base-content w-[80%] m-auto text-left px-12 mb-8">
       <div className="flex flex-col gap-6">
-        <p className="font-semibold text-lg px-3 mt-4">Areas</p>
-        <select onChange={handleChange} value={selectedArea} className="font-semibold gradientselect w-[150px] px-3 py-2 bg-base-300">
-          <option className="bg-base-200 " value={"All"}>
-            {"All"}
-          </option>
-          {areas.map((area, index) => {
-            return (
-              <option key={index} className="bg-base-200" value={area._id}>
-                {area.name}
-              </option>
-            );
-          })}
-        </select>
+        <div className="flex gap-4 items-center mt-6">
+          <p className="font-semibold px-3 ">Area:</p>
+          <select onChange={handleChange} value={selectedArea} className="font-semibold gradientselect w-[150px] px-3 py-1 bg-base-300">
+            <option className="bg-base-200 " value={"All"}>
+              {"All"}
+            </option>
+            {areas.map((area, index) => {
+              return (
+                <option key={index} className="bg-base-200" value={area._id}>
+                  {area.name}
+                </option>
+              );
+            })}
+          </select>
+        </div>
 
-        <div className="border-[2px] border-base-content p-8 mt-4">
+        <div className="border-[2px] border-base-content p-8 mt-2">
           <div className="flex justify-between font-semibold flex-wrap">
             <div className="flex gap-2">
               <div className="border-[2px] border-base-content rounded-full h-16 w-16 flex items-center justify-center">
@@ -198,38 +203,54 @@ function Dashboard() {
           </div>
         </div>
 
+        <div className="flex w-full items-center flex-wrap">
+          <div className="w-2/3 p-8 rounded-xl border-[0px] border-primary">
+            <LineChart />
+          </div>
+          <div className="w-1/3 p-4 rounded-xl border-[0px] border-primary">
+            <DoughnutChart completed={17} overdue={3} inProgress={10} />
+          </div>
+        </div>
+
         <div className="flex flex-col gap-6 mt-10">
-          <p className="text-xl font-semibold">Last records this week</p>
-          <table className="table-fixed border-[1px] border-base-content w-full text-sm mb-16">
-            <thead className={borderMarkup}>
-              <tr>
-                <th className={borderMarkup}>Area</th>
-                <th className={borderMarkup}>Created by</th>
-                <th className={borderMarkup}>Task Name</th>
-                <th className={borderMarkup}>Status</th>
-                <th className={borderMarkup}>Priority</th>
-                <th className={borderMarkup}>Due Date</th>
-                <th className={borderMarkup}>Created on</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredTasks.map((task) => {
-                return (
-                  <tr key={task._id}>
-                    <td className={borderMarkup}>{task.area.name}</td>
-                    <td className={borderMarkup}>
-                      {task.creator.firstName} {task.creator.lastName}
-                    </td>
-                    <td className={borderMarkup}>{task.title}</td>
-                    <td className={borderMarkup}>{task.status}</td>
-                    <td className={borderMarkup}>{task.priority}</td>
-                    <td className={borderMarkup}>{new Date(task.dueDate).toLocaleDateString()}</td>
-                    <td className={borderMarkup}>{new Date(task.createdAt).toLocaleDateString()}</td>
+          <p className="text-xl font-semibold pl-3">Last records this week</p>
+
+          {!loadingTasks ? (
+            <div className="overflow-x-auto ">
+              <table className="table table-sm w-full  mb-16">
+                <thead className="">
+                  <tr>
+                    <th className="font-bold">Area</th>
+                    <th className="font-bold">Created by</th>
+                    <th className="font-bold">Task Name</th>
+                    <th className="font-bold">Status</th>
+                    <th className="font-bold">Priority</th>
+                    <th className="font-bold">Due Date</th>
+                    <th className="font-bold">Created on</th>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                </thead>
+                <tbody>
+                  {filteredTasks.map((task) => {
+                    return (
+                      <tr key={task._id}>
+                        <td className={borderMarkup}>{task.area.name}</td>
+                        <td className={borderMarkup}>
+                          {task.creator.firstName} {task.creator.lastName}
+                        </td>
+                        <td className={borderMarkup}>{task.title}</td>
+                        <td className={borderMarkup}>{task.status}</td>
+                        <td className={borderMarkup}>{task.priority}</td>
+                        <td className={borderMarkup}>{new Date(task.dueDate).toLocaleDateString()}</td>
+                        <td className={borderMarkup}>{new Date(task.createdAt).toLocaleDateString()}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <LoadingSpinner />
+          )}
         </div>
       </div>
     </div>
