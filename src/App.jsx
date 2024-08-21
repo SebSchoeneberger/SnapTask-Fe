@@ -14,6 +14,8 @@ import ProtectedLayout from "./Layouts/ProtectedLayout";
 import Profile from "./Pages/Profile";
 import AuthProvider from "./Context/AuthProvider";
 import Areas from "./Pages/Areas";
+import Authorize from "./Layouts/Authorize";
+import StaffDashboard from "./Pages/StaffDashboard";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,12 +26,20 @@ const router = createBrowserRouter(
       <Route path="faq" element={<Faq />} />
 
       <Route path="/" element={<ProtectedLayout />}>
-        <Route path="profile" element={<Profile />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="people" element={<People />} />
-        <Route path="areas" element={<Areas />} />
-        <Route path="reports" element={<Reports />} />
-        <Route path="tasks" element={<Tasks />} />
+
+        <Route path="/" element={<Authorize roles={["admin"]} />}>
+          <Route path="profile" element={<Profile />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="people" element={<People />} />
+          <Route path="areas" element={<Areas />} />
+          <Route path="reports" element={<Reports />} />
+          <Route path="tasks" element={<Tasks />} />
+        </Route>
+
+        <Route path="/staff" element={<Authorize roles={["staff"]} />}>
+          <Route path="dashboard" element={<StaffDashboard />} />
+        </Route>
+
       </Route>
 
       <Route path="*" element={<NotFound />} />
