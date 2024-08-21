@@ -16,7 +16,13 @@ function Dashboard() {
   const [loadingAreas, setLoadingAreas] = useState(true);
   const [loadingTasks, setLoadingTasks] = useState(true);
   const [selectedArea, setSelectedArea] = useState("All");
+  const [selectedTask, setSelectedTask] = useState(null);
   const [stats, setStats] = useState({ recordsToday: 0, hoursWorked: 0, onTimeRate: 0, tasksRemaining: 0 });
+
+  const [perPage, setPerPage] = useState("10");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(5);
+  const [totalTasks, setTotalTasks] = useState(64);
 
   const areasUrl = `${API_URL}/areas/`;
   const tasksUrl = `${API_URL}/reports/dashboard/weeklyTasks/`;
@@ -71,7 +77,7 @@ function Dashboard() {
         toast.error("Error loading areas");
       })
       .finally(() => setLoadingTasks(false));
-  }, [selectedArea]);
+  }, [selectedArea, perPage]);
 
   useEffect(() => {
     // console.log(selectedArea);
@@ -102,6 +108,11 @@ function Dashboard() {
   const borderMarkup = ""; //border-[2px] border-base-content p-3 my-4 font-semibold";
   // const tableHeaderMarkup = "font-bold";
 
+  function handlePerPageChange(e) {
+    // console.log(e.target.value);
+    setPerPage(e.target.value);
+  }
+
   if (loadingAreas)
     return (
       <div className="min-h-screen  w-full m-auto text-left px-12  mb-8">
@@ -110,7 +121,7 @@ function Dashboard() {
     );
 
   return (
-    <div className="min-h-screen border-[2px] border-base-content w-[80%] m-auto text-left px-12 mb-8">
+    <div className="min-h-screen border-[2px] border-base-content border-opacity-40 w-[80%] m-auto text-left px-12 mb-8">
       <div className="flex flex-col gap-6">
         <div className="flex gap-4 items-center mt-6">
           <p className="font-semibold px-3 ">Area:</p>
@@ -128,7 +139,7 @@ function Dashboard() {
           </select>
         </div>
 
-        <div className="border-[2px] border-base-content p-8 mt-2">
+        <div className="border-[2px] border-base-content p-8 mt-2 border-opacity-40">
           <div className="flex justify-between font-semibold flex-wrap">
             <div className="flex gap-2">
               <div className="border-[2px] border-base-content rounded-full h-16 w-16 flex items-center justify-center">
@@ -182,7 +193,7 @@ function Dashboard() {
               </div>
               <div>
                 <p>On time finished rate</p>
-                <p className="text-3xl">{stats.onTimeRate}</p>
+                <p className="text-3xl">{stats.onTimeRate * 100}%</p>
               </div>
             </div>
 
@@ -213,12 +224,12 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-6 mt-10">
+        <div className="flex flex-col gap-6 ">
           <p className="text-xl font-semibold pl-3">Last records this week</p>
 
           {!loadingTasks ? (
             <div className="overflow-x-auto ">
-              <table className="table table-sm w-full  mb-16">
+              <table className="table table-sm w-full ">
                 <thead className="">
                   <tr>
                     <th className="font-bold">Area</th>
@@ -233,7 +244,13 @@ function Dashboard() {
                 <tbody>
                   {filteredTasks.map((task) => {
                     return (
-                      <tr key={task._id}>
+                      <tr
+                        key={task._id}
+                        className="hover:bg-base-300 hover:cursor-pointer"
+                        onClick={() => {
+                          setSelectedTask(task);
+                          document.getElementById("taskDetails").showModal();
+                        }}>
                         <td className={borderMarkup}>{task.area.name}</td>
                         <td className={borderMarkup}>
                           {task.creator.firstName} {task.creator.lastName}
@@ -248,6 +265,25 @@ function Dashboard() {
                   })}
                 </tbody>
               </table>
+              <div className="flex justify-between my-4">
+                <div className="flex items-center gap-2">
+                  <select onChange={handlePerPageChange} value={perPage} className="text-center py-1 font-semibold gradientselect w-20 bg-base-200">
+                    <option className="bg-base-200 " value={"10"}>
+                      {"1-10"}
+                    </option>
+                    <option className="bg-base-200 " value={"25"}>
+                      {"1-25"}
+                    </option>
+                    <option className="bg-base-200 " value={"50"}>
+                      {"1-50"}
+                    </option>
+                  </select>
+                  <p className="text-sm">of</p>
+                  <p className="text-sm">{totalTasks}</p>
+                </div>
+                <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+              </div>
+              <TaskDetails task={selectedTask} />
             </div>
           ) : (
             <LoadingSpinner />
@@ -259,3 +295,62 @@ function Dashboard() {
 }
 
 export default Dashboard;
+
+const TaskDetails = ({ task }) => {
+  return (
+    <dialog id="taskDetails" className="modal">
+      {task && (
+        <div className="modal-box max-w-[40rem]">
+          <div className="flex justify-between items-center">
+            <h3 className="font-bold text-lg">{task.title}</h3>
+
+            <form method="dialog">
+              <button className="btn btn-sm btn-circle  absolute right-2 top-2">✕</button>
+            </form>
+          </div>
+          <div className="flex justify-between">
+            <p className="py-4">
+              Status: <strong>{task.status}</strong>
+            </p>
+            <p className="py-4">
+              Priority:<strong> {task.priority}</strong>
+            </p>
+          </div>
+
+          <p className="py-12 font-semibold text-lg">{task.description}</p>
+          <div className="flex justify-between">
+            <p>
+              Created by:{" "}
+              <strong>
+                {task.creator.firstName} {task.creator.lastName}
+              </strong>
+            </p>
+            <div className="text-sm">
+              <p className="py-0">
+                Created at: <strong>{Date(task.createdAt).split(" ").slice(0, 4).join(" ")}</strong>
+              </p>
+              <p className="py-0">
+                Due Date: <strong>{Date(task.dueDate).split(" ").slice(0, 4).join(" ")}</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+    </dialog>
+  );
+};
+
+const Pagination = ({ page, setPage, totalPages }) => {
+  return (
+    <div className="join">
+      {page > 1 && <button className="join-item btn btn-sm">«</button>}
+      <button className="join-item btn btn-sm">{page}</button>
+      <button className="join-item btn btn-sm btn-disabled">...</button>
+      <button className="join-item btn btn-sm">{totalPages}</button>
+      {/* <button className="join-item btn btn-sm">1</button>
+      <button className="join-item btn btn-sm">99</button>
+      <button className="join-item btn btn-sm">100</button> */}
+      {page < totalPages && <button className="join-item btn btn-sm">»</button>}
+    </div>
+  );
+};
