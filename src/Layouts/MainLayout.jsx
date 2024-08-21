@@ -16,7 +16,7 @@ function MainLayout() {
         <Navbar />
         {user ? (
           <div className="flex">
-            <Sidebar />
+            {user.role !== "staff" && <Sidebar />}
             <Outlet />
           </div>
         ) : (

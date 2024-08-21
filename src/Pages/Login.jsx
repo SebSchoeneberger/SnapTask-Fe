@@ -22,8 +22,16 @@ function Login() {
         setAuthError("");
     
         try {
-            await login(data);
-            navigate('/dashboard');
+            const loggedInUser = await login(data);
+
+            if (loggedInUser.role === 'admin') {
+                navigate('/dashboard');
+            } else if (loggedInUser.role === 'staff') {
+                navigate('/staff/dashboard');
+            } else {
+                navigate('/');
+            }
+
             toast.success('Login Successful. Enjoy Snaptask!');
         } catch (error) {
             if (error.response && error.response.status === 401) {
