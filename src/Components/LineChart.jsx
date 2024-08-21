@@ -6,24 +6,55 @@ import { ColorContext } from "../Context/ColorProvider";
 // Register the required components with Chart.js
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
 
-export default function LineChart({ tasksPerDay }) {
+export default function LineChart({ tasks }) {
+  // if (!tasks) return;
   const { colors } = useContext(ColorContext);
-  tasksPerDay = {
-    "15.08.2024": 25,
-    "16.08.2024": 59,
-    "17.08.2024": 30,
-    "18.08.2024": 71,
-    "19.08.2024": 56,
-    "20.08.2024": 25,
-    "21.08.2024": 10,
-  };
+
+  // tasks = {
+  //   "15.08.2024": 25,
+  //   "16.08.2024": 59,
+  //   "17.08.2024": 30,
+  //   "18.08.2024": 71,
+  //   "19.08.2024": 56,
+  //   "20.08.2024": 25,
+  //   "21.08.2024": 10,
+  // };
+
+  function getChartsData(_tasks, status) {
+    const chartTasks = {};
+
+    for (let i = 6; i > 0; i--) {
+      let date = new Date();
+      date.setDate(date.getDate() - i);
+      let dateStr = date.toLocaleDateString();
+      if (!chartTasks[dateStr]) {
+        let done = [];
+        if (status == "all") done = _tasks.filter((x) => new Date(x.createdAt).toLocaleDateString() == dateStr);
+        else done = _tasks.filter((x) => new Date(x.finishedDate).toLocaleDateString() == dateStr);
+        chartTasks[dateStr] = done.length;
+      }
+    }
+    let dateToday = [];
+
+    dateToday = new Date().toLocaleDateString();
+    if (status == "all") chartTasks[dateToday] = _tasks.filter((x) => new Date(x.createdAt).toLocaleDateString() == dateToday).length;
+    else chartTasks[dateToday] = _tasks.filter((x) => new Date(x.finishedDate).toLocaleDateString() == dateToday).length;
+
+    return chartTasks;
+  }
+
+  const allTasks = getChartsData(tasks, "all");
+  const finishedTasks = getChartsData(
+    tasks.filter((x) => x.status == "Finished"),
+    "finished"
+  );
 
   const data = {
-    labels: Object.keys(tasksPerDay),
+    labels: Object.keys(allTasks),
     datasets: [
       {
-        label: "Completed tasks",
-        data: Object.values(tasksPerDay),
+        label: "All Tasks",
+        data: Object.values(allTasks),
         fill: true,
         backgroundColor: colors.secondary,
         hoverBackgroundColor: colors.primary,
@@ -34,19 +65,19 @@ export default function LineChart({ tasksPerDay }) {
         borderColor: colors.secondary,
         tension: 0.1,
       },
-      // {
-      //   label: "Overdue Tasks",
-      //   data: [15, 9, 10, 1, 6, 5, 0],
-      //   fill: true,
-      //   backgroundColor: colors.accent,
-      //   hoverBackgroundColor: colors.accent,
-      //   // pointBackgroundColor: colors.accent,
-      //   pointBorderColor: colors.accent,
-      //   pointRadius: 5,
-      //   pointHoverRadius: 8,
-      //   borderColor: colors.accent,
-      //   tension: 0.1,
-      // },
+      {
+        label: "Finished Tasks",
+        data: Object.values(finishedTasks),
+        fill: true,
+        backgroundColor: colors.accent,
+        hoverBackgroundColor: colors.accent,
+        // pointBackgroundColor: colors.accent,
+        pointBorderColor: colors.accent,
+        pointRadius: 5,
+        pointHoverRadius: 8,
+        borderColor: colors.accent,
+        tension: 0.1,
+      },
     ],
   };
 
@@ -61,7 +92,7 @@ export default function LineChart({ tasksPerDay }) {
         },
       },
       y: {
-        beginAtZero: false,
+        beginAtZero: true,
         ticks: {
           color: colors.baseContent, // Color for X-axis labels
         },
