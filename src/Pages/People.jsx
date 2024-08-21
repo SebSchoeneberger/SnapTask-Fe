@@ -44,7 +44,7 @@ export default function Users() {
     );
 
   return (
-    <div className="flex flex-col gap-6 mt-10 p-5">
+    <div className="flex flex-col gap-6 mt-10 p-5 min-h-screen">
       <div className="flex justify-between">
         <p className="text-xl font-semibold">User Management</p>
         <button className="btn" onClick={() => setModalOpen(true)}>
@@ -69,7 +69,9 @@ export default function Users() {
                   {user.firstName} {user.lastName}
                 </td>
                 <td className={borderMarkup}>{user.email}</td>
-                <td className={borderMarkup}>{user.creator}</td>
+                <td className={borderMarkup}>
+                  {user.creator.firstName} {user.creator.lastName}
+                </td>
                 <td className={borderMarkup}>{user.createdAt}</td>
                 <td className={borderMarkup}>{user.role}</td>
               </tr>
@@ -79,12 +81,7 @@ export default function Users() {
       ) : (
         <p>No users found.</p>
       )}
-      {modalOpen && (
-        <CreateUser
-          closeModal={() => setModalOpen(false)}
-          setUsers={setUsers}
-        />
-      )}
+      {modalOpen && <CreateUser closeModal={() => setModalOpen(false)} setUsers={setUsers} />}
     </div>
   );
 }
