@@ -15,8 +15,9 @@ import Profile from "./Pages/Profile";
 import AuthProvider from "./Context/AuthProvider";
 import Areas from "./Pages/Areas";
 import Authorize from "./Layouts/Authorize";
-import StaffDashboard from "./Pages/StaffDashboard";
+import StaffDashboard from "./Pages/Staff/StaffDashboard";
 import StaffTasks from "./Pages/Staff/StaffTasks";
+import TaskDetails from "./Pages/Staff/TaskDetails";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
       <Route path="faq" element={<Faq />} />
 
       <Route path="/" element={<ProtectedLayout />}>
+        <Route path="tasks/:id" element={<TaskDetails />} />
         <Route path="profile" element={<Profile />} />
         <Route path="/" element={<Authorize roles={["admin", "manager"]} />}>
           <Route path="dashboard" element={<Dashboard />} />
