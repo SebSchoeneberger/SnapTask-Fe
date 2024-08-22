@@ -15,8 +15,9 @@ import Profile from "./Pages/Profile";
 import AuthProvider from "./Context/AuthProvider";
 import Areas from "./Pages/Areas";
 import Authorize from "./Layouts/Authorize";
-import StaffDashboard from "./Pages/StaffDashboard";
+import StaffDashboard from "./Pages/Staff/StaffDashboard";
 import StaffTasks from "./Pages/Staff/StaffTasks";
+import StaffAreas from "./Pages/Staff/StaffAreas";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,6 +40,7 @@ const router = createBrowserRouter(
         <Route path="/staff" element={<Authorize roles={["staff"]} />}>
           {/* <Route path="profile" element={<Profile />} /> */}
           <Route path="dashboard" element={<StaffDashboard />} />
+          <Route path="areas" element={<StaffAreas />} />
           <Route path="tasks" element={<StaffTasks />} />
         </Route>
       </Route>
