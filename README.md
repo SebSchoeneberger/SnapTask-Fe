@@ -11,3 +11,6 @@
 
 - `npm run dev`: Starts development server, pulling environment variables from `.env.development.local` file
 
+## Backend Repo
+
+- https://github.com/hexzoner/final-project-be
