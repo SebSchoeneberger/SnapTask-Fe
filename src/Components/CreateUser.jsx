@@ -8,7 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 // Create new user
 
-export default function CreateUser({ closeModal, setUsers }) {
+export default function CreateUser({ setModalOpen, setUsers }) {
   const url = "http://localhost:3333/users";
   const token = getToken();
   const [password, setPassword] = useState("");
@@ -75,10 +75,11 @@ export default function CreateUser({ closeModal, setUsers }) {
       )
       .then((res) => {
         setUsers((prev) => [...prev, res.data]);
+        setModalOpen(false);
       })
-      .catch((err) => {
-        console.log(err);
-        alert(err.message);
+      .catch((error) => {
+        console.log(error);
+        toast.error(`Error creating user: ${error.message}`);
       })
       .finally(() => {});
   }
@@ -90,7 +91,7 @@ export default function CreateUser({ closeModal, setUsers }) {
           <p className="text-2xl font-semibold text-left w-full max-w-xl">
             Create User
           </p>
-          <button className="" onClick={closeModal}>
+          <button className="" onClick={() => setModalOpen(false)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
