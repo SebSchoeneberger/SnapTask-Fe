@@ -18,6 +18,8 @@ import Authorize from "./Layouts/Authorize";
 import StaffDashboard from "./Pages/Staff/StaffDashboard";
 import StaffTasks from "./Pages/Staff/StaffTasks";
 import StaffAreas from "./Pages/Staff/StaffAreas";
+import TaskDetails from "./Pages/Staff/TaskDetails";
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +30,7 @@ const router = createBrowserRouter(
       <Route path="faq" element={<Faq />} />
 
       <Route path="/" element={<ProtectedLayout />}>
+        <Route path="tasks/:id" element={<TaskDetails />} />
         <Route path="profile" element={<Profile />} />
         <Route path="/" element={<Authorize roles={["admin", "manager"]} />}>
           <Route path="dashboard" element={<Dashboard />} />
