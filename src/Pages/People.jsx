@@ -15,6 +15,7 @@ export default function Users() {
   const [deleteUser, setDeleteUser] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+
   // const usersUrl = `${API_URL}/users`;
   const token = getToken();
 
