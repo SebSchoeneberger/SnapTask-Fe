@@ -1,4 +1,7 @@
+import QRCode from "qrcode.react";
+
 const TaskDetailsPopup = ({ task }) => {
+  const API_URL = import.meta.env.VITE_API_URL;
   return (
     <dialog id="taskDetails" className="modal">
       {task && (
@@ -20,6 +23,9 @@ const TaskDetailsPopup = ({ task }) => {
           </div>
 
           <p className="py-12 font-semibold text-lg">{task.description}</p>
+          <div className="flex items-center justify-center ">
+            <QRCode value={`${API_URL}/tasks/${task._id}`} />
+          </div>
           <div className="flex justify-between">
             <p>
               Created by:{" "}
