@@ -5,16 +5,15 @@ import { getToken } from "../../Utils/TokenUtils";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import TaskCard from "./TaskCard";
 
-export default function StaffTasks() {
+function StaffDashboard() {
   const API_URL = import.meta.env.VITE_API_URL;
   const getTasksUrl = `${API_URL}/tasks`;
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
-  //   const { user } = useContext(AuthContext);
   const token = getToken();
 
   useEffect(() => {
-    // console.log(token);
+    console.log(token);
     axios
       .get(getTasksUrl, {
         headers: {
@@ -23,10 +22,10 @@ export default function StaffTasks() {
         },
       })
       .then((res) => {
-        const notFinishedTasks = res.data.filter((task) => task.status !== "Finished");
-        setTasks(notFinishedTasks);
+        const finishedTasks = res.data.filter((task) => task.status == "Finished");
+        setTasks(finishedTasks);
         setLoading(false);
-        // console.log(notFinishedTasks);
+        // console.log(finishedTasks);
       })
       .catch((err) => {
         console.log(err);
@@ -46,7 +45,7 @@ export default function StaffTasks() {
 
   return (
     <div className="min-h-svh w-full pt-16 pb-24 bg-base-100">
-      <p className="font-bold text-3xl py-4">All Tasks</p>
+      <p className="font-bold text-3xl py-4">Dashboard</p>
       <div className="flex flex-col items-center w-full gap-2  px-4">
         {tasks.map((task) => (
           <TaskCard key={task._id} task={task} />
@@ -55,3 +54,5 @@ export default function StaffTasks() {
     </div>
   );
 }
+
+export default StaffDashboard;
