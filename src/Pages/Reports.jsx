@@ -14,12 +14,12 @@ const Reports = () => {
   const [loadingAreas, setLoadingAreas] = useState(true);
   const [selectedArea, setSelectedArea] = useState("All");
 
-  const [tasks, setTasks] = useState([]);
-  const [loadingTasks, setLoadingTasks] = useState(true);
-  const [selectedTask, setSelectedTask] = useState(null);
+  // const [tasks, setTasks] = useState([]);
+  // const [loadingTasks, setLoadingTasks] = useState(true);
+  // const [selectedTask, setSelectedTask] = useState(null);
 
   const areasUrl = `${API_URL}/areas/`;
-  const tasksUrl = `${API_URL}/tasks/all/`;
+  // const tasksUrl = `${API_URL}/tasks/all/`;
 
   // Handle area
   function handleChange(e) {
@@ -106,7 +106,7 @@ const Reports = () => {
           })}
         </select>
       </div>
-      <div className="flex gap-2 items-start mt-6 flex-col">
+      {/* <div className="flex gap-2 items-start mt-6 flex-col">
         <p className="font-semibold">Area</p>
         <select
           onChange={handleChange}
@@ -124,7 +124,7 @@ const Reports = () => {
             );
           })}
         </select>
-      </div>
+      </div> */}
     </>
   );
 };

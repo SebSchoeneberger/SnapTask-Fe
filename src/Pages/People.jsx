@@ -168,10 +168,7 @@ export default function Users() {
         <p>No users found.</p>
       )}
       {modalOpen && (
-        <CreateUser
-          closeModal={() => setModalOpen(false)}
-          setUsers={setUsers}
-        />
+        <CreateUser setModalOpen={setModalOpen} setUsers={setUsers} />
       )}
 
       {/* Delete User Modal */}
