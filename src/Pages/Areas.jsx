@@ -13,8 +13,9 @@ const Areas = () => {
   const [deleteArea, setDeleteArea] = useState(null);
   const [loading, setLoading] = useState(true);
   const token = getToken();
-  
-  useEffect(() => {
+
+  const fetchAreas = () => {
+
     axios.get(`${API_URL}/areas`, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -22,11 +23,16 @@ const Areas = () => {
     })
     .then((res) => {
       setAreas(res.data);
+      // console.log(res.data)
     })
     .catch((error) => {
       toast.error("Error loading areas");
     })
     .finally(() => setLoading(false));
+  }
+  
+  useEffect(() => {
+    fetchAreas();
   }, []);
 
   const handleEdit = (area) => {
@@ -60,6 +66,10 @@ const Areas = () => {
     });
   };
 
+  const updateAreas = () => {
+    fetchAreas();
+  };
+
   return (
     <div className="min-h-screen w-full flex flex-col gap-6 mt-10 p-5">
       <div className="flex justify-between">
@@ -91,7 +101,13 @@ const Areas = () => {
                   <td>{area.name}</td>
                   <td>{area.address}</td>
                   <td>{area.contact}</td>
-                  <td>{area.creator.firstName}</td>
+                  <td>
+                  {area.users.map((user, userIndex) => (
+                    <div key={userIndex}>
+                      {user.firstName} {user.lastName}
+                    </div>
+                  ))}
+                </td>
                   <td>
                     <details className="dropdown">
                       <summary className="btn m-0 p-0 border-none bg-transparent hover:bg-transparent">
@@ -152,8 +168,8 @@ const Areas = () => {
         </div>
       </dialog>
 
-      <CreateAreaModal />
-      <UpdateAreaModal areaData={editArea} />
+      <CreateAreaModal updateAreas={updateAreas} />
+      <UpdateAreaModal areaData={editArea} updateAreas={updateAreas} />
     </div>
   );
 };

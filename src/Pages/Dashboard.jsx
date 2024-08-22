@@ -3,8 +3,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { getToken } from "../Utils/TokenUtils";
-import LineChart from "../Components/LineChart";
-import DoughnutChart from "../Components/DoughnutChart";
+import LineChart from "../Components/Dashboard/LineChart";
+import DoughnutChart from "../Components/Dashboard/DoughnutChart";
+import Pagination from "../Components/Dashboard/Pagination";
+import TaskDetailsPopup from "../Components/Dashboard/TaskDetailsPopup";
 
 function Dashboard() {
   const token = getToken();
@@ -16,13 +18,21 @@ function Dashboard() {
   const [loadingAreas, setLoadingAreas] = useState(true);
   const [loadingTasks, setLoadingTasks] = useState(true);
   const [selectedArea, setSelectedArea] = useState("All");
+  const [selectedTask, setSelectedTask] = useState(null);
   const [stats, setStats] = useState({ recordsToday: 0, hoursWorked: 0, onTimeRate: 0, tasksRemaining: 0 });
+
+  const [perPage, setPerPage] = useState("10");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(5);
+  const [totalTasks, setTotalTasks] = useState(64);
 
   const areasUrl = `${API_URL}/areas/`;
   const tasksUrl = `${API_URL}/reports/dashboard/weeklyTasks/`;
   const statsUrl = `${API_URL}/reports/dashboard/stats/`;
 
+  // Handle area change
   function handleChange(e) {
+    setPage(1);
     setSelectedArea(e.target.value);
     if (e.target.value == "All") {
       setFilteredTasks(tasks);
@@ -33,6 +43,7 @@ function Dashboard() {
     }
   }
 
+  // Getting areas
   useEffect(() => {
     axios
       .get(areasUrl, {
@@ -52,18 +63,21 @@ function Dashboard() {
       .finally(() => setLoadingAreas(false));
   }, []);
 
+  // Getting tasks within last week
   useEffect(() => {
-    const param = selectedArea === "All" ? "" : `?area=${selectedArea}`;
+    const param = selectedArea === "All" ? "" : `area=${selectedArea}`;
     axios
-      .get(`${tasksUrl}${param}`, {
+      .get(`${tasksUrl}?page=${page}&perPage=${perPage}&${param}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        setTasks(response.data);
-        setFilteredTasks(response.data);
+        setTasks(response.data.tasks);
+        setFilteredTasks(response.data.tasks);
+        setTotalTasks(response.data.total);
+        setTotalPages(response.data.pages);
         // console.log(response.data);
       })
       .catch((error) => {
@@ -71,8 +85,9 @@ function Dashboard() {
         toast.error("Error loading areas");
       })
       .finally(() => setLoadingTasks(false));
-  }, [selectedArea]);
+  }, [selectedArea, perPage, page]);
 
+  // Getting stats for dashboard
   useEffect(() => {
     // console.log(selectedArea);
     setLoadingTasks(true);
@@ -100,7 +115,12 @@ function Dashboard() {
   }, [selectedArea]);
 
   const borderMarkup = ""; //border-[2px] border-base-content p-3 my-4 font-semibold";
-  // const tableHeaderMarkup = "font-bold";
+
+  // Handle per page change
+  function handlePerPageChange(e) {
+    setPage(1);
+    setPerPage(e.target.value);
+  }
 
   if (loadingAreas)
     return (
@@ -110,7 +130,7 @@ function Dashboard() {
     );
 
   return (
-    <div className="min-h-screen border-[2px] border-base-content w-[80%] m-auto text-left px-12 mb-8">
+    <div className="min-h-screen border-[2px] border-base-content border-opacity-40 w-[80%] m-auto text-left px-12 mb-8">
       <div className="flex flex-col gap-6">
         <div className="flex gap-4 items-center mt-6">
           <p className="font-semibold px-3 ">Area:</p>
@@ -128,7 +148,7 @@ function Dashboard() {
           </select>
         </div>
 
-        <div className="border-[2px] border-base-content p-8 mt-2">
+        <div className="border-[2px] border-base-content p-8 mt-2 border-opacity-40">
           <div className="flex justify-between font-semibold flex-wrap">
             <div className="flex gap-2">
               <div className="border-[2px] border-base-content rounded-full h-16 w-16 flex items-center justify-center">
@@ -182,7 +202,7 @@ function Dashboard() {
               </div>
               <div>
                 <p>On time finished rate</p>
-                <p className="text-3xl">{stats.onTimeRate}</p>
+                <p className="text-3xl">{stats.onTimeRate * 100}%</p>
               </div>
             </div>
 
@@ -213,12 +233,12 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-6 mt-10">
+        <div className="flex flex-col gap-6 ">
           <p className="text-xl font-semibold pl-3">Last records this week</p>
 
           {!loadingTasks ? (
             <div className="overflow-x-auto ">
-              <table className="table table-sm w-full  mb-16">
+              <table className="table table-sm w-full ">
                 <thead className="">
                   <tr>
                     <th className="font-bold">Area</th>
@@ -233,7 +253,13 @@ function Dashboard() {
                 <tbody>
                   {filteredTasks.map((task) => {
                     return (
-                      <tr key={task._id}>
+                      <tr
+                        key={task._id}
+                        className="hover:bg-base-300 hover:cursor-pointer"
+                        onClick={() => {
+                          setSelectedTask(task);
+                          document.getElementById("taskDetails").showModal();
+                        }}>
                         <td className={borderMarkup}>{task.area.name}</td>
                         <td className={borderMarkup}>
                           {task.creator.firstName} {task.creator.lastName}
@@ -248,6 +274,25 @@ function Dashboard() {
                   })}
                 </tbody>
               </table>
+              <div className="flex justify-between my-4">
+                <div className="flex items-center gap-2">
+                  <select onChange={handlePerPageChange} value={perPage} className="text-center py-1 font-semibold gradientselect w-20 bg-base-200">
+                    <option className="bg-base-200 " value={"10"}>
+                      {"1-10"}
+                    </option>
+                    <option className="bg-base-200 " value={"25"}>
+                      {"1-25"}
+                    </option>
+                    <option className="bg-base-200 " value={"50"}>
+                      {"1-50"}
+                    </option>
+                  </select>
+                  <p className="text-sm">of</p>
+                  <p className="text-sm">{totalTasks}</p>
+                </div>
+                <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+              </div>
+              <TaskDetailsPopup task={selectedTask} />
             </div>
           ) : (
             <LoadingSpinner />
