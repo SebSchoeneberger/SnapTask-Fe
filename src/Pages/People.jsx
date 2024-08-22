@@ -1,12 +1,13 @@
+import React from "react";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import CreateUser from "../Components/CreateUser";
+import { UpdateUserModal } from "../Components/CreateUser";
 import { getToken } from "../Utils/TokenUtils";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { toast } from "react-toastify";
 
 const API_URL = import.meta.env.VITE_API_URL;
-const borderMarkup = "border-[2px] border-base-content p-3 my-4";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
@@ -14,15 +15,14 @@ export default function Users() {
   const [deleteUser, setDeleteUser] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const usersUrl = `${API_URL}/users`;
+  // const usersUrl = `${API_URL}/users`;
   const token = getToken();
 
-  const dropdownRef = useRef(null); // Ref for the dropdown
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
-    console.log(token);
     axios
-      .get(usersUrl, {
+      .get(`${API_URL}/users`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -44,6 +44,7 @@ export default function Users() {
   };
 
   const handleDelete = (user) => {
+    console.log(user);
     setDeleteUser(user);
     document.getElementById("delete_user_modal").showModal();
   };
@@ -199,7 +200,7 @@ export default function Users() {
             </svg>
           </button>
           <h3 className="font-bold text-lg">Delete User</h3>
-          <p>Are you sure you want to delete this User?</p>
+          <p>Are you sure you want to delete this user?</p>
           <div className="modal-action flex justify-center">
             <button className="btn btn-error" onClick={deleteUserHandler}>
               Delete
@@ -208,7 +209,8 @@ export default function Users() {
         </div>
       </dialog>
 
-      {/* <UpdateUser userData={editUser} /> */}
+      {/* Update User Modal */}
+      {editUser && <UpdateUserModal userData={editUser} setUsers={setUsers} />}
     </div>
   );
 }
