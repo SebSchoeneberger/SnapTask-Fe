@@ -52,19 +52,9 @@ export default function Profile() {
     // console.log(data);
     setPasswordError("");
 
-    if (
-      data.currentPassword.length > 0 ||
-      data.newPassword.length > 0 ||
-      data.confirmNewPassword.length > 0
-    ) {
-      if (
-        data.currentPassword.length == 0 ||
-        data.newPassword.length == 0 ||
-        data.confirmNewPassword.length == 0
-      ) {
-        setPasswordError(
-          "Please enter your current password and a new password"
-        );
+    if (data.currentPassword.length > 0 || data.newPassword.length > 0 || data.confirmNewPassword.length > 0) {
+      if (data.currentPassword.length == 0 || data.newPassword.length == 0 || data.confirmNewPassword.length == 0) {
+        setPasswordError("Please enter your current password and a new password");
         return;
       }
       if (data.newPassword !== data.confirmNewPassword) {
@@ -74,12 +64,7 @@ export default function Profile() {
     }
 
     setLoading(true);
-    setUserData({
-      ...userData,
-      currentPassword: "",
-      newPassword: "",
-      confirmNewPassword: "",
-    });
+    setUserData({ ...userData, currentPassword: "", newPassword: "", confirmNewPassword: "" });
     axios
       .put(
         updateUrl,
@@ -146,26 +131,19 @@ export default function Profile() {
       </div>
     );
 
-  if (userData === null)
-    return (
-      <div className="min-h-screen text-4xl flex items-center justify-center w-full">
-        User doesn't exist
-      </div>
-    );
+  if (userData === null) return <div className="min-h-screen text-4xl flex items-center justify-center w-full">User doesn't exist</div>;
 
   return (
     <div className={windowMarkup}>
       <div className="max-w-[64rem] m-auto">
         <p className="text-2xl font-bold pt-12">My Settings</p>
         <form className="" onSubmit={handleSubmit((data) => onSubmit(data))}>
-          <div className="flex mt-8 gap-12">
-            <div className="w-[40%]">
+          <div className="flex mt-8 gap-12 flex-wrap md:flex-nowrap">
+            <div className="w-full md:w-[40%]">
               <p className="font-bold mt-2">Profile</p>
-              <p className="text-xs">
-                Your personal information and account security settings
-              </p>
+              <p className="text-xs">Your personal information and account security settings</p>
             </div>
-            <div className="w-[60%] flex flex-col gap-2">
+            <div className="w-full md:w-[60%] flex flex-col gap-2">
               {/* <p className="font-bold">Avatar</p> */}
               <label className="form-control w-full ">
                 <div className="label">
@@ -195,14 +173,13 @@ export default function Profile() {
               </label>
             </div>
           </div>
-          <div className="flex mt-8 gap-12 items-center">
-            <div className="w-[40%]">
+
+          <div className="flex mt-8 gap-12 items-center  flex-wrap md:flex-nowrap">
+            <div className="w-full md:w-[40%]">
               <p className="font-bold">Email address</p>
-              <p className="text-xs">
-                Your email is used to login into the platform
-              </p>
+              <p className="text-xs">Your email is used to login into the platform</p>
             </div>
-            <div className="w-[60%]">
+            <div className="w-full md:w-[60%]">
               <label className="form-control w-full ">
                 <div className="label">
                   <span className="label-text font-semibold">Email</span>
@@ -216,24 +193,21 @@ export default function Profile() {
                   value={userData.email}
                   onChange={handleChange}
                 />
-                {errors.email && (
-                  <p className="text-error font-semibold">Email is required.</p>
-                )}
+                {errors.email && <p className="text-error font-semibold">Email is required.</p>}
               </label>
             </div>
           </div>
-          <div className="flex mt-8 gap-12">
-            <div className="w-[40%]">
+
+          <div className="flex mt-8 gap-12  flex-wrap md:flex-nowrap">
+            <div className="w-full md:w-[40%]">
               <p className="font-bold mt-2">Set Password</p>
               <p className="text-xs">Choose a new password</p>
             </div>
 
-            <div className="w-[60%] flex flex-col gap-2">
+            <div className="w-full md:w-[60%] flex flex-col gap-2">
               <label className="form-control w-full ">
                 <div className="label">
-                  <span className="label-text font-semibold">
-                    Current password
-                  </span>
+                  <span className="label-text font-semibold">Current password</span>
                 </div>
                 <div className="flex justify-between items-center relative">
                   <input
@@ -271,9 +245,7 @@ export default function Profile() {
 
               <label className="form-control w-full ">
                 <div className="label">
-                  <span className="label-text font-semibold">
-                    Re-type new password
-                  </span>
+                  <span className="label-text font-semibold">Re-type new password</span>
                 </div>
                 <div className="flex justify-between items-center relative">
                   <input
@@ -291,23 +263,25 @@ export default function Profile() {
               <p className="text-error font-semibold">{passwordError}</p>
             </div>
           </div>
-          <div className="flex justify-end my-12">
-            <button type="submit" className="btn btn-info px-5">
+
+          <div className="flex justify-end my-8 pb-12 ">
+            <button type="submit" className="btn btn-info px-5 ">
               Save Settings
             </button>
           </div>
-          <div className="border-[2px] border-base-content "></div>
-          <p className="font-bold mt-8">Delete account</p>
-          <p className="text-xs">
-            You can't re-activate your account again. It wil delete your account
-            permanantly.
-          </p>
         </form>
-        <div className="flex justify-end my-12">
-          <button onClick={handleDelete} className="btn bg-red-500 text-white">
-            Delete Account
-          </button>
-        </div>
+        {userData.role != "staff" && (
+          <>
+            <div className="border-[2px] border-base-content "></div>
+            <p className="font-bold mt-8">Delete account</p>
+            <p className="text-xs">You can't re-activate your account again. It wil delete your account permanantly.</p>
+            <div className="flex justify-end my-12">
+              <button onClick={handleDelete} className="btn bg-red-500 text-white">
+                Delete Account
+              </button>
+            </div>
+          </>
+        )}
       </div>
       <ConfirmPopup deleteConfirmed={deleteConfirmed} />
     </div>
@@ -319,16 +293,11 @@ const ConfirmPopup = ({ deleteConfirmed }) => {
     <dialog id="confirmPopup" className="modal">
       <div className="modal-box bg-base-100">
         <h3 className="font-bold text-lg">Confirmation</h3>
-        <p className="py-4 font-semibold">
-          Are you sure you want to permanantly delete your account?
-        </p>
+        <p className="py-4 font-semibold">Are you sure you want to permanantly delete your account?</p>
         <div className="modal-action">
           <form method="dialog" className="flex justify-between w-full">
             {/* if there is a button in form, it will close the modal */}
-            <button
-              onClick={deleteConfirmed}
-              className="btn btn-outline btn-error"
-            >
+            <button onClick={deleteConfirmed} className="btn btn-outline btn-error">
               Confirm
             </button>
             <button className="btn btn-outline">Cancel</button>
