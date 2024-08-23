@@ -46,7 +46,7 @@ export default function TaskDetails() {
     <div className="min-h-svh w-full pt-16 pb-24 bg-base-100">
       <div className="flex flex-col h-full justify-around items-center">
         <p className="text-4xl mt-2">{task.title}</p>
-        <p className="text-2xl mt-2">{task.description}</p>
+        <p className="text-2xl mt-2 text-justify px-4">{task.description}</p>
         <button className="btn btn-success btn-lg px-12 max-w-xs">Start Task</button>
       </div>
     </div>
