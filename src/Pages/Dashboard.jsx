@@ -21,7 +21,7 @@ function Dashboard() {
   const [selectedTask, setSelectedTask] = useState(null);
   const [stats, setStats] = useState({ recordsToday: 0, hoursWorked: 0, onTimeRate: 0, tasksRemaining: 0 });
 
-  const [perPage, setPerPage] = useState("10");
+  const [perPage, setPerPage] = useState("25");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(5);
   const [totalTasks, setTotalTasks] = useState(64);

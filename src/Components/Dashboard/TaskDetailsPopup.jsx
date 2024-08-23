@@ -1,5 +1,6 @@
 import QRCode from "qrcode.react";
 import React, { useRef } from "react";
+import { formatDateFull } from "../../Utils/DateUtils";
 
 const TaskDetailsPopup = ({ task }) => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -33,9 +34,21 @@ const TaskDetailsPopup = ({ task }) => {
             </form>
           </div>
           <div className="flex justify-between">
-            <p className="py-4">
-              Status: <strong>{task.status}</strong>
-            </p>
+            <div>
+              <p className="pt-4">
+                Status: <strong>{task.status}</strong>
+              </p>
+              {task.startedDate && (
+                <p className="py-0">
+                  Started: <strong>{formatDateFull(task.startedDate)}</strong>
+                </p>
+              )}
+              {task.finishedDate && (
+                <p className="py-0">
+                  Finished: <strong>{formatDateFull(task.finishedDate)}</strong>
+                </p>
+              )}
+            </div>
             <p className="py-4">
               Priority:<strong> {task.priority}</strong>
             </p>
@@ -57,10 +70,10 @@ const TaskDetailsPopup = ({ task }) => {
             </p>
             <div className="text-sm">
               <p className="py-0">
-                Created at: <strong>{Date(task.createdAt).split(" ").slice(0, 4).join(" ")}</strong>
+                Created at: <strong>{formatDateFull(task.createdAt)}</strong>
               </p>
               <p className="py-0">
-                Due Date: <strong>{Date(task.dueDate).split(" ").slice(0, 4).join(" ")}</strong>
+                Due Date: <strong>{formatDateFull(task.dueDate)}</strong>
               </p>
             </div>
           </div>
