@@ -8,7 +8,7 @@ export default function TopNavBar() {
   //   console.log(location.pathname);
   return (
     <div className="fixed top-0 z-20 border-b-[2px] border-opacity-30 px-4 py-2 border-base-content w-full bg-base-200 flex justify-between items-center">
-      {window.history.length > 1 && location.pathname != "/staff/dashboard" ? (
+      {window.history.length > 1 && location.pathname != "/staff/areas" ? (
         <button
           onClick={() => {
             navigate(-1);

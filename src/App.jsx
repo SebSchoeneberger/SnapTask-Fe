@@ -20,7 +20,6 @@ import StaffTasks from "./Pages/Staff/StaffTasks";
 import StaffAreas from "./Pages/Staff/StaffAreas";
 import TaskDetails from "./Pages/Staff/TaskDetails";
 
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
@@ -44,7 +43,7 @@ const router = createBrowserRouter(
           {/* <Route path="profile" element={<Profile />} /> */}
           <Route path="dashboard" element={<StaffDashboard />} />
           <Route path="areas" element={<StaffAreas />} />
-          <Route path="tasks" element={<StaffTasks />} />
+          <Route path="tasks/:id" element={<StaffTasks />} />
         </Route>
       </Route>
 
