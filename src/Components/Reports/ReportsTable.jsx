@@ -3,6 +3,10 @@ import { useState, useEffect } from "react";
 import LoadingSpinner from "../LoadingSpinner";
 import { formatDateShort } from "../../Utils/DateUtils";
 import { getToken } from "../../Utils/TokenUtils";
+import html2canvasPro from "html2canvas-pro";
+import jsPDF from "jspdf";
+import logo from '../../assets/Logo.png'
+import TaskDetailsPopup from "../Dashboard/TaskDetailsPopup";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -19,6 +23,7 @@ function ReportsTable({
 }) {
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedTask, setSelectedTask] = useState(null);
   const tasksUrl = `${API_URL}/tasks`;
   const token = getToken();
 
@@ -65,6 +70,33 @@ function ReportsTable({
       matchesCreatedBy
     );
   });
+
+
+  const generatePDF = () => {
+    
+    html2canvasPro(document.getElementById('table-container')).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      
+      // Add logo
+      pdf.addImage(logo, 'PNG', 10, 10, 20, 20);
+      pdf.setFontSize(16);
+      pdf.text('SnapTask', 10 + 20 + 5, 21);
+      
+      // Add title
+      pdf.setFontSize(20);
+      pdf.text('Task Reports', 105, 30, { align: 'center' });
+
+      // Add table image from canvas
+      pdf.addImage(imgData, 'PNG', 10, 40, 190, 0);
+
+      const today = new Date();
+      const formatedDay = formatDateShort(today);
+
+      // Save the PDF
+      pdf.save(`Tasks-report-${formatedDay}.pdf`);
+    });
+  };
   
 
   if (isLoading)
@@ -79,10 +111,10 @@ function ReportsTable({
       <div className="min-h-screen w-full flex flex-col gap-6 mt-10 p-5">
         <div className="flex justify-between">
           <p className="text-xl font-semibold">Task Records</p>
-          <button className="btn">Download Report</button>
+          <button className="btn" onClick={generatePDF}>Download Report</button>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" id="table-container">
           <table className="table w-full">
             <thead>
               <tr>
@@ -99,7 +131,10 @@ function ReportsTable({
             <tbody>
               {filteredTasks.length > 0 ? (
                 filteredTasks.map((task) => (
-                  <tr key={task._id} className="hover">
+                  <tr key={task._id} className="hover hover:cursor-pointer" onClick={() => {
+                    setSelectedTask(task);
+                    document.getElementById("taskDetails").showModal();
+                  }}>
                     <td>{task.area.name}</td>
                     <td>{`${task.creator.firstName} ${task.creator.lastName}`}</td>
                     <td>{task.title}</td>
@@ -121,6 +156,7 @@ function ReportsTable({
           </table>
         </div>
       </div>
+      <TaskDetailsPopup task={selectedTask}/>
     </>
   );
 }
