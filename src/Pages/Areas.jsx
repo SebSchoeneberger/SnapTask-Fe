@@ -1,5 +1,5 @@
 import React from "react";
-import { CreateAreaModal, UpdateAreaModal } from "../Components/AreaModals";
+import { CreateAreaModal, UpdateAreaModal } from "../Components/Areas/AreaModals";
 import { useState, useEffect } from "react";
 import { getToken } from "../Utils/TokenUtils";
 import axios from "axios";
