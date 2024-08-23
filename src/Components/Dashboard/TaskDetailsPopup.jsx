@@ -1,7 +1,26 @@
 import QRCode from "qrcode.react";
+import React, { useRef } from "react";
 
 const TaskDetailsPopup = ({ task }) => {
   const API_URL = import.meta.env.VITE_API_URL;
+  const qrRef = useRef(null);
+
+  const downloadQRCode = () => {
+    // QR code is rendered as a <canvas> element inside the qrcode.react component
+    const canvas = qrRef.current.querySelector("canvas");
+    //The toDataURL() method of the canvas element converts the QR code into a data URL that represents the image in PNG format.
+    const pngUrl = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+
+    //A temporary <a> element is created to trigger the download. This element's href is set to the PNG data URL, and the download attribute specifies the filename.
+    const downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = `QRcode - ${task.area.name} - ${task.title}.png`;
+    document.body.appendChild(downloadLink);
+    //The link is programmatically clicked to initiate the download, and then removed from the DOM.
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  };
+
   return (
     <dialog id="taskDetails" className="modal">
       {task && (
@@ -23,8 +42,11 @@ const TaskDetailsPopup = ({ task }) => {
           </div>
 
           <p className="py-12 font-semibold text-lg">{task.description}</p>
-          <div className="flex items-center justify-center ">
+          <div ref={qrRef} className="flex items-center justify-center gap-12 pb-4 ">
             <QRCode value={`${API_URL}/tasks/${task._id}`} />
+            <button className="btn btn-outline" onClick={downloadQRCode}>
+              Download QR Code
+            </button>
           </div>
           <div className="flex justify-between">
             <p>
