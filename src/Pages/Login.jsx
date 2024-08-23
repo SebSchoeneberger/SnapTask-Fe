@@ -27,7 +27,7 @@ function Login() {
             if (loggedInUser.role === 'admin') {
                 navigate('/dashboard');
             } else if (loggedInUser.role === 'staff') {
-                navigate('/staff/dashboard');
+                navigate('/staff/areas');
             } else {
                 navigate('/');
             }
