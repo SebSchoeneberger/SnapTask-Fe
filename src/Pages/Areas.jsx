@@ -1,6 +1,6 @@
 import React from "react";
 import { CreateAreaModal, UpdateAreaModal } from "../Components/Areas/AreaModals";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getToken } from "../Utils/TokenUtils";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -13,6 +13,7 @@ const Areas = () => {
   const [deleteArea, setDeleteArea] = useState(null);
   const [loading, setLoading] = useState(true);
   const token = getToken();
+  const dropdownRef = useRef(null);
 
   const fetchAreas = () => {
 
@@ -70,6 +71,22 @@ const Areas = () => {
     fetchAreas();
   };
 
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      const openDropdown = document.querySelector("details[open]");
+      if (openDropdown) {
+        openDropdown.removeAttribute("open");
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen w-full flex flex-col gap-6 mt-10 p-5">
       <div className="flex justify-between">
@@ -91,7 +108,7 @@ const Areas = () => {
                 <th>Location</th>
                 <th>Contact Info</th>
                 <th>Assigned to</th>
-                <th>Edit</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -108,8 +125,8 @@ const Areas = () => {
                     </div>
                   ))}
                 </td>
-                  <td>
-                    <details className="dropdown">
+                  <td ref={dropdownRef}>
+                    <details className="dropdown dropdown-end">
                       <summary className="btn m-0 p-0 border-none bg-transparent hover:bg-transparent">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
