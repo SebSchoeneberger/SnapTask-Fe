@@ -99,7 +99,7 @@ export default function Users() {
     <div className="flex flex-col gap-6 mt-10 p-5 min-h-screen w-full">
       <div className="flex justify-between">
         <p className="text-xl font-semibold">User Management</p>
-        <button className="btn" onClick={() => setModalOpen(true)}>
+        <button className="btn btn-primary" onClick={() => setModalOpen(true)}>
           Create User
         </button>
       </div>
