@@ -91,7 +91,8 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
                         <option value="Medium">Medium</option>
                         <option value="Low">Low</option>
                     </select>
-
+                    
+                    {/* Dropdown for Status */}
                     <select 
                         {...register('status', { required: "Status is required" })} 
                         className="select input-bordered"
