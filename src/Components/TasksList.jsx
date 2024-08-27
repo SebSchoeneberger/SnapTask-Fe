@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from "react"; 
-import axios from "axios"; 
-import CreateTask from "./CreateTask"; 
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import CreateTask from "./CreateTask";
 import EditTaskModal from "../Components/EditTaskModal"; 
+import TaskDetails from "../Components/TaskDetailsView"; 
 import { getToken } from "../Utils/TokenUtils"; 
 import LoadingSpinner from "../Components/LoadingSpinner"; 
 import { toast } from "react-toastify";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const TasksList = () => { 
-    const [tasks, setTasks] = useState([]); 
-    const [modalOpen, setModalOpen] = useState(false); 
-    const [editTask, setEditTask] = useState(null); 
-    const [deleteTask, setDeleteTask] = useState(null); 
-    const [loading, setLoading] = useState(true); 
-    const tasksUrl = `${API_URL}/tasks`; 
+const TasksList = () => {
+    const [tasks, setTasks] = useState([]);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [editTask, setEditTask] = useState(null);
+    const [deleteTask, setDeleteTask] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [selectedTask, setSelectedTask] = useState(null); 
+    const tasksUrl = `${API_URL}/tasks`;
     const token = getToken();
 
     useEffect(() => {
@@ -83,6 +85,10 @@ const TasksList = () => {
             });
     };
 
+    const handleRowClick = (task) => {
+        setSelectedTask(task);
+    };
+
     if (loading) {
         return (
             <div className="min-h-screen border-[2px] border-base-content w-full text-left px-12">
@@ -104,7 +110,7 @@ const TasksList = () => {
                     <table className="table w-full">
                         <thead>
                             <tr>
-                                <th className="border-b-2"></th> 
+                                <th className="border-b-2"></th>
                                 <th className="border-b-2">Task Name</th>
                                 <th className="border-b-2">Description</th>
                                 <th className="border-b-2">Due Date</th>
@@ -116,14 +122,30 @@ const TasksList = () => {
                         </thead>
                         <tbody>
                             {tasks.map((task, index) => (
-                                <tr key={task._id} className="hover">
-                                    <td className="font-bold">{index + 1}</td> 
+                                <tr 
+                                    key={task._id} 
+                                    className="hover" 
+                                    onClick={(e) => {
+                                        if (!e.target.closest(".dropdown-content") && !e.target.closest(".dropdown")) {
+                                            handleRowClick(task);
+                                        }
+                                    }}
+                                >
+                                    <td className="font-bold">{index + 1}</td>
                                     <td>{task.title}</td>
                                     <td>{task.description}</td>
                                     <td>{new Date(task.dueDate).toLocaleDateString()}</td>
                                     <td>{task.priority}</td>
-                                    <td>{task.assignedTo ? task.assignedTo.map(user => user.name).join(", ") : "N/A"}</td>
-                                    <td>{task.area ? task.area.name : "N/A"}</td>
+                                    <td>
+                                      {task.assignedTo && task.assignedTo.length > 0 
+                                          ? task.assignedTo.map((user, userIndex) => (
+                                              <div key={userIndex}>
+                                                  {user?.firstName} {user?.lastName}
+                                              </div>
+                                          ))
+                                          : " "
+                                      }
+                                    </td>
                                     <td>
                                         <details className="dropdown dropdown-end">
                                             <summary className="btn m-0 p-0 border-none bg-transparent hover:bg-transparent">
@@ -144,10 +166,16 @@ const TasksList = () => {
                                             </summary>
                                             <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                                                 <li>
-                                                    <button onClick={() => handleEdit(task)}>Edit</button>
+                                                    <button onClick={(e) => { 
+                                                        e.stopPropagation();
+                                                        handleEdit(task);
+                                                    }}>Edit</button>
                                                 </li>
                                                 <li className="text-red-600">
-                                                    <button onClick={() => handleDelete(task)}>Delete</button>
+                                                    <button onClick={(e) => { 
+                                                        e.stopPropagation(); 
+                                                        handleDelete(task); 
+                                                    }}>Delete</button>
                                                 </li>
                                             </ul>
                                         </details>
@@ -174,8 +202,12 @@ const TasksList = () => {
                     onClose={() => setEditTask(null)} 
                 />
             )}
-
-            {/* Delete Task Modal */}
+            {selectedTask && (
+                <TaskDetails 
+                    task={selectedTask} 
+                    onClose={() => setSelectedTask(null)} 
+                />
+            )}
             <dialog id="delete_task_modal" className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
                     <button

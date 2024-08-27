@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
+import LoadingSpinner from "../Components/LoadingSpinner";
 import { getToken } from "../Utils/TokenUtils";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -17,8 +18,11 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
             setValue("description", taskData.description);
             setValue("dueDate", taskData.dueDate);
             setValue("priority", taskData.priority);
-            setValue("assignedTo", taskData.assignedTo.map(user => user._id));
-        }
+             if (taskData.assignedTo )
+             setValue("assignedTo", taskData.assignedTo.map(user => {
+            if (!user)return null
+            return user._id}));
+        } 
     }, [taskData, setValue]);
 
     const onSubmit = async (data) => {
@@ -38,6 +42,13 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
             setIsLoading(false);
         }
     };
+
+    if (isLoading)
+        return (
+          <div className="min-h-screen border-[2px] border-base-content w-full text-left px-12">
+            <LoadingSpinner />
+          </div>
+        );
 
     return (
         <dialog className="modal modal-bottom sm:modal-middle" open>
