@@ -59,6 +59,7 @@ export default function CreateUser({ setModalOpen, setUsers }) {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   function onSubmit(data) {
