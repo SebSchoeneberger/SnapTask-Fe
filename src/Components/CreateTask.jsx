@@ -18,8 +18,8 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                 const usersResponse = await axios.get(`${API_URL}/users`, { headers: { Authorization: `Bearer ${token}` }, });
                 const areasResponse = await axios.get(`${API_URL}/areas`, { headers: { Authorization: `Bearer ${token}` }, });
 
-                setUsers(usersResponse.data);
-                setAreas(areasResponse.data);
+                setUsers(usersResponse.data.staff);
+                setAreas(areasResponse.data.areas);
             } catch (error) {
                 console.error("Failed to fetch data:", error);
             }
@@ -30,7 +30,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
     const createTask = async (data) => { 
         try { 
             const response = await axios.post(`${API_URL}/tasks`, data, { headers: { Authorization: `Bearer ${token}` }, }); 
-            return response.data; 
+            return response.data.tasks; 
         } catch (error) { 
             console.error("API Error while creating task:", error); 
             throw error; 

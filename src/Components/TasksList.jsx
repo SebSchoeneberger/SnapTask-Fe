@@ -28,7 +28,7 @@ const TasksList = () => {
                 },
             })
             .then((response) => {
-                setTasks(response.data);
+                setTasks(response.data.tasks);
             })
             .catch((error) => {
                 toast.error("Error loading tasks");
@@ -50,7 +50,7 @@ const TasksList = () => {
                 },
             })
             .then((response) => {
-                setTasks(response.data);
+                setTasks(response.data.tasks);
             })
             .catch((error) => {
                 toast.error("Error loading tasks");

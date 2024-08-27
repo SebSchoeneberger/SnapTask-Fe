@@ -101,4 +101,5 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
     );
 };
 
+
 export default EditTaskModal;

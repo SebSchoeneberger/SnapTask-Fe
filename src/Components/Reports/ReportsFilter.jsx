@@ -45,7 +45,7 @@ const ReportsFilter = ({
             },
         })
         .then((response) => {
-            setAreas(response.data);
+            setAreas(response.data.areas);
         })
         .catch((error) => {
             toast.error("Error loading areas");
@@ -59,7 +59,7 @@ const ReportsFilter = ({
             }
         })
         .then((res) => {
-            const managers = res.data.filter(user => user.role === 'manager');
+            const managers = res.data.staff.filter(user => user.role === 'manager');
             setManagers(managers);    
         })
         .catch((err) => {
