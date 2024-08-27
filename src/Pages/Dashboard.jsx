@@ -81,8 +81,8 @@ function Dashboard() {
       .then((response) => {
         setTasks(response.data.tasks);
         setFilteredTasks(response.data.tasks);
-        setTotalTasks(response.data.total);
-        setTotalPages(response.data.pages);
+        setTotalTasks(response.data.totalResults);
+        setTotalPages(response.data.totalPages);
         // console.log(response.data);
       })
       .catch((error) => {

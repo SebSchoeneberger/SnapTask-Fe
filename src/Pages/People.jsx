@@ -7,10 +7,15 @@ import { getToken } from "../Utils/TokenUtils";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { toast } from "react-toastify";
 import { formatDateFull } from "../Utils/DateUtils";
+import Pagination from "../Components/Dashboard/Pagination";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Users() {
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalResults, setTotalResults] = useState(0);
   const [users, setUsers] = useState([]);
   const [editUser, setEditUser] = useState(null);
   const [deleteUser, setDeleteUser] = useState(null);
@@ -24,7 +29,7 @@ export default function Users() {
 
   useEffect(() => {
     axios
-      .get(`${API_URL}/users`, {
+      .get(`${API_URL}/users?page=${page}&perPage=${perPage}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -32,13 +37,16 @@ export default function Users() {
       })
       .then((response) => {
         setUsers(response.data.staff);
+        setTotalPages(response.data.totalPages);
+        setTotalResults(response.data.totalResults);
+        window.scrollTo(0, 0);
       })
       .catch((error) => {
         toast.error("Error loading users");
         console.log(error.message);
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [page, perPage]);
 
   const handleEdit = (user) => {
     setEditUser(user);
@@ -91,7 +99,7 @@ export default function Users() {
 
   if (loading)
     return (
-      <div className="min-h-screen border-[2px] border-base-content w-full text-left px-12">
+      <div className="min-h-screen  w-full text-left px-12">
         <LoadingSpinner />
       </div>
     );
@@ -161,6 +169,7 @@ export default function Users() {
               ))}
             </tbody>
           </table>
+          <Pagination page={page} setPage={setPage} perPage={perPage} setPerPage={setPerPage} totalPages={totalPages} totalResults={totalResults} />
         </div>
       ) : (
         <p>No users found.</p>
