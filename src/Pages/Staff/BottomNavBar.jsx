@@ -100,7 +100,7 @@ export default function BottomNavBar() {
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            d="m11.99 16.5 3.75 3.75m0 0 3.75-3.75m-3.75 3.75V3.75H4.49"
+            d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
           />
         </svg>
         <button onClick={() => logout()} className="text-sm">
