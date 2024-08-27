@@ -27,7 +27,7 @@ function Login() {
     try {
       const loggedInUser = await login(data);
 
-      if (loggedInUser.role === "admin") {
+      if (loggedInUser.role === "admin" || loggedInUser.role === "manager") {
         navigate("/dashboard");
       } else if (loggedInUser.role === "staff") {
         navigate("/staff/areas");
