@@ -45,7 +45,7 @@ const ReportsFilter = ({
             },
         })
         .then((response) => {
-            setAreas(response.data);
+            setAreas(response.data.areas);
         })
         .catch((error) => {
             toast.error("Error loading areas");

@@ -19,22 +19,22 @@ const Areas = () => {
   const dropdownRef = useRef(null);
 
   const fetchAreas = () => {
-    axios
-      .get(`${API_URL}/areas`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setAreas(res.data);
-        // console.log(res.data)
-      })
-      .catch((error) => {
-        toast.error("Error loading areas");
-      })
-      .finally(() => setLoading(false));
-  };
-
+   
+    axios.get(`${API_URL}/areas`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    })
+    .then((res) => {
+      setAreas(res.data.areas);
+      // console.log(res.data)
+    })
+    .catch((error) => {
+      toast.error("Error loading areas");
+    })
+    .finally(() => setLoading(false));
+  }
+  
   useEffect(() => {
     fetchAreas();
   }, []);

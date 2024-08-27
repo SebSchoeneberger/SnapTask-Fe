@@ -53,7 +53,7 @@ export function CreateAreaModal({ updateAreas }) {
         },
       })
       .then((res) => {
-        setUsers(res.data);
+        setUsers(res.data.staff);
       })
       .catch((error) => {
         toast.error("Error loading areas");
@@ -64,6 +64,7 @@ export function CreateAreaModal({ updateAreas }) {
   function handleClose(e) {
     e.preventDefault();
     document.getElementById("my_modal_5").close();
+    reset();
   }
 
   return (
@@ -252,7 +253,7 @@ export function UpdateAreaModal({ areaData, updateAreas }) {
         },
       })
       .then((res) => {
-        setUsers(res.data);
+        setUsers(res.data.staff);
       })
       .catch((error) => {
         toast.error("Error loading areas");

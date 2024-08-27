@@ -36,7 +36,7 @@ function ReportsTable({
         },
       })
       .then((res) => {
-        setTasks(res.data);
+        setTasks(res.data.tasks);
         setIsLoading(false);
       })
       .catch((error) => {
