@@ -97,57 +97,127 @@ const TasksList = () => {
     );
   }
 
-  return (
-    <div className="flex flex-col gap-6 mt-10 p-5 min-h-screen w-full">
-      <div className="flex justify-between">
-        <p className="text-xl font-semibold">Task Management</p>
-        <button className="btn" onClick={() => setModalOpen(true)}>
-          Create Task
-        </button>
-      </div>
-      {tasks.length > 0 ? (
-        <div>
-          <table className="table w-full">
-            <thead>
-              <tr>
-                <th className="border-b-2"></th>
-                <th className="border-b-2">Task Name</th>
-                <th className="border-b-2">Description</th>
-                <th className="border-b-2">Due Date</th>
-                <th className="border-b-2">Priority</th>
-                <th className="border-b-2">Assigned To</th>
-                <th className="border-b-2">Area</th>
-                <th className="border-b-2"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {tasks.map((task, index) => (
-                <tr
-                  key={task._id}
-                  className="hover"
-                  onClick={(e) => {
-                    if (!e.target.closest(".dropdown-content") && !e.target.closest(".dropdown")) {
-                      handleRowClick(task);
-                    }
-                  }}>
-                  <td className="font-bold">{index + 1}</td>
-                  <td>{task.title}</td>
-                  <td>{task.description}</td>
-                  <td>{new Date(task.dueDate).toLocaleDateString()}</td>
-                  <td>{task.priority}</td>
-                  <td>
-                    {task.assignedTo && task.assignedTo.length > 0
-                      ? task.assignedTo.map((user, userIndex) => (
-                          <div key={userIndex}>
-                            {user?.firstName} {user?.lastName}
-                          </div>
-                        ))
-                      : " "}
-                  </td>
-                  <td>{task.area.name}</td>
-                  <td>
-                    <details className="dropdown dropdown-end">
-                      <summary className="btn m-0 p-0 border-none bg-transparent hover:bg-transparent">
+  return (   
+        <div className="flex flex-col gap-6 mt-10 p-5 min-h-screen w-full">
+            <div className="flex justify-between">
+                <p className="text-xl font-semibold">Task Management</p>
+                <button className="btn" onClick={() => setModalOpen(true)}>
+                    Create Task
+                </button>
+            </div>
+            {tasks.length > 0 ? (
+                <div>
+                    <table className="table w-full">
+                        <thead>
+                            <tr>
+                                <th className="border-b-2"></th>
+                                <th className="border-b-2">Task Name</th>
+                                <th className="border-b-2">Description</th>
+                                <th className="border-b-2">Due Date</th>
+                                <th className="border-b-2">Status</th> 
+                                <th className="border-b-2">Priority</th>
+                                <th className="border-b-2">Assigned To</th>
+                                <th className="border-b-2">Area</th>
+                                <th className="border-b-2"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {tasks.map((task, index) => (
+                                <tr 
+                                    key={task._id} 
+                                    className="hover" 
+                                    onClick={(e) => {
+                                        if (!e.target.closest(".dropdown-content") && !e.target.closest(".dropdown")) {
+                                            handleRowClick(task);
+                                        }
+                                    }}
+                                >
+                                    <td className="font-bold">{index + 1}</td>
+                                    <td>{task.title}</td>
+                                    <td>{task.description}</td>
+                                    <td>{new Date(task.dueDate).toLocaleDateString()}</td>
+                                    <td>{task.status}</td>
+                                    <td>{task.priority}</td>
+                                    <td>
+                                      {task.assignedTo && task.assignedTo.length > 0 
+                                          ? task.assignedTo.map((user, userIndex) => (
+                                              <div key={userIndex}>
+                                                  {user?.firstName} {user?.lastName}
+                                              </div>
+                                          ))
+                                          : " "
+                                      }
+                                    </td>
+                                    <td>{task.area.name}</td>
+                                    <td>
+                                        <details className="dropdown dropdown-end">
+                                            <summary className="btn m-0 p-0 border-none bg-transparent hover:bg-transparent">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    strokeWidth="1.5"
+                                                    stroke="currentColor"
+                                                    className="w-6 h-6"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                                                    />
+                                                </svg>
+                                            </summary>
+                                            <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                                <li>
+                                                    <button onClick={(e) => { 
+                                                        e.stopPropagation();
+                                                        handleEdit(task);
+                                                    }}>Edit</button>
+                                                </li>
+                                                <li className="text-red-600">
+                                                    <button onClick={(e) => { 
+                                                        e.stopPropagation(); 
+                                                        handleDelete(task); 
+                                                    }}>Delete</button>
+                                                </li>
+                                            </ul>
+                                        </details>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            ) : (
+                <p>No tasks found.</p>
+            )}
+            {modalOpen && !editTask && ( 
+                <CreateTask 
+                    isOpen={modalOpen} 
+                    onClose={() => setModalOpen(false)} 
+                    onCreate={updateTasks} 
+                />
+            )}
+            {editTask && ( 
+                <EditTaskModal  
+                    taskData={editTask}
+                    updateTasks={updateTasks}
+                    onClose={() => setEditTask(null)} 
+                />
+            )}
+            {selectedTask && (
+                <TaskDetails 
+                    task={selectedTask} 
+                    onClose={() => setSelectedTask(null)} 
+                />
+            )}
+            <dialog id="delete_task_modal" className="modal modal-bottom sm:modal-middle">
+                <div className="modal-box">
+                    <button
+                        type="button"
+                        onClick={() => document.getElementById("delete_task_modal").close()}
+                        className="btn btn-square absolute top-4 right-4"
+                    >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
