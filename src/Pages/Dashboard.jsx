@@ -330,7 +330,7 @@ function Dashboard() {
                 />
               </div>
 
-              <Pagination page={page} setPage={setPage} totalPages={totalPages} perPage={perPage} setPerPage={setPerPage} totalResults={totalTasks} />
+              {/* <Pagination page={page} setPage={setPage} totalPages={totalPages} perPage={perPage} setPerPage={setPerPage} totalResults={totalTasks} /> */}
 
               <TaskDetailsPopup task={selectedTask} />
             </div>
