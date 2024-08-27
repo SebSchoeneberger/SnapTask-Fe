@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CreateTask from "./CreateTask";
-
 import EditTaskModal from "../Components/EditTaskModal"; 
 import TaskDetails from "../Components/TaskDetailsView"; 
 import { getToken } from "../Utils/TokenUtils"; 
 import LoadingSpinner from "../Components/LoadingSpinner"; 
-
 import { toast } from "react-toastify";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const TasksList = () => {
-
     const [tasks, setTasks] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [editTask, setEditTask] = useState(null);
@@ -22,53 +19,52 @@ const TasksList = () => {
     const tasksUrl = `${API_URL}/tasks`;
     const token = getToken();
 
+    useEffect(() => {
+        axios
+            .get(tasksUrl, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((response) => {
+                setTasks(response.data);
+            })
+            .catch((error) => {
+                toast.error("Error loading tasks");
+                console.log(error.message);
+            })
+            .finally(() => setLoading(false));
+    }, [tasksUrl, token]);
 
-  useEffect(() => {
-    axios
-      .get(tasksUrl, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        setTasks(response.data);
-      })
-      .catch((error) => {
-        toast.error("Error loading tasks");
-        console.log(error.message);
-      })
-      .finally(() => setLoading(false));
-  }, [tasksUrl, token]);
+    const handleEdit = (task) => {
+        setEditTask(task);
+    };
 
-  const handleEdit = (task) => {
-    setEditTask(task);
-  };
+    const updateTasks = () => {
+        axios
+            .get(tasksUrl, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((response) => {
+                setTasks(response.data);
+            })
+            .catch((error) => {
+                toast.error("Error loading tasks");
+                console.log(error.message);
+            });
+    };
 
-  const updateTasks = () => {
-    axios
-      .get(tasksUrl, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        setTasks(response.data);
-      })
-      .catch((error) => {
-        toast.error("Error loading tasks");
-        console.log(error.message);
-      });
-  };
+    const handleDelete = (task) => {
+        setDeleteTask(task);
+        document.getElementById("delete_task_modal").showModal();
+    };
 
-  const handleDelete = (task) => {
-    setDeleteTask(task);
-    document.getElementById("delete_task_modal").showModal();
-  };
-
-  const deleteTaskHandler = () => {
-    if (!deleteTask) return;
+    const deleteTaskHandler = () => {
+        if (!deleteTask) return;
 
         axios
             .delete(`${API_URL}/tasks/${deleteTask._id}`, {
@@ -101,10 +97,7 @@ const TasksList = () => {
         );
     }
 
-
-  if (loading) {
     return (
-
         <div className="flex flex-col gap-6 mt-10 p-5 min-h-screen w-full">
             <div className="flex justify-between">
                 <p className="text-xl font-semibold">Task Management</p>
@@ -153,6 +146,7 @@ const TasksList = () => {
                                           : " "
                                       }
                                     </td>
+                                    <td>{task.area.name}</td>
                                     <td>
                                         <details className="dropdown dropdown-end">
                                             <summary className="btn m-0 p-0 border-none bg-transparent hover:bg-transparent">
@@ -222,94 +216,32 @@ const TasksList = () => {
                         onClick={() => document.getElementById("delete_task_modal").close()}
                         className="btn btn-square absolute top-4 right-4"
                     >
-
                         <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="currentColor"
-                          className="w-6 h-6"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-                          />
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M6 18L18 6M6 6l12 12"
+                            />
                         </svg>
-                      </summary>
-                      <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                        <li>
-                          <button onClick={() => handleEdit(task)}>Edit</button>
-                        </li>
-                        <li className="text-red-600">
-                          <button onClick={() => handleDelete(task)}>
+                    </button>
+                    <h3 className="font-bold text-lg">Delete Task</h3>
+                    <p>Are you sure you want to delete this Task?</p>
+                    <div className="modal-action flex justify-center">
+                        <button className="btn btn-error" onClick={deleteTaskHandler}>
                             Delete
-                          </button>
-                        </li>
-                      </ul>
-                    </details>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                        </button>
+                    </div>
+                </div>
+            </dialog>
         </div>
-      ) : (
-        <p>No tasks found.</p>
-      )}
-      {modalOpen && !editTask && (
-        <CreateTask
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          onCreate={updateTasks}
-        />
-      )}
-      {editTask && (
-        <EditTaskModal
-          taskData={editTask}
-          updateTasks={updateTasks}
-          onClose={() => setEditTask(null)}
-        />
-      )}
-
-      {/* Delete Task Modal */}
-      <dialog
-        id="delete_task_modal"
-        className="modal modal-bottom sm:modal-middle"
-      >
-        <div className="modal-box">
-          <button
-            type="button"
-            onClick={() => document.getElementById("delete_task_modal").close()}
-            className="btn btn-square absolute top-4 right-4"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-          <h3 className="font-bold text-lg">Delete Task</h3>
-          <p>Are you sure you want to delete this Task?</p>
-          <div className="modal-action flex justify-center">
-            <button className="btn btn-error" onClick={deleteTaskHandler}>
-              Delete
-            </button>
-          </div>
-        </div>
-      </dialog>
-    </div>
-  );
+    );
 };
 
 export default TasksList;
