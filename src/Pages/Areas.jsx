@@ -23,7 +23,7 @@ const Areas = () => {
       },
     })
     .then((res) => {
-      setAreas(res.data);
+      setAreas(res.data.areas);
       // console.log(res.data)
     })
     .catch((error) => {

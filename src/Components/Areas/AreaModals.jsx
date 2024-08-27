@@ -53,7 +53,7 @@ export function CreateAreaModal({ updateAreas }) {
         },
       })
       .then((res) => {
-        setUsers(res.data);
+        setUsers(res.data.staff);
       })
       .catch((error) => {
         toast.error("Error loading areas");
@@ -64,6 +64,7 @@ export function CreateAreaModal({ updateAreas }) {
   function handleClose(e) {
     e.preventDefault();
     document.getElementById("my_modal_5").close();
+    reset();
   }
 
   return (
@@ -193,7 +194,7 @@ export function CreateAreaModal({ updateAreas }) {
             <div className="w-full flex flex-col items-start gap-2">
               <span className="label-text">Assign Staff</span>
               <select
-                className="w-full select select-bordered w-full max-w-xs"
+                className="w-full select select-bordered max-w-xs"
                 defaultValue=""
                 {...register("users")}
               >
@@ -252,7 +253,7 @@ export function UpdateAreaModal({ areaData, updateAreas }) {
         },
       })
       .then((res) => {
-        setUsers(res.data);
+        setUsers(res.data.staff);
       })
       .catch((error) => {
         toast.error("Error loading areas");
