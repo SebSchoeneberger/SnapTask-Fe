@@ -9,11 +9,11 @@ export default function BottomNavBar() {
 
   return (
     <div className="flex justify-between fixed bottom-0 w-full bg-base-300 border-[1px] border-neutral-content border-opacity-25 ">
+      <NavLink to="staff/areas" className="btn  rounded-none w-1/5 btn-lg">
+        Areas
+      </NavLink>
       <NavLink to="staff/dashboard" className="btn  rounded-none w-1/5 btn-lg">
         Dashboard
-      </NavLink>
-      <NavLink to="staff/tasks" className="btn  rounded-none w-1/5 btn-lg">
-        Tasks
       </NavLink>
       <button onClick={() => nav("profile")} className="btn rounded-none w-1/5 btn-lg">
         Settings

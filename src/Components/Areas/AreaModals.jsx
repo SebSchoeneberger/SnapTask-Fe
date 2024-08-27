@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../Context/AuthProvider";
-import { getToken } from "../Utils/TokenUtils";
+import { AuthContext } from "../../Context/AuthProvider";
+import { getToken } from "../../Utils/TokenUtils";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

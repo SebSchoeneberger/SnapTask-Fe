@@ -8,6 +8,7 @@ import { AuthContext } from "../Context/AuthProvider";
 import ColorProvider from "../Context/ColorProvider";
 import BottomNavBar from "../Pages/Staff/BottomNavBar";
 import TopNavBar from "../Pages/Staff/TopNavBar";
+import TaskProvider from "../Context/TaskProvider";
 
 function MainLayout() {
   const { user } = useContext(AuthContext);
@@ -15,18 +16,20 @@ function MainLayout() {
   return (
     <>
       <ColorProvider>
-        {user && user.role == "staff" ? <TopNavBar /> : <Navbar />}
-        {user ? (
-          <>
-            <div className="flex">
-              {user.role !== "staff" && <Sidebar />}
-              <Outlet />
-            </div>
-            {user.role == "staff" && <BottomNavBar />}
-          </>
-        ) : (
-          <Outlet />
-        )}
+        <TaskProvider>
+          {user && user.role == "staff" ? <TopNavBar /> : <Navbar />}
+          {user ? (
+            <>
+              <div className="flex">
+                {user.role !== "staff" && <Sidebar />}
+                <Outlet />
+              </div>
+              {user.role == "staff" && <BottomNavBar />}
+            </>
+          ) : (
+            <Outlet />
+          )}
+        </TaskProvider>
       </ColorProvider>
       {user && user.role == "staff" ? <BottomNavBar /> : <Footer />}
       <Toast />

@@ -22,7 +22,7 @@ function StaffDashboard() {
         },
       })
       .then((res) => {
-        const finishedTasks = res.data.filter((task) => task.status == "Finished");
+        const finishedTasks = res.data.tasks.filter((task) => task.status == "Finished");
         setTasks(finishedTasks);
         setLoading(false);
         // console.log(finishedTasks);
