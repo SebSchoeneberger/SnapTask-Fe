@@ -47,7 +47,10 @@ export default function BottomNavBar() {
           <span className="text-sm">Dashboard</span>
         </div>
       </NavLink>
-      <div className="flex flex-col items-center p-2">
+      <button
+        onClick={() => nav("profile")}
+        className="flex flex-col items-center p-2"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -67,11 +70,9 @@ export default function BottomNavBar() {
             d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
           />
         </svg>
-        <button onClick={() => nav("profile")} className="text-sm">
-          Settings
-        </button>
-      </div>
-      <div className="flex flex-col items-center p-2">
+        <span className="text-sm">Settings</span>
+      </button>
+      <button className="flex flex-col items-center p-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -86,9 +87,13 @@ export default function BottomNavBar() {
             d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
           />
         </svg>
-        <button className="text-sm">FAQ</button>
-      </div>
-      <div className="flex flex-col p-2 items-center">
+        <span className="text-sm">FAQ</span>
+      </button>
+
+      <button
+        onClick={() => logout()}
+        className="flex flex-col p-2 items-center"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -103,10 +108,8 @@ export default function BottomNavBar() {
             d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
           />
         </svg>
-        <button onClick={() => logout()} className="text-sm">
-          Logout
-        </button>
-      </div>
+        <span className="text-sm">Logout</span>
+      </button>
     </div>
   );
 }
