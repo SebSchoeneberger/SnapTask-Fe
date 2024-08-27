@@ -146,6 +146,7 @@ const TasksList = () => {
                                           : " "
                                       }
                                     </td>
+                                    <td>{task.area.name}</td>
                                     <td>
                                         <details className="dropdown dropdown-end">
                                             <summary className="btn m-0 p-0 border-none bg-transparent hover:bg-transparent">

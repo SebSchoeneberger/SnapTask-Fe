@@ -48,7 +48,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
             reset(); 
             onClose(); 
             toast.success('Task created successfully!'); 
-            onCreate(newTask); // Powiadom znad listę zadań, aby zaktualizować listę
+            onCreate(newTask); 
         } catch (error) { 
             console.error("Failed to create task:", error); 
             toast.error('Failed to create task, please try again.'); 
