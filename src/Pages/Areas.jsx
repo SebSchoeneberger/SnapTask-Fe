@@ -1,5 +1,8 @@
 import React from "react";
-import { CreateAreaModal, UpdateAreaModal } from "../Components/Areas/AreaModals";
+import {
+  CreateAreaModal,
+  UpdateAreaModal,
+} from "../Components/Areas/AreaModals";
 import { useState, useEffect, useRef } from "react";
 import { getToken } from "../Utils/TokenUtils";
 import axios from "axios";
@@ -16,7 +19,7 @@ const Areas = () => {
   const dropdownRef = useRef(null);
 
   const fetchAreas = () => {
-
+   
     axios.get(`${API_URL}/areas`, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -38,33 +41,34 @@ const Areas = () => {
 
   const handleEdit = (area) => {
     setEditArea(area);
-    document.getElementById('update_area_modal').showModal();
+    document.getElementById("update_area_modal").showModal();
   };
 
   const handleDelete = (area) => {
     setDeleteArea(area);
-    document.getElementById('delete_area_modal').showModal();
+    document.getElementById("delete_area_modal").showModal();
   };
 
   const deleteAreaHandler = () => {
     if (!deleteArea) return;
 
-    axios.delete(`${API_URL}/areas/${deleteArea._id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-    })
-    .then(() => {
-      setAreas(areas.filter(area => area._id !== deleteArea._id));
-      toast.success("Area deleted successfully");
-    })
-    .catch(() => {
-      toast.error("Error deleting area");
-    })
-    .finally(() => {
-      setDeleteArea(null);
-      document.getElementById('delete_area_modal').close();
-    });
+    axios
+      .delete(`${API_URL}/areas/${deleteArea._id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        setAreas(areas.filter((area) => area._id !== deleteArea._id));
+        toast.success("Area deleted successfully");
+      })
+      .catch(() => {
+        toast.error("Error deleting area");
+      })
+      .finally(() => {
+        setDeleteArea(null);
+        document.getElementById("delete_area_modal").close();
+      });
   };
 
   const updateAreas = () => {
@@ -91,7 +95,12 @@ const Areas = () => {
     <div className="min-h-screen w-full flex flex-col gap-6 mt-10 p-5">
       <div className="flex justify-between">
         <p className="text-xl font-semibold">Area Management</p>
-        <button className="btn" onClick={() => document.getElementById('my_modal_5').showModal()}>Create Area</button>
+        <button
+          className="btn btn-primary"
+          onClick={() => document.getElementById("my_modal_5").showModal()}
+        >
+          Create Area
+        </button>
       </div>
 
       <p className="text-xl font-semibold text-left pl-4">Areas</p>
@@ -119,12 +128,12 @@ const Areas = () => {
                   <td>{area.address}</td>
                   <td>{area.contact}</td>
                   <td>
-                  {area.users.map((user, userIndex) => (
-                    <div key={userIndex}>
-                      {user.firstName} {user.lastName}
-                    </div>
-                  ))}
-                </td>
+                    {area.users.map((user, userIndex) => (
+                      <div key={userIndex}>
+                        {user.firstName} {user.lastName}
+                      </div>
+                    ))}
+                  </td>
                   <td ref={dropdownRef}>
                     <details className="dropdown dropdown-end">
                       <summary className="btn m-0 p-0 border-none bg-transparent hover:bg-transparent">
@@ -148,7 +157,9 @@ const Areas = () => {
                           <button onClick={() => handleEdit(area)}>Edit</button>
                         </li>
                         <li className="text-red-600">
-                          <button onClick={() => handleDelete(area)}>Delete</button>
+                          <button onClick={() => handleDelete(area)}>
+                            Delete
+                          </button>
                         </li>
                       </ul>
                     </details>
@@ -161,26 +172,37 @@ const Areas = () => {
       )}
 
       {/* Delete Area Modal */}
-      <dialog id="delete_area_modal" className="modal modal-bottom sm:modal-middle">
+      <dialog
+        id="delete_area_modal"
+        className="modal modal-bottom sm:modal-middle"
+      >
         <div className="modal-box">
-          <button type="button" onClick={() => document.getElementById('delete_area_modal').close()} className="btn btn-square absolute top-4 right-4">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M6 18L18 6M6 6l12 12" />
+          <button
+            type="button"
+            onClick={() => document.getElementById("delete_area_modal").close()}
+            className="btn btn-square absolute top-4 right-4"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
           <h3 className="font-bold text-lg">Delete Area</h3>
           <p>Are you sure you want to delete this Area?</p>
           <div className="modal-action flex justify-center">
-            <button className="btn btn-error" onClick={deleteAreaHandler}>Delete</button>
+            <button className="btn btn-error" onClick={deleteAreaHandler}>
+              Delete
+            </button>
           </div>
         </div>
       </dialog>
