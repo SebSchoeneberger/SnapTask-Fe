@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useState, useEffect, useRef } from "react";
+import { set, useForm } from "react-hook-form";
 import axios from "axios";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { getToken } from "../Utils/TokenUtils";
+import ImageCropper from "../Components/ImageCropper";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Profile() {
@@ -15,7 +16,11 @@ export default function Profile() {
   const [showPassword, setShowPassword] = useState(false);
   const [userData, setUserData] = useState(null);
   const [passwordError, setPasswordError] = useState("");
+  const [userSelectedImage, setUserSelectedImage] = useState(null);
+  const [croppedImage, setCroppedImage] = useState(null);
   const navigate = useNavigate();
+
+  const imageFormRef = useRef(null);
 
   useEffect(() => {
     axios
@@ -122,7 +127,28 @@ export default function Profile() {
     setShowPassword(!showPassword);
   }
 
-  const windowMarkup = "min-h-screen border-[2px] border-solid border-base-content border-opacity-40 w-full m-auto text-left  px-12 my-4";
+  function handleChangeImage(e) {
+    setUserSelectedImage(URL.createObjectURL(e.target.files[0]));
+    console.log(URL.createObjectURL(e.target.files[0]));
+    e.target.value = null;
+  }
+
+  function handleUpload(e) {
+    e.preventDefault();
+  }
+
+  function onCropComplete(croppedImg) {
+    // console.log(croppedArea);
+    imageFormRef.current.reset();
+    setUserSelectedImage(null);
+    if (!croppedImg) {
+      setCroppedImage(null);
+    } else {
+      setCroppedImage(croppedImg);
+    }
+  }
+
+  const windowMarkup = "min-h-screen border-[2px] border-solid border-base-content border-opacity-0 w-full m-auto text-left  px-12 my-4";
 
   if (loading)
     return (
@@ -137,12 +163,61 @@ export default function Profile() {
     <div className={windowMarkup}>
       <div className="max-w-[64rem] m-auto">
         <p className="text-2xl font-bold pt-12">My Settings</p>
+        <div className="flex mt-8 gap-12 flex-wrap md:flex-nowrap">
+          <div className="w-full md:w-[40%]">
+            <p className="font-bold mt-2">Profile</p>
+            <p className="text-xs">Your personal information and account security settings</p>
+          </div>
+          <div className="w-full md:w-[60%] flex flex-col gap-2 ">
+            <p className="font-bold mt-2">Avatar</p>
+            <div className="flex gap-4 my-2">
+              {userSelectedImage ? (
+                <div className="w-28 h-28">
+                  <ImageCropper setUserSelectedImage={setUserSelectedImage} imageSrc={userSelectedImage} onCropComplete={onCropComplete} />
+                </div>
+              ) : croppedImage ? (
+                <div>
+                  <img className="rounded-full w-28 h-28 object-cover" src={croppedImage} alt="" />
+                </div>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-20">
+                  <path
+                    fillRule="evenodd"
+                    d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              )}
+              <form
+                ref={imageFormRef}
+                onSubmit={handleUpload}
+                action="/upload-image"
+                method="post"
+                encType="multipart/form-data"
+                className="flex gap-3">
+                <div className="flex items-end mb-2 relative">
+                  <label htmlFor="imageUpload" className="cursor-pointer">
+                    <p className="hover:underline cursor-pointer">Upload Profile Image</p>
+                    <input
+                      id="imageUpload"
+                      type="file"
+                      name="image"
+                      onChange={handleChangeImage}
+                      className="hidden self-end text-sm text-info font-semibold hover:underline pb-2 w-40 hover:cursor-pointer"></input>
+                  </label>
+
+                  {/* <p className="hover:underline cursor-pointer" onClick={handleChangeImage}>
+                    Upload Profile Image
+                  </p> */}
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
         <form className="" onSubmit={handleSubmit((data) => onSubmit(data))}>
           <div className="flex mt-8 gap-12 flex-wrap md:flex-nowrap">
-            <div className="w-full md:w-[40%]">
-              <p className="font-bold mt-2">Profile</p>
-              <p className="text-xs">Your personal information and account security settings</p>
-            </div>
+            <div className="w-full md:w-[40%]"></div>
             <div className="w-full md:w-[60%] flex flex-col gap-2">
               {/* <p className="font-bold">Avatar</p> */}
               <label className="form-control w-full ">
@@ -174,12 +249,12 @@ export default function Profile() {
             </div>
           </div>
 
-          <div className="flex mt-8 gap-12 items-center  flex-wrap md:flex-nowrap">
-            <div className="w-full md:w-[40%]">
+          <div className="flex mt-8 gap-12 flex-wrap md:flex-nowrap">
+            <div className="w-full md:w-[40%] pt-1">
               <p className="font-bold">Email address</p>
               <p className="text-xs">Your email is used to login into the platform</p>
             </div>
-            <div className="w-full md:w-[60%]">
+            <div className="w-full md:w-[60%] ">
               <label className="form-control w-full ">
                 <div className="label">
                   <span className="label-text font-semibold">Email</span>
@@ -332,3 +407,10 @@ const ShowPasswordButton = ({ handleShowPassword, showPassword }) => {
     </button>
   );
 };
+
+// function ImageCropper({ imageSrc }) {
+//   const [crop, setCrop] = useState({ x: 0, y: 0 });
+//   const [zoom, setZoom] = useState(1);
+
+//   return <Cropper image={imageSrc} crop={crop} zoom={zoom} aspect={1} cropShape="round" onCropChange={setCrop} onZoomChange={setZoom} />;
+// }
