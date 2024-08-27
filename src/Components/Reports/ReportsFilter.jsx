@@ -59,7 +59,7 @@ const ReportsFilter = ({
             }
         })
         .then((res) => {
-            const managers = res.data.filter(user => user.role === 'manager');
+            const managers = res.data.staff.filter(user => user.role === 'manager');
             setManagers(managers);    
         })
         .catch((err) => {
