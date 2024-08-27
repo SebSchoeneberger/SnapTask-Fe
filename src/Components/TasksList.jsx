@@ -114,6 +114,7 @@ const TasksList = () => {
                                 <th className="border-b-2">Task Name</th>
                                 <th className="border-b-2">Description</th>
                                 <th className="border-b-2">Due Date</th>
+                                <th className="border-b-2">Status</th> 
                                 <th className="border-b-2">Priority</th>
                                 <th className="border-b-2">Assigned To</th>
                                 <th className="border-b-2">Area</th>
@@ -135,6 +136,7 @@ const TasksList = () => {
                                     <td>{task.title}</td>
                                     <td>{task.description}</td>
                                     <td>{new Date(task.dueDate).toLocaleDateString()}</td>
+                                    <td>{task.status}</td>
                                     <td>{task.priority}</td>
                                     <td>
                                       {task.assignedTo && task.assignedTo.length > 0 
