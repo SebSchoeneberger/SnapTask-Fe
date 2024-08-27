@@ -108,7 +108,7 @@ const Areas = () => {
       {loading ? (
         <p>Loading areas...</p>
       ) : (
-        <div className="overflow-x-auto">
+        <div className="">
           <table className="table w-full">
             <thead>
               <tr>
@@ -152,7 +152,7 @@ const Areas = () => {
                           />
                         </svg>
                       </summary>
-                      <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-28 p-1 shadow">
+                      <ul className="menu dropdown-content bg-base-100 rounded-box z-[10] w-28 p-1 shadow">
                         <li>
                           <button onClick={() => handleEdit(area)}>Edit</button>
                         </li>
