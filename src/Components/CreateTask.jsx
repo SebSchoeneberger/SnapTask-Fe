@@ -75,6 +75,10 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    generatePassword();
+  }, []);
+
   return (
     <dialog
       id="createTaskDialog"
@@ -116,7 +120,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
               <div className="w-full flex flex-col items-start gap-2">
                 <span className="label-text">Task Name</span>
                 <label
-                  className={`input input-bordered w-full w-full input input-bordered flex items-center gap-2 ${
+                  className={`input input-bordered w-full relative flex items-center gap-2 ${
                     errors.title ? "input-error" : ""
                   }`}
                 >
@@ -146,6 +150,8 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                   <span
                     style={{
                       color: "red",
+                      position: "absolute",
+                      top: "150px",
                       fontSize: "12px",
                     }}
                   >
@@ -167,7 +173,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
             <div className="flex flex-col gap-6 w-1/2">
               <div className="w-full flex flex-col items-start gap-2">
                 <span className="label-text">Due Date</span>
-                <label className="w-full">
+                <label className="w-full relative">
                   <input
                     type="date"
                     {...register("dueDate", {
@@ -182,6 +188,8 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                   <span
                     style={{
                       color: "red",
+                      position: "absolute",
+                      top: "150px",
                       fontSize: "12px",
                     }}
                   >
@@ -191,7 +199,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
               </div>
               <div className="w-full flex flex-col items-start gap-2">
                 <span className="label-text">Area Name</span>
-                <label className="w-full">
+                <label className="w-full relative">
                   <select
                     {...register("priority", {
                       required: "Priority is required",
@@ -210,6 +218,8 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                   <span
                     style={{
                       color: "red",
+                      position: "absolute",
+                      top: "250px",
                       fontSize: "12px",
                     }}
                   >
@@ -237,7 +247,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
               </div>
               <div className="w-full flex flex-col items-start gap-2">
                 <span className="label-text">Select Area</span>
-                <label className="w-full">
+                <label className="w-full relative">
                   <select
                     {...register("area", {
                       required: "Area selection is required",
@@ -258,6 +268,8 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                   <span
                     style={{
                       color: "red",
+                      position: "absolute",
+                      top: "450px",
                       fontSize: "12px",
                     }}
                   >

@@ -1,8 +1,8 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import CreateUser from "../Components/CreateUser";
-import { UpdateUserModal } from "../Components/CreateUser";
+import { UpdateUserModal } from "../Components/Users/EditUsers";
+import { CreateUser } from "../Components/Users/CreateUser";
 import { getToken } from "../Utils/TokenUtils";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { toast } from "react-toastify";
@@ -13,10 +13,9 @@ export default function Users() {
   const [users, setUsers] = useState([]);
   const [editUser, setEditUser] = useState(null);
   const [deleteUser, setDeleteUser] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [editModal, setEditModal] = useState(false);
 
-  // const usersUrl = `${API_URL}/users`;
   const token = getToken();
 
   const dropdownRef = useRef(null);
@@ -30,7 +29,7 @@ export default function Users() {
         },
       })
       .then((response) => {
-        setUsers(response.data);
+        setUsers(response.data.staff);
       })
       .catch((error) => {
         toast.error("Error loading users");
@@ -39,9 +38,14 @@ export default function Users() {
       .finally(() => setLoading(false));
   }, []);
 
+  const openModalFunction = (name) => {
+    document.getElementById(name).showModal();
+  };
+
   const handleEdit = (user) => {
     setEditUser(user);
-    document.getElementById("update_user_modal").showModal();
+    // document.getElementById("update_user_modal").showModal();
+    setEditModal(true);
   };
 
   const handleDelete = (user) => {
@@ -99,7 +103,10 @@ export default function Users() {
     <div className="flex flex-col gap-6 mt-10 p-5 min-h-screen w-full">
       <div className="flex justify-between">
         <p className="text-xl font-semibold">User Management</p>
-        <button className="btn btn-primary" onClick={() => setModalOpen(true)}>
+        <button
+          className="btn btn-primary"
+          onClick={() => openModalFunction("people")}
+        >
           Create User
         </button>
       </div>
@@ -167,9 +174,8 @@ export default function Users() {
       ) : (
         <p>No users found.</p>
       )}
-      {modalOpen && (
-        <CreateUser setModalOpen={setModalOpen} setUsers={setUsers} />
-      )}
+
+      <CreateUser setUsers={setUsers} name="people" />
 
       {/* Delete User Modal */}
       <dialog
@@ -208,7 +214,15 @@ export default function Users() {
       </dialog>
 
       {/* Update User Modal */}
-      {editUser && <UpdateUserModal userData={editUser} setUsers={setUsers} />}
+      {editUser && (
+        <UpdateUserModal
+          userData={editUser}
+          setUsers={setUsers}
+          editModal={editModal}
+          setEditModal={setEditModal}
+        />
+      )}
+      {/* <UpdateUserModal setUsers={setUsers} name="people" /> */}
     </div>
   );
 }
