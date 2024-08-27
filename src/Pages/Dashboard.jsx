@@ -53,7 +53,7 @@ function Dashboard() {
         },
       })
       .then((response) => {
-        setAreas(response.data);
+        setAreas(response.data.areas);
         // console.log(response.data);
       })
       .catch((error) => {
@@ -274,24 +274,9 @@ function Dashboard() {
                   })}
                 </tbody>
               </table>
-              <div className="flex justify-between my-4">
-                <div className="flex items-center gap-2">
-                  <select onChange={handlePerPageChange} value={perPage} className="text-center py-1 font-semibold gradientselect w-20 bg-base-200">
-                    <option className="bg-base-200 " value={"10"}>
-                      {"1-10"}
-                    </option>
-                    <option className="bg-base-200 " value={"25"}>
-                      {"1-25"}
-                    </option>
-                    <option className="bg-base-200 " value={"50"}>
-                      {"1-50"}
-                    </option>
-                  </select>
-                  <p className="text-sm">of</p>
-                  <p className="text-sm">{totalTasks}</p>
-                </div>
-                <Pagination page={page} setPage={setPage} totalPages={totalPages} />
-              </div>
+
+              <Pagination page={page} setPage={setPage} totalPages={totalPages} perPage={perPage} setPerPage={setPerPage} totalResults={totalTasks} />
+
               <TaskDetailsPopup task={selectedTask} />
             </div>
           ) : (
