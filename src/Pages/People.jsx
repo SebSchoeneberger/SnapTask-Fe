@@ -30,7 +30,7 @@ export default function Users() {
         },
       })
       .then((response) => {
-        setUsers(response.data);
+        setUsers(response.data.staff);
       })
       .catch((error) => {
         toast.error("Error loading users");
@@ -104,7 +104,7 @@ export default function Users() {
         </button>
       </div>
       {users.length > 0 ? (
-        <div className="overflow-x-auto">
+        <div>
           <table className="table w-full">
             <thead>
               <tr>

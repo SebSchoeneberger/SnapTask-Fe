@@ -106,7 +106,7 @@ const TasksList = () => {
                 </button>
             </div>
             {tasks.length > 0 ? (
-                <div className="overflow-x-auto">
+                <div>
                     <table className="table w-full">
                         <thead>
                             <tr>
