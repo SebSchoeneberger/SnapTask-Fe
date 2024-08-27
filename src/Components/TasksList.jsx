@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import CreateTask from "./CreateTask";
 import EditTaskModal from "../Components/EditTaskModal";
@@ -18,6 +18,7 @@ const TasksList = () => {
   const [selectedTask, setSelectedTask] = useState(null);
   const tasksUrl = `${API_URL}/tasks`;
   const token = getToken();
+  const dropdownRef = useRef(null); // Create a ref for the dropdown
 
   useEffect(() => {
     axios
@@ -89,6 +90,22 @@ const TasksList = () => {
     setSelectedTask(task);
   };
 
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      const openDropdown = document.querySelector("details[open]");
+      if (openDropdown) {
+        openDropdown.removeAttribute("open");
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   if (loading) {
     return (
       <div className="min-h-screen w-full text-left px-12">
@@ -147,7 +164,7 @@ const TasksList = () => {
                       : " "}
                   </td>
                   <td>{task.area.name}</td>
-                  <td>
+                  <td ref={dropdownRef}>
                     <details className="dropdown dropdown-end">
                       <summary className="btn m-0 p-0 border-none bg-transparent hover:bg-transparent">
                         <svg
