@@ -58,7 +58,7 @@ function Dashboard() {
         },
       })
       .then((response) => {
-        setAreas(response.data);
+        setAreas(response.data.areas);
         // console.log(response.data);
       })
       .catch((error) => {
@@ -329,6 +329,9 @@ function Dashboard() {
                   totalPages={totalPages}
                 />
               </div>
+
+              <Pagination page={page} setPage={setPage} totalPages={totalPages} perPage={perPage} setPerPage={setPerPage} totalResults={totalTasks} />
+
               <TaskDetailsPopup task={selectedTask} />
             </div>
           ) : (

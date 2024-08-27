@@ -23,8 +23,8 @@ function StaffAreas() {
         },
       })
       .then((res) => {
-        setAreas(res.data);
-        console.log(res.data);
+        setAreas(res.data.areas);
+        // console.log(res.data);
       })
       .catch((error) => {
         toast.error("Error loading areas");
