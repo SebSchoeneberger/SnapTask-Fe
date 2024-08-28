@@ -15,11 +15,11 @@ const Areas = () => {
   const [editArea, setEditArea] = useState(null);
   const [deleteArea, setDeleteArea] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [sortOrder, setSortOrder] = useState("asc");
   const token = getToken();
   const dropdownRef = useRef(null);
 
   const fetchAreas = () => {
-   
     axios.get(`${API_URL}/areas`, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -91,6 +91,35 @@ const Areas = () => {
     };
   }, []);
 
+  const handleSortClick = (key) => {
+    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
+    sortAreas(key);
+  };
+
+  const sortAreas = (key) => {
+    const sortedAreas = [...areas].sort((a, b) => {
+      let valueA, valueB;
+  
+      if (key === "users") {
+        // Sort by the first user's full name in the array
+        valueA = a.users.length > 0 ? `${a.users[0].firstName} ${a.users[0].lastName}`.toUpperCase() : "";
+        valueB = b.users.length > 0 ? `${b.users[0].firstName} ${b.users[0].lastName}`.toUpperCase() : "";
+      } else {
+        valueA = a[key] ? a[key].toUpperCase() : "";
+        valueB = b[key] ? b[key].toUpperCase() : "";
+      }
+  
+      if (valueA < valueB) {
+        return sortOrder === "asc" ? -1 : 1;
+      }
+      if (valueA > valueB) {
+        return sortOrder === "asc" ? 1 : -1;
+      }
+      return 0;
+    });
+    setAreas(sortedAreas);
+  };
+  
   return (
     <div className="min-h-screen w-full flex flex-col gap-6 mt-10 p-5">
       <div className="flex justify-between">
@@ -110,16 +139,53 @@ const Areas = () => {
       ) : (
         <div className="">
           <table className="table w-full">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Area Name</th>
-                <th>Location</th>
-                <th>Contact Info</th>
-                <th>Assigned to</th>
-                <th></th>
-              </tr>
-            </thead>
+          <thead>
+            <tr>
+              <th></th>
+              <th>
+                <div className="flex gap-1 items-center">
+                  <span>Area Name</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("name")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
+              <th>
+                <div className="flex gap-1 items-center">
+                  <span>Location</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("address")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
+              <th>
+                <div className="flex gap-1 items-center">
+                  <span>Contact Info</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("contact")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
+              <th>
+                <div className="flex gap-1 items-center">
+                  <span>Assigned to</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("users")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+
             <tbody>
               {areas.map((area, index) => (
                 <tr key={area._id} className="hover">
@@ -136,7 +202,7 @@ const Areas = () => {
                   </td>
                   <td ref={dropdownRef}>
                     <details className="dropdown dropdown-end">
-                      <summary className="btn m-0 p-0 border-none bg-transparent hover:bg-transparent">
+                      <summary className="btn m-0 p-0 border-none bg-transparent hover:bg-transparen hover:cursor-pointer">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"

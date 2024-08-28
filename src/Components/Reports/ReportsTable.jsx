@@ -24,6 +24,7 @@ function ReportsTable({
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedTask, setSelectedTask] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
   const tasksUrl = `${API_URL}/tasks`;
   const token = getToken();
 
@@ -108,6 +109,47 @@ function ReportsTable({
       }
     );
   };
+  
+  const handleSortClick = (key) => {
+    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(newSortOrder);
+    sortTasks(key);
+  };
+
+  const sortTasks = (key) => {
+    const sortedTasks = [...filteredTasks].sort((a, b) => {
+      let valueA, valueB;
+  
+      if (key === "assignedTo") {
+        valueA = a.assignedTo.length > 0 ? `${a.assignedTo[0].firstName} ${a.assignedTo[0].lastName}`.toUpperCase() : "";
+        valueB = b.assignedTo.length > 0 ? `${b.assignedTo[0].firstName} ${b.assignedTo[0].lastName}`.toUpperCase() : "";
+      } else if (key === "dueDate" || key === "createdAt") {
+        valueA = new Date(a[key]);
+        valueB = new Date(b[key]);
+      } else if (key === "isDelayed") {
+        // Sort based on whether the task is delayed or not, without considering status
+        valueA = new Date(a.dueDate) < new Date() ? "Yes" : "No";
+        valueB = new Date(b.dueDate) < new Date() ? "Yes" : "No";
+      } else if (key.includes(".")) {
+        const keys = key.split(".");
+        valueA = keys.reduce((obj, keyPart) => obj && obj[keyPart], a);
+        valueB = keys.reduce((obj, keyPart) => obj && obj[keyPart], b);
+      } else {
+        valueA = a[key] ? a[key].toString().toUpperCase() : "";
+        valueB = b[key] ? b[key].toString().toUpperCase() : "";
+      }
+  
+      if (valueA < valueB) {
+        return sortOrder === "asc" ? -1 : 1;
+      }
+      if (valueA > valueB) {
+        return sortOrder === "asc" ? 1 : -1;
+      }
+      return 0;
+    });
+    setTasks(sortedTasks);
+  };
+  
 
   if (isLoading)
     return (
@@ -130,14 +172,86 @@ function ReportsTable({
           <table className="table w-full">
             <thead>
               <tr>
-                <th>Area</th>
-                <th>Created By</th>
-                <th>Task Name</th>
-                <th>Status</th>
-                <th>Priority</th>
-                <th>Due Date</th>
-                <th>Delayed</th>
-                <th>Created At</th>
+              <th>
+                <div className="flex gap-1 items-center">
+                  <span>Area</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("area.name")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
+              <th>
+                <div className="flex gap-1 items-center">
+                  <span>Created by</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("creator.firstName")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
+                <th>
+                <div className="flex gap-1 items-center">
+                  <span>Task Name</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("title")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
+              <th>
+                <div className="flex gap-1 items-center">
+                  <span>Status</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("status")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
+              <th>
+                <div className="flex gap-1 items-center">
+                  <span>Priority</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("priority")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
+              <th>
+                <div className="flex gap-1 items-center">
+                  <span>Due Date</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("dueDate")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
+              <th>
+                <div className="flex gap-1 items-center">
+                  <span>Delayed</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("isDelayed")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
+                <th>
+                <div className="flex gap-1 items-center">
+                  <span>Created at</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("createdAt")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
               </tr>
             </thead>
             <tbody>
