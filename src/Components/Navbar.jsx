@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import ThemesSwap from "./ThemesSwap";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../Context/AuthProvider";
+import DefaultProfileImage from "./DefaultProfileImage";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -83,9 +84,7 @@ const Navbar = () => {
 
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                <div className="w-10 rounded-full">
-                  <img alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                </div>
+                <div className="w-10 rounded-full">{user.profileImage ? <img src={user.profileImage} /> : <DefaultProfileImage />}</div>
               </div>
               <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 p-2 shadow">
                 <li>

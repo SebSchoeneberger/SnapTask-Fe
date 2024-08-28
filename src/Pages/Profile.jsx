@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { set, useForm } from "react-hook-form";
 import axios from "axios";
 import LoadingSpinner from "../Components/LoadingSpinner";
@@ -6,11 +6,13 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { getToken } from "../Utils/TokenUtils";
 import ImageCropper from "../Components/ImageCropper";
+import DefaultProfileImage from "../Components/DefaultProfileImage";
+import { AuthContext } from "../Context/AuthProvider";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Profile() {
   const token = getToken();
-
+  const { user, setUser } = useContext(AuthContext);
   const url = `${API_URL}/auth/me`;
   const [loading, setLoading] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -33,6 +35,7 @@ export default function Profile() {
       .then((res) => {
         // console.log(res.data.user);
         setUserData(res.data.user);
+        setCroppedImage(res.data.user.profileImage);
       })
       .catch((err) => console.log(err))
       .finally(() => {
@@ -128,8 +131,9 @@ export default function Profile() {
   }
 
   function handleChangeImage(e) {
+    console.log(e.target.files[0]);
     setUserSelectedImage(URL.createObjectURL(e.target.files[0]));
-    console.log(URL.createObjectURL(e.target.files[0]));
+    // console.log(URL.createObjectURL(e.target.files[0]));
     e.target.value = null;
   }
 
@@ -137,15 +141,42 @@ export default function Profile() {
     e.preventDefault();
   }
 
-  function onCropComplete(croppedImg) {
-    // console.log(croppedArea);
+  async function onCropComplete(croppedImg, croppedFile) {
+    // console.log(croppedFile);
     imageFormRef.current.reset();
     setUserSelectedImage(null);
     if (!croppedImg) {
       setCroppedImage(null);
     } else {
       setCroppedImage(croppedImg);
+      setUser({ ...user, profileImage: croppedImg });
+      uploadImage(croppedFile);
     }
+  }
+
+  function uploadImage(image) {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("image", image);
+
+    axios
+      .post(`${API_URL}/upload-image`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        // console.log(res.data);
+        setUserData({ ...userData, profileImage: res.data.location });
+      })
+      .catch((err) => {
+        console.log(err.message);
+        toast.error(err.response.data.error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
   const windowMarkup = "min-h-screen border-[2px] border-solid border-base-content border-opacity-0 w-full m-auto text-left  px-12 my-4";
@@ -180,13 +211,7 @@ export default function Profile() {
                   <img className="rounded-full w-28 h-28 object-cover" src={croppedImage} alt="" />
                 </div>
               ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-20">
-                  <path
-                    fillRule="evenodd"
-                    d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <DefaultProfileImage size={5} />
               )}
               <form
                 ref={imageFormRef}

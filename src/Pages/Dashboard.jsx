@@ -50,6 +50,9 @@ function Dashboard() {
 
   // Getting areas
   useEffect(() => {
+    //Scroll to top
+    window.scrollTo(0, 0);
+
     axios
       .get(areasUrl, {
         headers: {
