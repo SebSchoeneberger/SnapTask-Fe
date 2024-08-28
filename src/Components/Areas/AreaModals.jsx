@@ -102,7 +102,11 @@ export function CreateAreaModal({ updateAreas }) {
           >
             <div className="w-full flex flex-col items-start gap-2">
               <span className="label-text">Area Name</span>
-              <label className="w-full input input-bordered flex items-center gap-2 relative">
+              <label
+                className={`input input-bordered w-full relative flex items-center gap-2 ${
+                  errors.name ? "input-error" : ""
+                }`}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
