@@ -16,7 +16,9 @@ const TasksList = () => {
   const [selectedTask, setSelectedTask] = useState(null);
   const tasksUrl = `${API_URL}/tasks`;
   const token = getToken();
+
   const dropdownRef = useRef(null); // Create a ref for the dropdown
+
   useEffect(() => {
     axios
       .get(tasksUrl, {
@@ -81,6 +83,7 @@ const TasksList = () => {
   const handleRowClick = (task) => {
     setSelectedTask(task);
   };
+
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       const openDropdown = document.querySelector("details[open]");
@@ -89,12 +92,14 @@ const TasksList = () => {
       }
     }
   };
+
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
   if (loading) {
     return (
       <div className="min-h-screen w-full text-left px-12">
@@ -106,7 +111,8 @@ const TasksList = () => {
     <div className="flex flex-col gap-6 mt-10 p-5 min-h-screen w-full">
       <div className="flex justify-between">
         <p className="text-xl font-semibold">Task Management</p>
-        <button className="btn" onClick={() => setModalOpen(true)}>
+
+        <button className="btn btn-primary" onClick={() => setModalOpen(true)}>
           Create Task
         </button>
       </div>
@@ -119,7 +125,9 @@ const TasksList = () => {
                 <th className="border-b-2">Task Name</th>
                 <th className="border-b-2">Description</th>
                 <th className="border-b-2">Due Date</th>
+
                 <th className="border-b-2">Status</th>
+
                 <th className="border-b-2">Priority</th>
                 <th className="border-b-2">Assigned To</th>
                 <th className="border-b-2">Area</th>
@@ -144,7 +152,9 @@ const TasksList = () => {
                   <td>{task.title}</td>
                   <td>{task.description}</td>
                   <td>{new Date(task.dueDate).toLocaleDateString()}</td>
+
                   <td>{task.status}</td>
+
                   <td>{task.priority}</td>
                   <td>
                     {task.assignedTo && task.assignedTo.length > 0
@@ -206,6 +216,7 @@ const TasksList = () => {
       ) : (
         <p>No tasks found.</p>
       )}
+
       {modalOpen && !editTask && (
         <CreateTask
           isOpen={modalOpen}

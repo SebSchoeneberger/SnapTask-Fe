@@ -6,10 +6,16 @@ import { CreateUser } from "../Components/Users/CreateUser";
 import { getToken } from "../Utils/TokenUtils";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { toast } from "react-toastify";
+import { formatDateFull } from "../Utils/DateUtils";
+import Pagination from "../Components/Dashboard/Pagination";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Users() {
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalResults, setTotalResults] = useState(0);
   const [users, setUsers] = useState([]);
   const [editUser, setEditUser] = useState(null);
   const [deleteUser, setDeleteUser] = useState(null);
@@ -22,7 +28,7 @@ export default function Users() {
 
   useEffect(() => {
     axios
-      .get(`${API_URL}/users`, {
+      .get(`${API_URL}/users?page=${page}&perPage=${perPage}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -30,13 +36,18 @@ export default function Users() {
       })
       .then((response) => {
         setUsers(response.data.staff);
+
+        setTotalPages(response.data.totalPages);
+        setTotalResults(response.data.totalResults);
+        window.scrollTo(0, 0);
+
       })
       .catch((error) => {
         toast.error("Error loading users");
         console.log(error.message);
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [page, perPage]);
 
   const openModalFunction = (name) => {
     document.getElementById(name).showModal();
@@ -94,7 +105,7 @@ export default function Users() {
 
   if (loading)
     return (
-      <div className="min-h-screen border-[2px] border-base-content w-full text-left px-12">
+      <div className="min-h-screen  w-full text-left px-12">
         <LoadingSpinner />
       </div>
     );
@@ -111,7 +122,7 @@ export default function Users() {
         </button>
       </div>
       {users.length > 0 ? (
-        <div className="overflow-x-auto">
+        <div>
           <table className="table w-full">
             <thead>
               <tr>
@@ -134,7 +145,7 @@ export default function Users() {
                   <td>
                     {user.creator.firstName} {user.creator.lastName}
                   </td>
-                  <td>{user.createdAt}</td>
+                  <td>{formatDateFull(user.createdAt)}</td>
                   <td>{user.role}</td>
                   <td ref={dropdownRef}>
                     <details className="dropdown dropdown-end">
@@ -145,8 +156,7 @@ export default function Users() {
                           viewBox="0 0 24 24"
                           strokeWidth="1.5"
                           stroke="currentColor"
-                          className="w-6 h-6"
-                        >
+                          className="w-6 h-6">
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -159,9 +169,7 @@ export default function Users() {
                           <button onClick={() => handleEdit(user)}>Edit</button>
                         </li>
                         <li className="text-red-600">
-                          <button onClick={() => handleDelete(user)}>
-                            Delete
-                          </button>
+                          <button onClick={() => handleDelete(user)}>Delete</button>
                         </li>
                       </ul>
                     </details>
@@ -170,6 +178,7 @@ export default function Users() {
               ))}
             </tbody>
           </table>
+          <Pagination page={page} setPage={setPage} perPage={perPage} setPerPage={setPerPage} totalPages={totalPages} totalResults={totalResults} />
         </div>
       ) : (
         <p>No users found.</p>
@@ -177,30 +186,16 @@ export default function Users() {
 
       <CreateUser setUsers={setUsers} name="people" />
 
+
       {/* Delete User Modal */}
-      <dialog
-        id="delete_user_modal"
-        className="modal modal-bottom sm:modal-middle"
-      >
+      <dialog id="delete_user_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <button
             type="button"
             onClick={() => document.getElementById("delete_user_modal").close()}
-            className="btn btn-square absolute top-4 right-4"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
+            className="btn btn-square absolute top-4 right-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
           <h3 className="font-bold text-lg">Delete User</h3>
