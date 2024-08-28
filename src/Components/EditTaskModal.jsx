@@ -92,6 +92,17 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
                         <option value="Low">Low</option>
                     </select>
                     
+                    {/* Dropdown for Status */}
+                    <select 
+                        {...register('status', { required: "Status is required" })} 
+                        className="select input-bordered"
+                    >
+                        <option value="">Select status</option> 
+                        <option value="New">New</option>
+                        <option value="Finished">Finished</option>
+                        <option value="Overdue">Overdue</option>
+                    </select>
+                    
                     <button type="submit" className="btn" disabled={isLoading}>
                         Update
                     </button>
@@ -100,5 +111,6 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
         </dialog>
     );
 };
+
 
 export default EditTaskModal;

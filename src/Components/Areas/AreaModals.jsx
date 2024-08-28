@@ -27,6 +27,7 @@ export function CreateAreaModal({ updateAreas }) {
       const areaData = {
         ...data,
         creator: user.id,
+        users: data.users || [],
       };
       const response = await axios.post(`${API_URL}/areas`, areaData, {
         headers: {
@@ -53,7 +54,8 @@ export function CreateAreaModal({ updateAreas }) {
         },
       })
       .then((res) => {
-        setUsers(res.data.staff);
+        const staff = res.data.staff.filter(user => user.role === 'staff');
+        setUsers(staff);
       })
       .catch((error) => {
         toast.error("Error loading areas");
@@ -419,7 +421,8 @@ export function UpdateAreaModal({ areaData, updateAreas }) {
             <span className="label-text">Assign Staff</span>
             <select
               className="w-full select select-bordered max-w-xs"
-              defaultValue=""
+              defaultValue={[]}
+              multiple
               {...register("users")}
             >
               <option value="" disabled>
