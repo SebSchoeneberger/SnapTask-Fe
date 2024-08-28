@@ -7,6 +7,7 @@ import LineChart from "../Components/Dashboard/LineChart";
 import DoughnutChart from "../Components/Dashboard/DoughnutChart";
 import Pagination from "../Components/Dashboard/Pagination";
 import TaskDetailsPopup from "../Components/Dashboard/TaskDetailsPopup";
+import { formatDateShort } from "../Utils/DateUtils";
 
 function Dashboard() {
   const token = getToken();
@@ -275,15 +276,15 @@ function Dashboard() {
                         <td className={borderMarkup}>{task.title}</td>
                         <td className={borderMarkup}>{task.status}</td>
                         <td className={borderMarkup}>{task.priority}</td>
-                        <td className={borderMarkup}>{new Date(task.dueDate).toLocaleDateString()}</td>
-                        <td className={borderMarkup}>{new Date(task.createdAt).toLocaleDateString()}</td>
+                        <td className={borderMarkup}>{formatDateShort(task.dueDate)}</td>
+                        <td className={borderMarkup}>{formatDateShort(task.createdAt)}</td>
                       </tr>
                     );
                   })}
                 </tbody>
               </table>
 
-              {/* <Pagination page={page} setPage={setPage} totalPages={totalPages} perPage={perPage} setPerPage={setPerPage} totalResults={totalTasks} /> */}
+              <Pagination page={page} setPage={setPage} totalPages={totalPages} perPage={perPage} setPerPage={setPerPage} totalResults={totalTasks} />
 
               <TaskDetailsPopup task={selectedTask} />
             </div>
