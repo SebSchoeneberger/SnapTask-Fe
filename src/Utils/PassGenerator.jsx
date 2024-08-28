@@ -1,4 +1,4 @@
-export function generatePassword() {
+export function generatePassword(passString) {
   let password = "";
   for (let i = 0; i < 12; i++) {
     let choice = random(0, 3);
@@ -14,7 +14,7 @@ export function generatePassword() {
       i--;
     }
   }
-  setPassword(password);
+  return password;
 }
 
 const random = (min = 0, max = 1) => {
