@@ -8,6 +8,8 @@ import LoadingSpinner from "../Components/LoadingSpinner";
 import { toast } from "react-toastify";
 import { formatDateFull } from "../Utils/DateUtils";
 import Pagination from "../Components/Dashboard/Pagination";
+import defaultAvatar from "../assets/defaultAvatar.svg";
+import DefaultProfileImage from "../Components/DefaultProfileImage";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -135,7 +137,16 @@ export default function Users() {
                 <tr key={user._id} className="hover">
                   <th>{index + 1}</th>
                   <td>
-                    {user.firstName} {user.lastName}
+                    <div className="flex items-center gap-2">
+                      {user.profileImage ? (
+                        <img className="w-12 h-12 rounded-full" src={user.profileImage} alt="profile image" />
+                      ) : (
+                        <div className="w-12 h-12">
+                          <DefaultProfileImage />
+                        </div>
+                      )}
+                      {user.firstName} {user.lastName}
+                    </div>
                   </td>
                   <td>{user.email}</td>
                   <td>
