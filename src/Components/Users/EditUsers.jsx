@@ -72,101 +72,117 @@ export function UpdateUserModal({ userData, setEditModal, editModal }) {
       id="update_user_modal"
       className="modal modal-bottom sm:modal-middle"
     >
-      <div className="min-h-screen max-w-[900px] m-auto absolute top-[70%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <div className="bg-base-200 p-6 my-8 rounded-2xl min-w-[700px]">
-          <div className="flex justify-between items-center pt-4">
-            <p className="text-2xl font-semibold text-left w-full max-w-xl">
-              Update User
-            </p>
-            <button className="" onClick={() => setEditModal(false)}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18 18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="mt-4 flex items-start flex-col gap-3 pb-4"
-            autoComplete="off"
+      <div className="modal-box bg-base-200 p-6 my-8 rounded-2xl min-w-[700px]">
+        <div className="flex justify-between items-center gap-3 pb-4">
+          <h3 className="text-2xl font-semibold text-left w-full max-w-xl">
+            Update User
+          </h3>
+          <button
+            type="button"
+            className=""
+            onClick={() => {
+              reset(userData);
+              setEditModal(false);
+            }}
           >
-            <div className="label pb-0">
-              <span className="label-text">First Name</span>
-            </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <form
+          method="dialog"
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-6 items-center"
+          autoComplete="off"
+        >
+          <div className="w-full flex flex-col items-start gap-2">
+            <span className="label-text">First Name</span>
             <label className="w-full input input-bordered flex items-center gap-2">
               <input
-                {...register("firstName", {
-                  required: "First Name is required",
-                })}
+                {...register("firstName")}
                 name="firstName"
-                placeholder="First Name"
+                label="First Name"
+                placeholder=""
               />
-              {errors.firstName && (
-                <p style={{ color: "red" }}>{errors.firstName.message}</p>
-              )}
             </label>
-            <div className="label pb-0">
-              <span className="label-text">Last Name</span>
-            </div>
+          </div>
+          <div className="w-full flex flex-col items-start gap-2">
+            <span className="label-text">Last Name</span>
             <label className="w-full input input-bordered flex items-center gap-2">
               <input
-                {...register("lastName", { required: "Last Name is required" })}
+                {...register("lastName")}
                 name="lastName"
-                placeholder="Last Name"
+                label="Last Name"
+                placeholder=""
               />
-              {errors.lastName && (
-                <p style={{ color: "red" }}>{errors.lastName.message}</p>
-              )}
             </label>
-            <div className="label pb-0">
-              <span className="label-text">Email Account*</span>
-            </div>
-            <label className="w-full input input-bordered flex items-center gap-2">
+          </div>
+          <div className="w-full flex flex-col items-start gap-2">
+            <span className="label-text">Email Account*</span>
+            <label
+              className={`input input-bordered w-full relative flex items-center gap-2 ${
+                errors.email ? "input-error" : ""
+              }`}
+            >
               <input
-                {...register("email", { required: "Email is required" })}
+                type="email"
+                placeholder=""
                 name="email"
-                placeholder="Email Address"
-                required
+                className="w-full"
+                {...register("email", {
+                  required: "Email is required",
+                })}
               />
-              {errors.email && (
-                <p style={{ color: "red" }}>{errors.email.message}</p>
-              )}
             </label>
-            <div className="label pb-0">
-              <span className="label-text">Account Type*</span>
-            </div>
+            {errors.email && (
+              <span
+                style={{
+                  color: "red",
+                  position: "absolute",
+                  top: "350px",
+                  fontSize: "12px",
+                }}
+              >
+                {errors.email.message}
+              </span>
+            )}
+          </div>
+          <div className="w-full flex flex-col items-start gap-2">
+            <span className="label-text">Account Type</span>
             <label>
               <select
                 {...register("role", { required: "User role is required" })}
                 name="role"
                 className="select select-bordered"
               >
-                <option value="manager">Manager</option>
                 <option value="staff">Staff</option>
+                <option value="manager">Manager</option>
               </select>
               {errors.role && (
                 <p style={{ color: "red" }}>{errors.role.message}</p>
               )}
             </label>
-            <button
-              type="submit"
-              className="btn btn-primary mt-6 w-full max-w-[10rem] m-auto"
-              disabled={isLoading}
-            >
-              Update User
-            </button>
-          </form>
-        </div>
+          </div>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={errors.email || errors.role}
+          >
+            Update User
+          </button>
+        </form>
       </div>
     </dialog>
   );
