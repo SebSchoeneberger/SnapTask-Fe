@@ -157,7 +157,10 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                 )}
               </div>
               <div className="w-full flex flex-col items-start gap-2">
-                <span className="label-text">Task Description</span>
+                <span className="label-text">
+                  Task Description{" "}
+                  <span className="text-[12px]">(optional)</span>
+                </span>
                 <label className="w-full block">
                   <textarea
                     placeholder="Write a description..."
@@ -195,7 +198,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                 )}
               </div>
               <div className="w-full flex flex-col items-start gap-2">
-                <span className="label-text">Area Name</span>
+                <span className="label-text">Priority</span>
                 <label className="w-full relative">
                   <select
                     {...register("priority", {
@@ -225,7 +228,9 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                 )}
               </div>
               <div className="w-full flex flex-col items-start gap-2">
-                <span className="label-text">Assign to</span>
+                <span className="label-text">
+                  Assign to <span className="text-[12px]">(optional)</span>
+                </span>
                 <label className="w-full">
                   <select
                     {...register("assignedTo")}
