@@ -8,6 +8,7 @@ import { getToken } from "../Utils/TokenUtils";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
+
     const { register, handleSubmit, setValue, formState: { errors },} = useForm();
     const token = getToken();
     const [isLoading, setIsLoading] = useState(false);
@@ -68,6 +69,34 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
     if (isLoading) {
         return (
             <div className="min-h-screen border-[2px] border-base-content w-full text-left px-12">
+                <LoadingSpinner />
+            </div>
+        );
+      }
+    }
+  }, [taskData, setValue]);
+
+  const onSubmit = async (data) => {
+    setIsLoading(true);
+    try {
+      await axios.put(`${API_URL}/tasks/${taskData._id}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("Task updated successfully!");
+      updateTasks();
+      onClose();
+    } catch (error) {
+      toast.error(`Error updating task: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+ <div className="min-h-screen border-[2px] border-base-content w-full text-left px-12">
                 <LoadingSpinner />
             </div>
         );

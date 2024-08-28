@@ -131,7 +131,7 @@ export default function Profile() {
   }
 
   function handleChangeImage(e) {
-    console.log(e.target.files[0]);
+    // console.log(e.target.files[0]);
     setUserSelectedImage(URL.createObjectURL(e.target.files[0]));
     // console.log(URL.createObjectURL(e.target.files[0]));
     e.target.value = null;
@@ -160,15 +160,15 @@ export default function Profile() {
     formData.append("image", image);
 
     axios
-      .post(`${API_URL}/upload-image`, formData, {
+      .post(`${API_URL}/upload-image-s3`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        // console.log(res.data);
-        setUserData({ ...userData, profileImage: res.data.location });
+        console.log(res.data.imageUrl);
+        // setUserData({ ...userData, profileImage: res.data.location });
       })
       .catch((err) => {
         console.log(err.message);

@@ -19,6 +19,7 @@ import StaffDashboard from "./Pages/Staff/StaffDashboard";
 import StaffTasks from "./Pages/Staff/StaffTasks";
 import StaffAreas from "./Pages/Staff/StaffAreas";
 import TaskDetails from "./Pages/Staff/TaskDetails";
+import Unauthorized from "./Pages/Unauthorized";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -47,6 +48,7 @@ const router = createBrowserRouter(
         </Route>
       </Route>
 
+      <Route path="unauthorized" element={<Unauthorized />} />
       <Route path="*" element={<NotFound />} />
     </Route>
   )

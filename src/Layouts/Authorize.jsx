@@ -5,9 +5,7 @@ import { AuthContext } from "../Context/AuthProvider";
 function Authorize({ roles }) {
   const { user } = useContext(AuthContext);
 
-  return <>
-  {roles.includes(user.role) ? <Outlet /> : <Navigate to="/login" />}
-  </>;
+  return <>{roles.includes(user.role) ? <Outlet /> : <Navigate to="/unauthorized" />}</>;
 }
 
 export default Authorize;

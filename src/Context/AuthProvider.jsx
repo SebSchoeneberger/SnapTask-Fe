@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+  const [storedPath, setStoredPath] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const API_URL = import.meta.env.VITE_API_URL;
@@ -47,6 +48,7 @@ const AuthProvider = ({ children }) => {
     setUser(null);
     storeToken(null);
     console.log("User logged out successfully");
+    setStoredPath(null);
   };
 
   useEffect(() => {
@@ -74,7 +76,7 @@ const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  return <AuthContext.Provider value={{ user, login, signUp, logout, loading, setUser }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, login, signUp, logout, loading, setUser, storedPath, setStoredPath }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;
