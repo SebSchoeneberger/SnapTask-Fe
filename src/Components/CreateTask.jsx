@@ -137,6 +137,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                   <input
                     type="text"
                     placeholder=""
+                    className="w-full"
                     {...register("title", {
                       required: "Task name is required",
                     })}
