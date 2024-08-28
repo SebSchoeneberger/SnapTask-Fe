@@ -12,8 +12,9 @@ function ImageCropper({ imageSrc, onCropComplete }) {
   }, []);
 
   const handleCrop = useCallback(async () => {
-    const croppedImage = await getCroppedImage(imageSrc, croppedAreaPixels);
-    onCropComplete(croppedImage);
+    const croppedImageUrl = await getCroppedImage(imageSrc, croppedAreaPixels);
+    const croppedFile = await urlToFile(croppedImageUrl, "cropped-image.jpg");
+    onCropComplete(croppedImageUrl, croppedFile);
   }, [imageSrc, croppedAreaPixels, onCropComplete]);
 
   return (
@@ -49,6 +50,12 @@ function ImageCropper({ imageSrc, onCropComplete }) {
       </div>
     </div>
   );
+}
+
+async function urlToFile(url, fileName) {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  return new File([blob], fileName, { type: blob.type });
 }
 
 async function getCroppedImage(imageSrc, pixelCrop) {
