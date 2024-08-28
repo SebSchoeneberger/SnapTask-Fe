@@ -13,13 +13,19 @@ const Areas = () => {
   const [editArea, setEditArea] = useState(null);
   const [deleteArea, setDeleteArea] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const [sortOrder, setSortOrder] = useState("asc");
   const token = getToken();
   const dropdownRef = useRef(null);
 
+  const [perPage, setPerPage] = useState("10");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalTasks, setTotalTasks] = useState(0);
+
   const fetchAreas = () => {
     axios
-      .get(`${API_URL}/areas`, {
+      .get(`${API_URL}/areas?page=${page}&perPage=${perPage}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -27,6 +33,9 @@ const Areas = () => {
       .then((res) => {
         setAreas(res.data.areas);
         // console.log(res.data)
+        setTotalTasks(res.data.totalResults);
+        setTotalPages(res.data.totalPages);
+        window.scrollTo(0, 0);
       })
       .catch((error) => {
         toast.error("Error loading areas");
@@ -36,7 +45,7 @@ const Areas = () => {
 
   useEffect(() => {
     fetchAreas();
-  }, []);
+  }, [perPage, page]);
 
   const handleEdit = (area) => {
     setEditArea(area);
@@ -251,7 +260,7 @@ const Areas = () => {
               ))}
             </tbody>
           </table>
-          <Pagination />
+          <Pagination page={page} setPage={setPage} totalPages={totalPages} perPage={perPage} setPerPage={setPerPage} totalResults={totalTasks} />
         </div>
       )}
 

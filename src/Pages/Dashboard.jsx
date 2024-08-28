@@ -29,8 +29,8 @@ function Dashboard() {
 
   const [perPage, setPerPage] = useState("25");
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(5);
-  const [totalTasks, setTotalTasks] = useState(64);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalTasks, setTotalTasks] = useState(0);
 
   const areasUrl = `${API_URL}/areas/`;
   const tasksUrl = `${API_URL}/reports/dashboard/weeklyTasks/`;
@@ -139,7 +139,7 @@ function Dashboard() {
     );
 
   return (
-    <div className="min-h-screen border-[2px] border-base-content border-opacity-40 w-[80%] m-auto text-left px-12 mb-8">
+    <div className="min-h-screen border-[2px] border-base-content border-opacity-0 w-[100%] m-auto text-left px-12 mb-8">
       <div className="flex flex-col gap-6">
         <div className="flex gap-4 items-center mt-6">
           <p className="font-semibold px-3 ">Area:</p>
