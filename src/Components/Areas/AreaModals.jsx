@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
+import MultiselectComponent from "../MutiselectComponent";
 import { getToken } from "../../Utils/TokenUtils";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -199,7 +200,7 @@ export function CreateAreaModal({ updateAreas }) {
             </div>
             <div className="w-full flex flex-col items-start gap-2">
               <span className="label-text">Assign Staff</span>
-              <select
+              {/* <select
                 className="w-full select select-bordered max-w-xs"
                 defaultValue=""
                 {...register("users")}
@@ -215,7 +216,13 @@ export function CreateAreaModal({ updateAreas }) {
                     </option>
                   );
                 })}
-              </select>
+              </select> */}
+              <MultiselectComponent
+                users={users}
+                styles={{
+                  color: "blue",
+                }}
+              />
             </div>
             <button
               className="btn btn-primary"
@@ -419,7 +426,7 @@ export function UpdateAreaModal({ areaData, updateAreas }) {
           </div>
           <div className="w-full flex flex-col items-start gap-2">
             <span className="label-text">Assign Staff</span>
-            <select
+            {/* <select
               className="w-full select select-bordered max-w-xs"
               defaultValue={[]}
               multiple
@@ -436,7 +443,8 @@ export function UpdateAreaModal({ areaData, updateAreas }) {
                   </option>
                 );
               })}
-            </select>
+            </select> */}
+            <MultiselectComponent users={users} />
           </div>
 
           <button
