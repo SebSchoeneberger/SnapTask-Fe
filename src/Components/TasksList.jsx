@@ -6,15 +6,23 @@ import TaskDetails from "../Components/TaskDetailsView";
 import { getToken } from "../Utils/TokenUtils";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { toast } from "react-toastify";
+import Pagination from "../Components/Dashboard/Pagination";
+import { formatDateShort } from "../Utils/DateUtils";
+
 const API_URL = import.meta.env.VITE_API_URL;
 const TasksList = () => {
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalResults, setTotalResults] = useState(0);
+
   const [tasks, setTasks] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [editTask, setEditTask] = useState(null);
   const [deleteTask, setDeleteTask] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedTask, setSelectedTask] = useState(null);
-  const tasksUrl = `${API_URL}/tasks`;
+  const tasksUrl = `${API_URL}/tasks?page=${page}&perPage=${perPage}`;
   const token = getToken();
 
   const dropdownRef = useRef(null); // Create a ref for the dropdown
@@ -29,6 +37,9 @@ const TasksList = () => {
       })
       .then((response) => {
         setTasks(response.data.tasks);
+        setTotalPages(response.data.totalPages);
+        setTotalResults(response.data.totalResults);
+        window.scrollTo(0, 0);
         // console.log(response.data.tasks);
       })
       .catch((error) => {
@@ -36,10 +47,12 @@ const TasksList = () => {
         console.log(error.message);
       })
       .finally(() => setLoading(false));
-  }, [tasksUrl, token]);
+  }, [tasksUrl, token, page, perPage]);
+
   const handleEdit = (task) => {
     setEditTask(task);
   };
+
   const updateTasks = () => {
     axios
       .get(tasksUrl, {
@@ -56,10 +69,12 @@ const TasksList = () => {
         console.log(error.message);
       });
   };
+
   const handleDelete = (task) => {
     setDeleteTask(task);
     document.getElementById("delete_task_modal").showModal();
   };
+
   const deleteTaskHandler = () => {
     if (!deleteTask) return;
     axios
@@ -80,6 +95,7 @@ const TasksList = () => {
         document.getElementById("delete_task_modal").close();
       });
   };
+
   const handleRowClick = (task) => {
     setSelectedTask(task);
   };
@@ -140,18 +156,14 @@ const TasksList = () => {
                   key={task._id}
                   className="hover"
                   onClick={(e) => {
-                    if (
-                      !e.target.closest(".dropdown-content") &&
-                      !e.target.closest(".dropdown")
-                    ) {
+                    if (!e.target.closest(".dropdown-content") && !e.target.closest(".dropdown")) {
                       handleRowClick(task);
                     }
-                  }}
-                >
+                  }}>
                   <td className="font-bold">{index + 1}</td>
                   <td>{task.title}</td>
                   <td>{task.description}</td>
-                  <td>{new Date(task.dueDate).toLocaleDateString()}</td>
+                  <td>{formatDateShort(task.dueDate)}</td>
 
                   <td>{task.status}</td>
 
@@ -175,8 +187,7 @@ const TasksList = () => {
                           viewBox="0 0 24 24"
                           strokeWidth="1.5"
                           stroke="currentColor"
-                          className="w-6 h-6"
-                        >
+                          className="w-6 h-6">
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -190,8 +201,7 @@ const TasksList = () => {
                             onClick={(e) => {
                               e.stopPropagation();
                               handleEdit(task);
-                            }}
-                          >
+                            }}>
                             Edit
                           </button>
                         </li>
@@ -200,8 +210,7 @@ const TasksList = () => {
                             onClick={(e) => {
                               e.stopPropagation();
                               handleDelete(task);
-                            }}
-                          >
+                            }}>
                             Delete
                           </button>
                         </li>
@@ -212,54 +221,23 @@ const TasksList = () => {
               ))}
             </tbody>
           </table>
+          <Pagination page={page} setPage={setPage} perPage={perPage} setPerPage={setPerPage} totalPages={totalPages} totalResults={totalResults} />
         </div>
       ) : (
         <p>No tasks found.</p>
       )}
 
-      {modalOpen && !editTask && (
-        <CreateTask
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          onCreate={updateTasks}
-        />
-      )}
-      {editTask && (
-        <EditTaskModal
-          taskData={editTask}
-          updateTasks={updateTasks}
-          onClose={() => setEditTask(null)}
-        />
-      )}
-      {selectedTask && (
-        <TaskDetails
-          task={selectedTask}
-          onClose={() => setSelectedTask(null)}
-        />
-      )}
-      <dialog
-        id="delete_task_modal"
-        className="modal modal-bottom sm:modal-middle"
-      >
+      {modalOpen && !editTask && <CreateTask isOpen={modalOpen} onClose={() => setModalOpen(false)} onCreate={updateTasks} />}
+      {editTask && <EditTaskModal taskData={editTask} updateTasks={updateTasks} onClose={() => setEditTask(null)} />}
+      {selectedTask && <TaskDetails task={selectedTask} onClose={() => setSelectedTask(null)} />}
+      <dialog id="delete_task_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <button
             type="button"
             onClick={() => document.getElementById("delete_task_modal").close()}
-            className="btn btn-square absolute top-4 right-4"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
+            className="btn btn-square absolute top-4 right-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
           <h3 className="font-bold text-lg">Delete Task</h3>
