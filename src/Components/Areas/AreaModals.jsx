@@ -54,7 +54,7 @@ export function CreateAreaModal({ updateAreas }) {
         },
       })
       .then((res) => {
-        const staff = res.data.staff.filter(user => user.role === 'staff');
+        const staff = res.data.staff.filter((user) => user.role === "staff");
         setUsers(staff);
       })
       .catch((error) => {
@@ -101,7 +101,7 @@ export function CreateAreaModal({ updateAreas }) {
             autoComplete="off"
           >
             <div className="w-full flex flex-col items-start gap-2">
-              <span className="label-text">Area Name</span>
+              <span className="label-text">Area Name*</span>
               <label
                 className={`input input-bordered w-full relative flex items-center gap-2 ${
                   errors.name ? "input-error" : ""
