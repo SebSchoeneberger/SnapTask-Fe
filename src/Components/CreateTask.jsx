@@ -75,10 +75,6 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    generatePassword();
-  }, []);
-
   return (
     <dialog
       id="createTaskDialog"

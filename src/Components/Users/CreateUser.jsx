@@ -41,6 +41,10 @@ export function CreateUser({ setUsers, name }) {
         toast.error(`Error creating user: ${error.message}`);
       })
       .finally(() => {});
+
+    useEffect(() => {
+      generatePassword();
+    }, []);
   }
 
   return (

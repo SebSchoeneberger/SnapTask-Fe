@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import CreateTask from "./CreateTask";
 import EditTaskModal from "../Components/EditTaskModal";
@@ -6,9 +6,7 @@ import TaskDetails from "../Components/TaskDetailsView";
 import { getToken } from "../Utils/TokenUtils";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { toast } from "react-toastify";
-
 const API_URL = import.meta.env.VITE_API_URL;
-
 const TasksList = () => {
   const [tasks, setTasks] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -18,7 +16,7 @@ const TasksList = () => {
   const [selectedTask, setSelectedTask] = useState(null);
   const tasksUrl = `${API_URL}/tasks`;
   const token = getToken();
-
+  const dropdownRef = useRef(null); // Create a ref for the dropdown
   useEffect(() => {
     axios
       .get(tasksUrl, {
@@ -29,6 +27,7 @@ const TasksList = () => {
       })
       .then((response) => {
         setTasks(response.data.tasks);
+        // console.log(response.data.tasks);
       })
       .catch((error) => {
         toast.error("Error loading tasks");
@@ -36,11 +35,9 @@ const TasksList = () => {
       })
       .finally(() => setLoading(false));
   }, [tasksUrl, token]);
-
   const handleEdit = (task) => {
     setEditTask(task);
   };
-
   const updateTasks = () => {
     axios
       .get(tasksUrl, {
@@ -57,15 +54,12 @@ const TasksList = () => {
         console.log(error.message);
       });
   };
-
   const handleDelete = (task) => {
     setDeleteTask(task);
     document.getElementById("delete_task_modal").showModal();
   };
-
   const deleteTaskHandler = () => {
     if (!deleteTask) return;
-
     axios
       .delete(`${API_URL}/tasks/${deleteTask._id}`, {
         headers: {
@@ -84,29 +78,40 @@ const TasksList = () => {
         document.getElementById("delete_task_modal").close();
       });
   };
-
   const handleRowClick = (task) => {
     setSelectedTask(task);
   };
-
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      const openDropdown = document.querySelector("details[open]");
+      if (openDropdown) {
+        openDropdown.removeAttribute("open");
+      }
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
   if (loading) {
     return (
-      <div className="min-h-screen border-[2px] border-base-content w-full text-left px-12">
+      <div className="min-h-screen w-full text-left px-12">
         <LoadingSpinner />
       </div>
     );
   }
-
   return (
     <div className="flex flex-col gap-6 mt-10 p-5 min-h-screen w-full">
       <div className="flex justify-between">
         <p className="text-xl font-semibold">Task Management</p>
-        <button className="btn btn-primary" onClick={() => setModalOpen(true)}>
+        <button className="btn" onClick={() => setModalOpen(true)}>
           Create Task
         </button>
       </div>
       {tasks.length > 0 ? (
-        <div className="overflow-x-auto">
+        <div>
           <table className="table w-full">
             <thead>
               <tr>
@@ -114,6 +119,7 @@ const TasksList = () => {
                 <th className="border-b-2">Task Name</th>
                 <th className="border-b-2">Description</th>
                 <th className="border-b-2">Due Date</th>
+                <th className="border-b-2">Status</th>
                 <th className="border-b-2">Priority</th>
                 <th className="border-b-2">Assigned To</th>
                 <th className="border-b-2">Area</th>
@@ -138,6 +144,7 @@ const TasksList = () => {
                   <td>{task.title}</td>
                   <td>{task.description}</td>
                   <td>{new Date(task.dueDate).toLocaleDateString()}</td>
+                  <td>{task.status}</td>
                   <td>{task.priority}</td>
                   <td>
                     {task.assignedTo && task.assignedTo.length > 0
@@ -148,8 +155,8 @@ const TasksList = () => {
                         ))
                       : " "}
                   </td>
-                  <td>{task.area.name}</td>
-                  <td>
+                  <td>{task.area?.name}</td>
+                  <td ref={dropdownRef}>
                     <details className="dropdown dropdown-end">
                       <summary className="btn m-0 p-0 border-none bg-transparent hover:bg-transparent">
                         <svg
@@ -256,5 +263,4 @@ const TasksList = () => {
     </div>
   );
 };
-
 export default TasksList;
