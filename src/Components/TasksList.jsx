@@ -151,7 +151,7 @@ const TasksList = () => {
           <table className="table w-full">
             <thead>
               <tr>
-                {/* <th className="border-b-2"></th> */}
+                <th className=""></th>
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Task Name</span>
