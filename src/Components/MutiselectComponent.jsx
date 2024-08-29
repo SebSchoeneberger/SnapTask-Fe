@@ -5,6 +5,7 @@ function MultiselectComponent({ users, setSelectedUsers }) {
   return (
     <div className="w-full">
       <Select
+        className=""
         onChange={(value) => setSelectedUsers(value.map((user) => user.value))}
         options={users.map((user) => {
           let label = "";

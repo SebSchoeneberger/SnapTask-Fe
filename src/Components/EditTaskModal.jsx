@@ -279,6 +279,7 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
                 <MultiselectComponent
                   users={users}
                   setSelectedUsers={setSelectedUsers}
+                  {...register("assignedTo")}
                   styles={{
                     color: "blue",
                   }}

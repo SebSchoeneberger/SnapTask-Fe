@@ -20,6 +20,7 @@ export function CreateAreaModal({ updateAreas }) {
   const { user } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
   const token = getToken();
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -219,6 +220,7 @@ export function CreateAreaModal({ updateAreas }) {
               </select> */}
               <MultiselectComponent
                 users={users}
+                setSelectedUsers={setSelectedUsers}
                 styles={{
                   color: "blue",
                 }}
@@ -251,6 +253,7 @@ export function UpdateAreaModal({ areaData, updateAreas }) {
   const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const token = getToken();
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   useEffect(() => {
     if (areaData) {
@@ -279,7 +282,7 @@ export function UpdateAreaModal({ areaData, updateAreas }) {
     try {
       const response = await axios.put(
         `${API_URL}/areas/${areaData._id}`,
-        data,
+        { ...data, users: selectedUsers },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -444,7 +447,10 @@ export function UpdateAreaModal({ areaData, updateAreas }) {
                 );
               })}
             </select> */}
-            <MultiselectComponent users={users} />
+            <MultiselectComponent
+              users={users}
+              setSelectedUsers={setSelectedUsers}
+            />
           </div>
 
           <button

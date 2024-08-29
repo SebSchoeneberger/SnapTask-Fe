@@ -261,7 +261,10 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                   }}
                 />
               </div>
-              <div className="w-full flex flex-col items-start gap-2">
+              <div
+                className="w-full flex flex-col items-start gap-2"
+                style={{ position: "relative" }}
+              >
                 <span className="label-text">Select Area</span>
                 <label className="w-full relative">
                   <select
@@ -285,7 +288,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                     style={{
                       color: "red",
                       position: "absolute",
-                      top: "480px",
+                      top: "78px",
                       fontSize: "12px",
                     }}
                   >
