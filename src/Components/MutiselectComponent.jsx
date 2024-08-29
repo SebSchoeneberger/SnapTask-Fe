@@ -14,7 +14,7 @@ function MultiselectComponent({ users = [] }) {
     console.log(options);
     console.log(userOptions);
 
-    setOptions(userOptions);
+    setOptions(userOptions.filter((user) => user.role == "staff"));
   }, []);
 
   return (
