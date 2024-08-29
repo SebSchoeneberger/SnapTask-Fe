@@ -211,7 +211,9 @@ export default function Profile() {
                   <img className="rounded-full w-28 h-28 object-cover" src={croppedImage} alt="" />
                 </div>
               ) : (
-                <DefaultProfileImage size={5} />
+                <div className="w-24 h-24">
+                  <DefaultProfileImage />
+                </div>
               )}
               <form
                 ref={imageFormRef}
