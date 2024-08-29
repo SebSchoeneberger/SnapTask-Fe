@@ -8,6 +8,7 @@ import LoadingSpinner from "../Components/LoadingSpinner";
 import { toast } from "react-toastify";
 import Pagination from "../Components/Dashboard/Pagination";
 import { formatDateShort } from "../Utils/DateUtils";
+import sortTables from "../Utils/SortTablesUtils";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const TasksList = () => {
@@ -15,6 +16,8 @@ const TasksList = () => {
   const [perPage, setPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const [totalResults, setTotalResults] = useState(0);
+
+  const [sortOrder, setSortOrder] = useState("asc");
 
   const [tasks, setTasks] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -116,6 +119,14 @@ const TasksList = () => {
     };
   }, []);
 
+  const handleSortClick = (key) => {
+    console.log(key);
+    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(newSortOrder);
+    const sortedTasks = sortTables(tasks, key, newSortOrder);
+    setTasks(sortedTasks);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen w-full text-left px-12">
@@ -138,15 +149,84 @@ const TasksList = () => {
             <thead>
               <tr>
                 <th className="border-b-2"></th>
-                <th className="border-b-2">Task Name</th>
-                <th className="border-b-2">Description</th>
-                <th className="border-b-2">Due Date</th>
+                <th>
+                <div className="flex gap-1 items-center">
+                  <span>Task Name</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("title")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
+              <th>
+                <div className="flex gap-1 items-center">
+                  <span>Description</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("description")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
+                <th>
+                <div className="flex gap-1 items-center">
+                  <span>Due Date</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("dueDate")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
 
-                <th className="border-b-2">Status</th>
+              <th>
+                <div className="flex gap-1 items-center">
+                  <span>Status</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("status")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
 
-                <th className="border-b-2">Priority</th>
-                <th className="border-b-2">Assigned To</th>
-                <th className="border-b-2">Area</th>
+              <th>
+                <div className="flex gap-1 items-center">
+                  <span>Priority</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("priority")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
+              <th>
+                  <div className="flex gap-1 items-center">
+                    <span>Assigned to</span>
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("assignedTo.firstName")}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                      </svg>
+                    </button>
+                  </div>
+                </th>
+                <th>
+                <div className="flex gap-1 items-center">
+                  <span>Area</span>
+                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("area.name")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                  </button>
+                </div>
+              </th>
                 <th className="border-b-2"></th>
               </tr>
             </thead>

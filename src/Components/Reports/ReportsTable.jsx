@@ -7,6 +7,7 @@ import html2canvasPro from "html2canvas-pro";
 import jsPDF from "jspdf";
 import logo from "../../assets/Logo.png";
 import TaskDetailsPopup from "../Dashboard/TaskDetailsPopup";
+import sortTables from "../../Utils/SortTablesUtils";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -113,43 +114,9 @@ function ReportsTable({
   const handleSortClick = (key) => {
     const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
     setSortOrder(newSortOrder);
-    sortTasks(key);
-  };
-
-  const sortTasks = (key) => {
-    const sortedTasks = [...filteredTasks].sort((a, b) => {
-      let valueA, valueB;
-  
-      if (key === "assignedTo") {
-        valueA = a.assignedTo.length > 0 ? `${a.assignedTo[0].firstName} ${a.assignedTo[0].lastName}`.toUpperCase() : "";
-        valueB = b.assignedTo.length > 0 ? `${b.assignedTo[0].firstName} ${b.assignedTo[0].lastName}`.toUpperCase() : "";
-      } else if (key === "dueDate" || key === "createdAt") {
-        valueA = new Date(a[key]);
-        valueB = new Date(b[key]);
-      } else if (key === "isDelayed") {
-        // Sort based on whether the task is delayed or not, without considering status
-        valueA = new Date(a.dueDate) < new Date() ? "Yes" : "No";
-        valueB = new Date(b.dueDate) < new Date() ? "Yes" : "No";
-      } else if (key.includes(".")) {
-        const keys = key.split(".");
-        valueA = keys.reduce((obj, keyPart) => obj && obj[keyPart], a);
-        valueB = keys.reduce((obj, keyPart) => obj && obj[keyPart], b);
-      } else {
-        valueA = a[key] ? a[key].toString().toUpperCase() : "";
-        valueB = b[key] ? b[key].toString().toUpperCase() : "";
-      }
-  
-      if (valueA < valueB) {
-        return sortOrder === "asc" ? -1 : 1;
-      }
-      if (valueA > valueB) {
-        return sortOrder === "asc" ? 1 : -1;
-      }
-      return 0;
-    });
+    const sortedTasks = sortTables(filteredTasks, key, newSortOrder);
     setTasks(sortedTasks);
   };
-  
 
   if (isLoading)
     return (
