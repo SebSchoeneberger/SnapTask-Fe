@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { formatDateFull, formatDateShort } from "../../Utils/DateUtils";
 
 const TaskCard = ({ task }) => {
   const navigate = useNavigate();
@@ -16,11 +17,19 @@ const TaskCard = ({ task }) => {
           <div className="flex flex-col w-full items-center">
             <h2
               className={`card-title text-center m-auto px-4 text-sm py-1 ${
-                task.status === "New" ? "bg-primary text-primary-content" : "bg-warning text-warning-content"
+                task.status === "New"
+                  ? "bg-info text-info-content"
+                  : task.status == "Finished"
+                  ? "bg-success text-success-content"
+                  : "bg-warning text-warning-content"
               }`}>
               {task.status}
             </h2>
-            <h2 className="card-title text-sm">{new Date(task.dueDate).toLocaleDateString()}</h2>
+            {task.status == "Finished" ? (
+              <h2 className="card-title text-sm">Finished Date: {formatDateFull(task.finishedDate)}</h2>
+            ) : (
+              <h2 className="card-title text-sm">Due Date: {formatDateShort(task.dueDate)}</h2>
+            )}
           </div>
 
           {/* <div className="card-actions justify-end w-full">

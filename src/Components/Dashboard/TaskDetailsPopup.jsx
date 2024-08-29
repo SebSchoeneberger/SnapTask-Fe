@@ -25,7 +25,7 @@ const TaskDetailsPopup = ({ task }) => {
   return (
     <dialog id="taskDetails" className="modal">
       {task && (
-        <div className="modal-box max-w-[40rem]">
+        <div className="modal-box max-w-[60rem]">
           <div className="flex justify-between items-center">
             <h3 className="font-bold text-lg">{task.title}</h3>
 

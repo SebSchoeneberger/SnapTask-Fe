@@ -56,9 +56,11 @@ export default function StaffTasks() {
     <div className="min-h-svh w-full pt-16 pb-24 bg-base-100">
       <p className="font-bold text-3xl py-4">{area}</p>
       <div className="flex flex-col items-center w-full gap-2  px-4">
-        {tasks.map((task) => (
-          <TaskCard key={task._id} task={task} />
-        ))}
+        {tasks.length > 0 ? (
+          tasks.map((task) => <TaskCard key={task._id} task={task} />)
+        ) : (
+          <p className="text-3xl flex items-center mt-32">No tasks available</p>
+        )}
       </div>
     </div>
   );
