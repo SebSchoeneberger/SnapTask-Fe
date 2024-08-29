@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { getToken } from "../Utils/TokenUtils";
 import axios from "axios";
+import MultiselectComponent from "../Components/MutiselectComponent";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -16,6 +17,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
   const [users, setUsers] = useState([]);
   const [areas, setAreas] = useState([]);
   const token = getToken();
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,9 +40,13 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
 
   const createTask = async (data) => {
     try {
-      const response = await axios.post(`${API_URL}/tasks`, data, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.post(
+        `${API_URL}/tasks`,
+        { ...data, assignedTo: selectedUsers },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       return response.data.tasks;
     } catch (error) {
       console.error("API Error while creating task:", error);
@@ -231,7 +237,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                 <span className="label-text">
                   Assign to <span className="text-[12px]">(optional)</span>
                 </span>
-                <label className="w-full">
+                {/* <label className="w-full">
                   <select
                     {...register("assignedTo")}
                     multiple
@@ -246,7 +252,14 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                       </option>
                     ))}
                   </select>
-                </label>
+                </label> */}
+                <MultiselectComponent
+                  users={users}
+                  setSelectedUsers={setSelectedUsers}
+                  styles={{
+                    color: "blue",
+                  }}
+                />
               </div>
               <div className="w-full flex flex-col items-start gap-2">
                 <span className="label-text">Select Area</span>

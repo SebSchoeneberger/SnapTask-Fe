@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { getToken } from "../Utils/TokenUtils";
+import MultiselectComponent from "../Components/MutiselectComponent";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -16,6 +17,8 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
   } = useForm();
   const token = getToken();
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+
   const [users, setUsers] = useState([]);
   const [areas, setAreas] = useState([]);
 
@@ -60,12 +63,17 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
+
     try {
-      await axios.put(`${API_URL}/tasks/${taskData._id}`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.put(
+        `${API_URL}/tasks/${taskData._id}`,
+        { ...data, assignedTo: selectedUsers },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       toast.success("Task updated successfully!");
       updateTasks();
       onClose();
@@ -252,7 +260,7 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
                 <span className="label-text">
                   Assign to <span className="text-[12px]">(optional)</span>
                 </span>
-                <label className="w-full">
+                {/* <label className="w-full">
                   <select
                     {...register("assignedTo")}
                     multiple
@@ -267,7 +275,14 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
                       </option>
                     ))}
                   </select>
-                </label>
+                </label> */}
+                <MultiselectComponent
+                  users={users}
+                  setSelectedUsers={setSelectedUsers}
+                  styles={{
+                    color: "blue",
+                  }}
+                />
               </div>
 
               {/* Dropdown for Area */}
