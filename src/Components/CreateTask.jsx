@@ -254,7 +254,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                   </select>
                 </label> */}
                 <MultiselectComponent
-                  users={users}
+                  users={users.filter((user) => user.role != "manager")}
                   setSelectedUsers={setSelectedUsers}
                   styles={{
                     color: "blue",

@@ -223,7 +223,7 @@ export function CreateAreaModal({ updateAreas }) {
                 })}
               </select> */}
               <MultiselectComponent
-                users={users}
+                users={users.filter((user) => user.role != "manager")}
                 setSelectedUsers={setSelectedUsers}
                 styles={{
                   color: "blue",
@@ -454,7 +454,7 @@ export function UpdateAreaModal({ areaData, updateAreas }) {
               })}
             </select> */}
             <MultiselectComponent
-              users={users}
+              users={users.filter((user) => user.role != "manager")}
               setSelectedUsers={setSelectedUsers}
             />
           </div>
