@@ -31,17 +31,21 @@ export function CreateAreaModal({ updateAreas }) {
         creator: user.id,
         users: data.users || [],
       };
-      const response = await axios.post(`${API_URL}/areas`, areaData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post(
+        `${API_URL}/areas`,
+        { ...areaData, users: selectedUsers },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       toast.success("Area created successfully!");
       reset();
       document.getElementById("my_modal_5").close();
       updateAreas();
     } catch (error) {
-      toast.error(`Error creating area: ${error.message}`);
+      toast.error(`Error creating area: ${error.response.data.error}`);
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -279,10 +283,12 @@ export function UpdateAreaModal({ areaData, updateAreas }) {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
+    console.log(data);
     try {
       const response = await axios.put(
         `${API_URL}/areas/${areaData._id}`,
-        { ...data, users: selectedUsers },
+
+        { ...areaData, users: selectedUsers },
         {
           headers: {
             Authorization: `Bearer ${token}`,
