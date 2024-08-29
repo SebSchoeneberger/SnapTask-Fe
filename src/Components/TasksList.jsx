@@ -26,7 +26,7 @@ const TasksList = () => {
   const [deleteTask, setDeleteTask] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedTask, setSelectedTask] = useState(null);
-  const tasksUrl = `${API_URL}/tasks?page=${page}&perPage=${perPage}`;
+  const tasksUrl = `${API_URL}/tasks?page=${page}&perPage=${perPage}&status=New,In Progress`;
   const token = getToken();
 
   const dropdownRef = useRef(null); // Create a ref for the dropdown
@@ -148,7 +148,7 @@ const TasksList = () => {
       </div>
       {tasks.length > 0 ? (
         <div>
-          <table className="table w-full">
+          <table className="table w-full ">
             <thead>
               <tr>
                 <th className=""></th>
@@ -273,7 +273,7 @@ const TasksList = () => {
               {tasks.map((task, index) => (
                 <tr
                   key={task._id}
-                  className="hover:cursor-pointer hover:bg-base-200"
+                  className="hover:cursor-pointer hover:bg-base-200 h-28"
                   onClick={(e) => {
                     if (!e.target.closest(".dropdown-content") && !e.target.closest(".dropdown")) {
                       handleRowClick(task);
@@ -281,11 +281,9 @@ const TasksList = () => {
                   }}>
                   <td className="font-bold">{index + 1}</td>
                   <td>{task.title}</td>
-                  <td>{task.description}</td>
+                  <td className="truncate-multiline ">{task.description}</td>
                   <td>{formatDateShort(task.dueDate)}</td>
-
                   <td>{task.status}</td>
-
                   <td>{task.priority}</td>
                   <td>
                     {task.assignedTo && task.assignedTo.length > 0

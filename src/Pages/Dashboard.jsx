@@ -221,7 +221,7 @@ function Dashboard() {
               </div>
               <div>
                 <p>On time finished rate</p>
-                <p className="text-3xl">{stats.onTimeRate * 100}%</p>
+                <p className="text-3xl">{stats.onTimeRate.toFixed(2)}%</p>
               </div>
             </div>
 

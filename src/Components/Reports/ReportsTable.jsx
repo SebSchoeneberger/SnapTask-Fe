@@ -46,7 +46,8 @@ function ReportsTable({ selectedArea, taskName, status, priority, startDate, end
     const matchesStartDate = !startDate || new Date(task.dueDate) >= new Date(startDate);
     const matchesEndDate = !endDate || new Date(task.dueDate) <= new Date(endDate);
     const matchesDueDate = !dueDate || new Date(task.dueDate).toDateString() === new Date(dueDate).toDateString();
-    const matchesIsDelayed = !isDelayed || (new Date(task.dueDate) < new Date() && task.status !== "Finished");
+    const matchesIsDelayed =
+      !isDelayed || (new Date(task.dueDate) < new Date() && task.status !== "Finished") || (task.isOverdue && task.status == "Finished");
     const matchesCreatedBy =
       createdBy === "All" || `${task.creator.firstName.toLowerCase()} ${task.creator.lastName.toLowerCase()}` === createdBy.toLowerCase();
 
