@@ -208,6 +208,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                     ))}
                   </select>
                 </label> */}
+
                 {/* <MultiselectComponent
                   users={users}
                   setSelectedUsers={setSelectedUsers}
@@ -269,7 +270,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                 </label> */}
 
             <MultiselectComponent
-              users={users}
+              users={users.filter((user) => user.role != "manager")}
               setSelectedUsers={setSelectedUsers}
               defaultSeleted={null}
               // {...register("assignedTo")}

@@ -229,7 +229,6 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
                     </select>
                   </label>
                 </div> */}
-
               {/* Dropdown for Area */}
               <div className="w-full flex flex-col items-start gap-2">
                 <span className="label-text">Select Area</span>
@@ -284,7 +283,7 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
                 </label> */}
 
             <MultiselectComponent
-              users={users}
+              users={users.filter((user) => user.role != "manager")}
               setSelectedUsers={setSelectedUsers}
               defaultSeleted={taskUsers}
               // {...register("assignedTo")}
