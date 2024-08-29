@@ -263,7 +263,7 @@ function Dashboard() {
                     <th className="font-bold">
                       <div className="flex gap-1 items-center">
                         <span>Area</span>
-                        <button className="hover:cursor-pointer" onClick={() => handleSortClick("createdAt")}>
+                        <button className="hover:cursor-pointer" onClick={() => handleSortClick("area.name")}>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -279,7 +279,7 @@ function Dashboard() {
                     <th className="font-bold">
                       <div className="flex gap-1 items-center">
                         <span>Created by</span>
-                        <button className="hover:cursor-pointer" onClick={() => handleSortClick("createdAt")}>
+                        <button className="hover:cursor-pointer" onClick={() => handleSortClick("creator.firstName")}>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
