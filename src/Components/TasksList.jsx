@@ -23,6 +23,7 @@ const TasksList = () => {
   const [tasks, setTasks] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [editTask, setEditTask] = useState(null);
+  const [taskUsers, setTaskUsers] = useState([]);
   const [deleteTask, setDeleteTask] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -54,6 +55,7 @@ const TasksList = () => {
   }, [tasksUrl, token, page, perPage]);
 
   const handleEdit = (task) => {
+    setTaskUsers(task.assignedTo);
     setEditTask(task);
   };
 
@@ -414,20 +416,10 @@ const TasksList = () => {
         <p>No tasks found.</p>
       )}
 
-      {modalOpen && !editTask && (
-        <CreateTask
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          onCreate={updateTasks}
-        />
-      )}
-      {editTask && (
-        <EditTaskModal
-          taskData={editTask}
-          updateTasks={updateTasks}
-          onClose={() => setEditTask(null)}
-        />
-      )}
+
+      {modalOpen && !editTask && <CreateTask isOpen={modalOpen} onClose={() => setModalOpen(false)} onCreate={updateTasks} />}
+      {editTask && <EditTaskModal taskUsers={taskUsers} taskData={editTask} updateTasks={updateTasks} onClose={() => setEditTask(null)} />}
+
       <TaskDetailsPopup task={selectedTask} />
       <dialog
         id="delete_task_modal"
