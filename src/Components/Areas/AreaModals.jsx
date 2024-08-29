@@ -160,7 +160,7 @@ export function CreateAreaModal({ updateAreas }) {
                 })}
               </select> */}
               <MultiselectComponent
-                users={users}
+                users={users.filter((user) => user.role === "staff")}
                 setSelectedUsers={setSelectedUsers}
                 defaultSeleted={null}
                 styles={{
@@ -323,7 +323,11 @@ export function UpdateAreaModal({ areaData, updateAreas, areaUsers }) {
                 );
               })}
             </select> */}
-            <MultiselectComponent users={users} setSelectedUsers={setSelectedUsers} defaultSeleted={areaUsers} />
+            <MultiselectComponent
+              users={users.filter((user) => user.role === "staff")}
+              setSelectedUsers={setSelectedUsers}
+              defaultSeleted={areaUsers}
+            />
           </div>
 
           <button className="btn btn-primary" type="submit" disabled={isLoading}>

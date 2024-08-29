@@ -269,7 +269,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                 </label> */}
 
             <MultiselectComponent
-              users={users}
+              users={users.filter((user) => user.role === "staff")}
               setSelectedUsers={setSelectedUsers}
               defaultSeleted={null}
               // {...register("assignedTo")}
