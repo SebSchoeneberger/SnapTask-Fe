@@ -298,13 +298,41 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
               </div>
             </div>
           </div>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            disabled={
-              errors.title || errors.dueDate || errors.priority || errors.area
-            }
-          >
+
+          {/* Dropdown for Assign To */}
+          <div className="w-full flex flex-col items-start gap-2 mb-4">
+            <span className="label-text">
+              Assign to <span className="text-[12px]">(optional)</span>
+            </span>
+            {/* <label className="w-full">
+                  <select
+                    {...register("assignedTo")}
+                    multiple
+                    className={`select input-bordered w-full ${
+                      errors.assignedTo ? "input-error" : ""
+                    }`}
+                  >
+                    <option value="">Choose one or more</option>
+                    {users.map((user) => (
+                      <option key={user._id} value={user._id}>
+                        {user.firstName} {user.lastName}
+                      </option>
+                    ))}
+                  </select>
+                </label> */}
+
+            <MultiselectComponent
+              users={users.filter((user) => user.role === "staff")}
+              setSelectedUsers={setSelectedUsers}
+              defaultSeleted={null}
+              // {...register("assignedTo")}
+              // styles={{
+              //   color: "blue",
+              // }}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary" disabled={errors.title || errors.dueDate || errors.priority || errors.area}>
+
             Save Task
           </button>
         </form>
