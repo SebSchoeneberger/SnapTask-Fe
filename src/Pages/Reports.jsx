@@ -11,7 +11,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 const Reports = () => {
   const [selectedArea, setSelectedArea] = useState("All");
   const [taskName, setTaskName] = useState("");
-  const [status, setStatus] = useState("Status");
+  const [status, setStatus] = useState("Finished");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [dueDate, setDueDate] = useState(null);

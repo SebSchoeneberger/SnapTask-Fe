@@ -62,12 +62,24 @@ const TaskDetailsPopup = ({ task }) => {
             </button>
           </div>
           <div className="flex justify-between">
-            <p>
-              Created by:{" "}
-              <strong>
-                {task.creator.firstName} {task.creator.lastName}
-              </strong>
-            </p>
+            <div>
+              <p>
+                Created by:{" "}
+                <strong>
+                  {task.creator.firstName} {task.creator.lastName}
+                </strong>
+              </p>
+              {task.assignedTo.length > 0 && (
+                <p>
+                  Assigned to:{" "}
+                  {task.assignedTo.map((user) => (
+                    <strong key={user._id}>
+                      {user.firstName} {user.lastName}
+                    </strong>
+                  ))}
+                </p>
+              )}
+            </div>
             <div className="text-sm">
               <p className="py-0">
                 Created at: <strong>{formatDateFull(task.createdAt)}</strong>
