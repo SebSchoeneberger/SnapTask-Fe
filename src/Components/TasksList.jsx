@@ -2,7 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import CreateTask from "./CreateTask";
 import EditTaskModal from "../Components/EditTaskModal";
-import TaskDetails from "../Components/TaskDetailsView";
+// import TaskDetails from "../Components/TaskDetailsView";
+import TaskDetailsPopup from "../Components/Dashboard/TaskDetailsPopup";
 import { getToken } from "../Utils/TokenUtils";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { toast } from "react-toastify";
@@ -101,6 +102,8 @@ const TasksList = () => {
 
   const handleRowClick = (task) => {
     setSelectedTask(task);
+
+    document.getElementById("taskDetails").showModal();
   };
 
   const handleClickOutside = (event) => {
@@ -148,60 +151,90 @@ const TasksList = () => {
           <table className="table w-full">
             <thead>
               <tr>
-                <th className="border-b-2"></th>
+                {/* <th className="border-b-2"></th> */}
                 <th>
-                <div className="flex gap-1 items-center">
-                  <span>Task Name</span>
-                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("title")}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                    </svg>
-                  </button>
-                </div>
-              </th>
-              <th>
-                <div className="flex gap-1 items-center">
-                  <span>Description</span>
-                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("description")}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                    </svg>
-                  </button>
-                </div>
-              </th>
+                  <div className="flex gap-1 items-center">
+                    <span>Task Name</span>
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("title")}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                      </svg>
+                    </button>
+                  </div>
+                </th>
                 <th>
-                <div className="flex gap-1 items-center">
-                  <span>Due Date</span>
-                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("dueDate")}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                    </svg>
-                  </button>
-                </div>
-              </th>
+                  <div className="flex gap-1 items-center">
+                    <span>Description</span>
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("description")}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                      </svg>
+                    </button>
+                  </div>
+                </th>
+                <th>
+                  <div className="flex gap-1 items-center">
+                    <span>Due Date</span>
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("dueDate")}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                      </svg>
+                    </button>
+                  </div>
+                </th>
 
-              <th>
-                <div className="flex gap-1 items-center">
-                  <span>Status</span>
-                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("status")}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                    </svg>
-                  </button>
-                </div>
-              </th>
+                <th>
+                  <div className="flex gap-1 items-center">
+                    <span>Status</span>
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("status")}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                      </svg>
+                    </button>
+                  </div>
+                </th>
 
-              <th>
-                <div className="flex gap-1 items-center">
-                  <span>Priority</span>
-                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("priority")}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                    </svg>
-                  </button>
-                </div>
-              </th>
-              <th>
+                <th>
+                  <div className="flex gap-1 items-center">
+                    <span>Priority</span>
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("priority")}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                      </svg>
+                    </button>
+                  </div>
+                </th>
+                <th>
                   <div className="flex gap-1 items-center">
                     <span>Assigned to</span>
                     <button className="hover:cursor-pointer" onClick={() => handleSortClick("assignedTo.firstName")}>
@@ -218,23 +251,29 @@ const TasksList = () => {
                   </div>
                 </th>
                 <th>
-                <div className="flex gap-1 items-center">
-                  <span>Area</span>
-                  <button className="hover:cursor-pointer" onClick={() => handleSortClick("area.name")}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                    </svg>
-                  </button>
-                </div>
-              </th>
-                <th className="border-b-2"></th>
+                  <div className="flex gap-1 items-center">
+                    <span>Area</span>
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("area.name")}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                      </svg>
+                    </button>
+                  </div>
+                </th>
+                {/* <th className="border-b-2"></th> */}
               </tr>
             </thead>
             <tbody>
               {tasks.map((task, index) => (
                 <tr
                   key={task._id}
-                  className="hover"
+                  className="hover:cursor-pointer hover:bg-base-200"
                   onClick={(e) => {
                     if (!e.target.closest(".dropdown-content") && !e.target.closest(".dropdown")) {
                       handleRowClick(task);
@@ -309,7 +348,7 @@ const TasksList = () => {
 
       {modalOpen && !editTask && <CreateTask isOpen={modalOpen} onClose={() => setModalOpen(false)} onCreate={updateTasks} />}
       {editTask && <EditTaskModal taskData={editTask} updateTasks={updateTasks} onClose={() => setEditTask(null)} />}
-      {selectedTask && <TaskDetails task={selectedTask} onClose={() => setSelectedTask(null)} />}
+      <TaskDetailsPopup task={selectedTask} />
       <dialog id="delete_task_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <button

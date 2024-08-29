@@ -1,11 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import axious from "axios";
 import { getToken } from "../../Utils/TokenUtils";
 import { toast } from "react-toastify";
+import { formatDateShort, formatDateFull } from "../../Utils/DateUtils";
+import { TaskContext } from "../../Context/TaskProvider";
 
 export default function TaskDetails() {
+  const { area } = useContext(TaskContext);
   const API_URL = import.meta.env.VITE_API_URL;
   const { id } = useParams();
   const [task, setTask] = useState(null);
@@ -86,6 +89,12 @@ export default function TaskDetails() {
     <div className="min-h-svh w-full pt-16 pb-24 bg-base-100">
       <div className="flex flex-col h-full justify-around items-center">
         <p className="text-4xl mt-2">{task.title}</p>
+        <p className="text-3xl mt-2">{area}</p>
+        {task.status == "Finished" ? (
+          <p className="text-2xl mt-1">Finished on: {formatDateFull(task.finishedDate)}</p>
+        ) : (
+          <p className="text-2xl mt-1">Due date: {formatDateShort(task.dueDate)}</p>
+        )}
         <p className="text-2xl mt-2 text-justify px-4">{task.description}</p>
         {status == "New" ? (
           <button onClick={startTask} className="btn btn-success btn-lg w-full md:max-w-lg">
