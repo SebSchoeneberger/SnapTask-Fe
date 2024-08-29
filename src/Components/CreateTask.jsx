@@ -234,6 +234,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                 <label className="w-full">
                   <select
                     {...register("assignedTo")}
+                    multiple
                     className={`select input-bordered w-full ${
                       errors.assignedTo ? "input-error" : ""
                     }`}
@@ -271,7 +272,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                     style={{
                       color: "red",
                       position: "absolute",
-                      top: "450px",
+                      top: "480px",
                       fontSize: "12px",
                     }}
                   >

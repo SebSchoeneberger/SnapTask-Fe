@@ -5,6 +5,7 @@ import { getToken } from "../Utils/TokenUtils";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Pagination from "../Components/Dashboard/Pagination";
+import sortTables from "../Utils/SortTablesUtils";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -32,7 +33,6 @@ const Areas = () => {
       })
       .then((res) => {
         setAreas(res.data.areas);
-        // console.log(res.data)
         setTotalTasks(res.data.totalResults);
         setTotalPages(res.data.totalPages);
         window.scrollTo(0, 0);
@@ -100,33 +100,12 @@ const Areas = () => {
   }, []);
 
   const handleSortClick = (key) => {
-    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
-    sortAreas(key);
-  };
-
-  const sortAreas = (key) => {
-    const sortedAreas = [...areas].sort((a, b) => {
-      let valueA, valueB;
-
-      if (key === "users") {
-        // Sort by the first user's full name in the array
-        valueA = a.users.length > 0 ? `${a.users[0].firstName} ${a.users[0].lastName}`.toUpperCase() : "";
-        valueB = b.users.length > 0 ? `${b.users[0].firstName} ${b.users[0].lastName}`.toUpperCase() : "";
-      } else {
-        valueA = a[key] ? a[key].toUpperCase() : "";
-        valueB = b[key] ? b[key].toUpperCase() : "";
-      }
-
-      if (valueA < valueB) {
-        return sortOrder === "asc" ? -1 : 1;
-      }
-      if (valueA > valueB) {
-        return sortOrder === "asc" ? 1 : -1;
-      }
-      return 0;
-    });
+    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(newSortOrder);
+    const sortedAreas = sortTables(areas, key, newSortOrder);
     setAreas(sortedAreas);
   };
+
 
   return (
     <div className="min-h-screen w-full flex flex-col gap-6 mt-10 p-5">
