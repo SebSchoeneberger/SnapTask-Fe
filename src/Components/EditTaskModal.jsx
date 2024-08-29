@@ -277,7 +277,7 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
                   </select>
                 </label> */}
                 <MultiselectComponent
-                  users={users}
+                  users={users.filter((user) => user.role != "manager")}
                   setSelectedUsers={setSelectedUsers}
                   {...register("assignedTo")}
                   styles={{
