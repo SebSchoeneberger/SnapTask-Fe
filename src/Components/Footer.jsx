@@ -1,7 +1,15 @@
+
+
 export default function Footer() {
   return (
-    <footer className="bg-base-300 gap-6 mx-auto py-8 px-2">
-      <small className="font-semibold sm:text-lg md:text-xl font-[lato]">&copy; {new Date().getFullYear()} All rights reserved.</small>
-    </footer>
+    <footer className="footer footer-center bg-base-300 text-base-content p-4">
+    <aside className="flex flex-col gap-2">
+    <div onClick={() => navigate("/")} className="flex gap-3 align-middle justify-center  hover:cursor-pointer">
+            <img className="w-8" src="src/assets/Logo-white.png" alt="Logo" />
+            <p className="text-xl ">SnapTask</p>
+          </div>
+      <p>Copyright © {new Date().getFullYear()} - All right reserved by SnapTask</p>
+    </aside>
+  </footer>
   );
 }
