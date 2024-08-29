@@ -8,7 +8,7 @@ import MultiselectComponent from "../Components/MutiselectComponent";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
+const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
   const {
     register,
     handleSubmit,
@@ -16,7 +16,7 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
     formState: { errors },
   } = useForm();
   const token = getToken();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedUsers, setSelectedUsers] = useState([]);
 
   const [users, setUsers] = useState([]);
@@ -25,12 +25,9 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
   useEffect(() => {
     if (taskData) {
       setValue("title", taskData.title);
-      console.log(taskData);
+      // console.log(taskData);
       setValue("description", taskData.description);
-      setValue(
-        "dueDate",
-        new Date(taskData.dueDate).toISOString().slice(0, 10)
-      );
+      setValue("dueDate", new Date(taskData.dueDate).toISOString().slice(0, 10));
       setValue("priority", taskData.priority);
 
       if (taskData.assignedTo) {
@@ -45,21 +42,36 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const usersResponse = await axios.get(`${API_URL}/users`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
         const areasResponse = await axios.get(`${API_URL}/areas`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-
-        setUsers(usersResponse.data.staff);
         setAreas(areasResponse.data.areas);
+        // console.log(usersResponse.data.staff);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
     };
     fetchData();
-  }, [token]);
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/users`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setUsers(res.data.staff);
+      })
+      .catch((error) => {
+        toast.error("Error loading areas");
+        console.error(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -96,23 +108,10 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
     <dialog className="modal modal-bottom sm:modal-middle" open>
       <div className="modal-box flex flex-col bg-base-200 p-6 my-8 min-w-[700px]">
         <div className="flex justify-between items-center gap-3 pb-4">
-          <h3 className="text-2xl font-semibold text-left w-full max-w-xl">
-            Edit Task
-          </h3>
+          <h3 className="text-2xl font-semibold text-left w-full max-w-xl">Edit Task</h3>
           <button type="button" onClick={onClose} className="">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
@@ -121,24 +120,9 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
             <div className="flex flex-col gap-6 w-11/12">
               <div className="w-full flex flex-col items-start gap-2">
                 <span className="label-text">Task Name</span>
-                <label
-                  className={`input input-bordered w-full relative flex items-center gap-2 ${
-                    errors.title ? "input-error" : ""
-                  }`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m4.5 12.75 6 6 9-13.5"
-                    />
+                <label className={`input input-bordered w-full relative flex items-center gap-2 ${errors.title ? "input-error" : ""}`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                   </svg>
                   <input
                     id="title"
@@ -157,16 +141,14 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
                       position: "absolute",
                       top: "150px",
                       fontSize: "12px",
-                    }}
-                  >
+                    }}>
                     {errors.title.message}
                   </span>
                 )}
               </div>
               <div className="w-full flex flex-col items-start gap-2">
                 <span className="label-text">
-                  Task Description{" "}
-                  <span className="text-[12px]">(optional)</span>
+                  Task Description <span className="text-[12px]">(optional)</span>
                 </span>
                 <label className="w-full block">
                   <textarea
@@ -189,9 +171,7 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
                     {...register("dueDate", {
                       required: "Due date is required",
                     })}
-                    className={`input input-bordered w-full ${
-                      errors.dueDate ? "input-error" : ""
-                    }`}
+                    className={`input input-bordered w-full ${errors.dueDate ? "input-error" : ""}`}
                   />
                 </label>
                 {errors.dueDate && (
@@ -201,8 +181,7 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
                       position: "absolute",
                       top: "150px",
                       fontSize: "12px",
-                    }}
-                  >
+                    }}>
                     {errors.dueDate.message}
                   </span>
                 )}
@@ -215,10 +194,7 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
                     {...register("priority", {
                       required: "Priority is required",
                     })}
-                    className={`select input-bordered w-full ${
-                      errors.priority ? "input-error" : ""
-                    }`}
-                  >
+                    className={`select input-bordered w-full ${errors.priority ? "input-error" : ""}`}>
                     <option value="">Select Priority</option>
                     <option value="High">High</option>
                     <option value="Medium">Medium</option>
@@ -232,8 +208,7 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
                       position: "absolute",
                       top: "250px",
                       fontSize: "12px",
-                    }}
-                  >
+                    }}>
                     {errors.priority.message}
                   </span>
                 )}
@@ -255,37 +230,6 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
                   </label>
                 </div> */}
 
-              {/* Dropdown for Assign To */}
-              <div className="w-full flex flex-col items-start gap-2">
-                <span className="label-text">
-                  Assign to <span className="text-[12px]">(optional)</span>
-                </span>
-                {/* <label className="w-full">
-                  <select
-                    {...register("assignedTo")}
-                    multiple
-                    className={`select input-bordered w-full ${
-                      errors.assignedTo ? "input-error" : ""
-                    }`}
-                  >
-                    <option value="">Choose one or more</option>
-                    {users.map((user) => (
-                      <option key={user._id} value={user._id}>
-                        {user.firstName} {user.lastName}
-                      </option>
-                    ))}
-                  </select>
-                </label> */}
-                <MultiselectComponent
-                  users={users}
-                  setSelectedUsers={setSelectedUsers}
-                  {...register("assignedTo")}
-                  styles={{
-                    color: "blue",
-                  }}
-                />
-              </div>
-
               {/* Dropdown for Area */}
               <div className="w-full flex flex-col items-start gap-2">
                 <span className="label-text">Select Area</span>
@@ -294,10 +238,7 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
                     {...register("area", {
                       required: "Area selection is required",
                     })}
-                    className={`select input-bordered w-full ${
-                      errors.area ? "input-error" : ""
-                    }`}
-                  >
+                    className={`select input-bordered w-full ${errors.area ? "input-error" : ""}`}>
                     <option value="">Select Area</option>
                     {areas.map((area) => (
                       <option key={area._id} value={area._id}>
@@ -313,19 +254,46 @@ const EditTaskModal = ({ taskData, updateTasks, onClose }) => {
                       position: "absolute",
                       top: "480px",
                       fontSize: "12px",
-                    }}
-                  >
+                    }}>
                     {errors.area.message}
                   </span>
                 )}
               </div>
             </div>
           </div>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            disabled={isLoading}
-          >
+          {/* Dropdown for Assign To */}
+          <div className="w-full flex flex-col items-start gap-2 mb-4">
+            <span className="label-text">
+              Assign to <span className="text-[12px]">(optional)</span>
+            </span>
+            {/* <label className="w-full">
+                  <select
+                    {...register("assignedTo")}
+                    multiple
+                    className={`select input-bordered w-full ${
+                      errors.assignedTo ? "input-error" : ""
+                    }`}
+                  >
+                    <option value="">Choose one or more</option>
+                    {users.map((user) => (
+                      <option key={user._id} value={user._id}>
+                        {user.firstName} {user.lastName}
+                      </option>
+                    ))}
+                  </select>
+                </label> */}
+
+            <MultiselectComponent
+              users={users}
+              setSelectedUsers={setSelectedUsers}
+              defaultSeleted={taskUsers}
+              // {...register("assignedTo")}
+              // styles={{
+              //   color: "blue",
+              // }}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary" disabled={isLoading}>
             Update
           </button>
         </form>
