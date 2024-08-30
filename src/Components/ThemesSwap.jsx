@@ -2,9 +2,9 @@ import React, { useEffect, useContext } from "react";
 import { ColorContext } from "../Context/ColorProvider";
 
 const storageKey = "snap-task-theme";
+export const themesSwap = ["winter", "dim"];
 
 export default function ThemesSwap() {
-  const themesSwap = ["emerald", "dim"];
   // const [theme, setTheme] = React.useState(
   //   JSON.parse(localStorage.getItem(storageKey)) || themesSwap[0]
   // );
