@@ -35,7 +35,7 @@ export default function ThemesSwap() {
   }
 
   return (
-    <label className="flex cursor-pointer gap-2">
+    <label className="flex gap-2">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
@@ -49,7 +49,7 @@ export default function ThemesSwap() {
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
       </svg>
 
-      <input type="checkbox" value={themesSwap[0]} className="toggle theme-controller" />
+      <input type="checkbox" onChange={handleSwap} checked={theme === themesSwap[0] ? true : false} className="toggle theme-controller" />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"

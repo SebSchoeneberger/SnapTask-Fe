@@ -6,10 +6,9 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../Context/AuthProvider";
 import DefaultProfileImage from "./DefaultProfileImage";
 
-import logo from "../assets/Logo.png"
+import logo from "../assets/Logo.png";
 
 const API_URL = import.meta.env.VITE_API_URL;
-
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -32,13 +31,8 @@ const Navbar = () => {
     <>
       <div className="navbar bg-base-300">
         <div className="flex-1 gap-12  ml-4 mr-4">
-
-          <div
-            onClick={() => navigate("/dashboard")}
-            className="flex gap-3 align-middle justify-center  hover:cursor-pointer"
-          >
+          <div onClick={() => navigate("/dashboard")} className="flex gap-3 align-middle justify-center  hover:cursor-pointer">
             <img className="w-8" src={logo} alt="Logo" />
-
 
             <p className="text-xl logo">SnapTask</p>
           </div>
@@ -50,7 +44,9 @@ const Navbar = () => {
         {user && (
           <div className="flex-none gap-1">
             <div className="dropdown dropdown-end">
-              <NavLink to="faq" className={({ isActive }) => (isActive ? "btn btn-circle btn-info text-info-content" : "btn btn-ghost btn-circle")}>
+              <NavLink
+                to="faq"
+                className={({ isActive }) => (isActive ? "btn btn-circle btn-primary text-primary-content" : "btn btn-ghost btn-circle")}>
                 {/* <div tabIndex={0} role="button" className="btn btn-ghost btn-circle"> */}
                 <div className="indicator">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
@@ -65,7 +61,7 @@ const Navbar = () => {
               </NavLink>
               <NavLink
                 to="profile"
-                className={({ isActive }) => (isActive ? "btn btn-circle btn-info text-info-content" : "btn btn-ghost btn-circle")}>
+                className={({ isActive }) => (isActive ? "btn btn-circle btn-primary text-primary-content" : "btn btn-ghost btn-circle")}>
                 {/* <div tabIndex={0} role="button" className="btn btn-ghost btn-circle"> */}
                 <div className="indicator">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">

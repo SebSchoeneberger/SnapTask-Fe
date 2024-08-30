@@ -35,6 +35,7 @@ const sortTables = (table, key, sortOrder) => {
 export default sortTables;
 
 export function truncateText(text, maxLength) {
+  if (!text) return "";
   if (text.length <= maxLength) {
     return text;
   }
