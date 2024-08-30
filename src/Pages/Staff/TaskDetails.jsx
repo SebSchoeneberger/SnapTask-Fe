@@ -86,32 +86,35 @@ export default function TaskDetails() {
   }
 
   return (
-    <div className="min-h-svh w-full pt-16 pb-24 bg-base-100">
-      <div className="flex flex-col h-full justify-around items-center">
-        <p className="text-4xl mt-2">{task.title}</p>
+    <div className="min-h-svh w-full pt-20 pb-28 bg-base-100">
+      <div className="flex flex-col h-full justify-around items-center gap-3 px-1">
+        <p className="text-4xl mt-2 text-primary">{task.title}</p>
         <p className="text-3xl mt-2">{area}</p>
-        {task.status == "Finished" ? (
-          <p className="text-2xl mt-1">Finished on: {formatDateFull(task.finishedDate)}</p>
+        {status == "Finished" ? (
+          <p className="text-2xl mt-1 text-success italic">Finished on: {formatDateFull(task.finishedDate || new Date())}</p>
         ) : (
           <p className="text-2xl mt-1">Due date: {formatDateShort(task.dueDate)}</p>
         )}
+        <p className="text-xl mt-2 text-justify px-4">Priority: {task.priority}</p>
         <p className="text-2xl mt-2 text-justify px-4">{task.description}</p>
-        {status == "New" ? (
-          <button onClick={startTask} className="btn btn-success btn-lg w-full md:max-w-lg">
-            Start Task
-          </button>
-        ) : (
-          status == "In Progress" && (
-            <div className="flex flex-col gap-8 w-full px-8 md:max-w-xl">
-              <button onClick={finishTask} className="btn btn-lg btn-error w-full">
-                Finish Task
-              </button>
-              <button onClick={cancelTask} className="btn btn-lg btn-neutral">
-                Cancel
-              </button>
-            </div>
-          )
-        )}
+        <div className="w-full mt-4 px-4">
+          {status == "New" ? (
+            <button onClick={startTask} className="btn btn-success btn-lg w-full md:max-w-lg ">
+              Start Task
+            </button>
+          ) : (
+            status == "In Progress" && (
+              <div className="flex flex-col gap-8 w-full m-auto md:max-w-xl">
+                <button onClick={finishTask} className="btn btn-lg btn-error w-full">
+                  Finish Task
+                </button>
+                <button onClick={cancelTask} className="btn btn-lg btn-neutral">
+                  Cancel
+                </button>
+              </div>
+            )
+          )}
+        </div>
       </div>
     </div>
   );

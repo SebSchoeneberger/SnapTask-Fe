@@ -21,7 +21,7 @@ function ImageCropper({ imageSrc, onCropComplete }) {
   }, [imageSrc, croppedAreaPixels, onCropComplete]);
 
   return (
-    <div className="left-[35%] top-[10%] flex flex-col items-center h-3/4 w-1/3 bg-base-300 fixed z-20  border-[1px] border-primary border-opacity-50 p-4 rounded-lg">
+    <div className=" md:left-[20%] md:w-2/3 w-4/5 top-[10%] left-8 flex flex-col items-center h-3/4  bg-base-300 fixed z-20  border-[1px] border-primary border-opacity-50 p-4 rounded-lg">
       <div className="relative mb-4 h-full w-full">
         <Cropper
           image={imageSrc}
@@ -41,7 +41,7 @@ function ImageCropper({ imageSrc, onCropComplete }) {
         step="0.1"
         value={zoom}
         onChange={(e) => setZoom(e.target.value)}
-        className="range range-primary w-full max-w-lg"
+        className="range range-primary range-sm w-full max-w-lg"
       />
       <div className="flex space-x-4 mt-4">
         <button className="btn btn-primary rounded-2xl" onClick={handleCrop}>

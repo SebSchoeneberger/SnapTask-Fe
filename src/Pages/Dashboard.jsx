@@ -19,8 +19,10 @@ function Dashboard() {
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [loadingAreas, setLoadingAreas] = useState(true);
   const [loadingTasks, setLoadingTasks] = useState(true);
+  const [loadingAllTasks, setLoadingAllTasks] = useState(true);
   const [selectedArea, setSelectedArea] = useState("All");
   const [selectedTask, setSelectedTask] = useState(null);
+  const [allTasks, setAllTasks] = useState([]);
   const [stats, setStats] = useState({
     recordsToday: 0,
     hoursWorked: 0,
@@ -72,6 +74,26 @@ function Dashboard() {
       })
       .finally(() => setLoadingAreas(false));
   }, []);
+
+  useEffect(() => {
+    const param = selectedArea === "All" ? "" : `area=${selectedArea}`;
+    axios
+      .get(`${tasksUrl}?${param}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setAllTasks(response.data.tasks);
+        // console.log(response.data);
+      })
+      .catch((error) => {
+        // console.error(error);
+        toast.error("Error loading tasks");
+      })
+      .finally(() => setLoadingAllTasks(false));
+  }, [selectedArea]);
 
   // Getting tasks within last week
   useEffect(() => {
@@ -126,12 +148,6 @@ function Dashboard() {
 
   const borderMarkup = ""; //border-[2px] border-base-content p-3 my-4 font-semibold";
 
-  // Handle per page change
-  function handlePerPageChange(e) {
-    setPage(1);
-    setPerPage(e.target.value);
-  }
-
   const [sortOrder, setSortOrder] = useState("asc");
   const handleSortClick = (key) => {
     // console.log(key);
@@ -141,7 +157,7 @@ function Dashboard() {
     setFilteredTasks(sortedTasks);
   };
 
-  if (loadingAreas)
+  if (loadingAreas || loadingAllTasks)
     return (
       <div className="min-h-screen  w-full m-auto text-left px-12  mb-8">
         <LoadingSpinner />
@@ -270,10 +286,10 @@ function Dashboard() {
 
         <div className="flex w-full items-center flex-wrap bg-base-200 shadow-md rounded-md">
           <div className="w-2/3 p-8 rounded-xl border-[0px] border-primary">
-            <LineChart tasks={filteredTasks} />
+            <LineChart tasks={allTasks} />
           </div>
           <div className="w-1/3 p-4 rounded-xl border-[0px] border-primary">
-            <DoughnutChart tasks={filteredTasks} />
+            <DoughnutChart tasks={allTasks} />
           </div>
         </div>
 

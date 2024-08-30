@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import Pagination from "../Components/Dashboard/Pagination";
 import { formatDateShort } from "../Utils/DateUtils";
 import sortTables from "../Utils/SortTablesUtils";
+import { truncateText } from "../Utils/SortTablesUtils";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const TasksList = () => {
@@ -343,10 +344,10 @@ const TasksList = () => {
                     ) {
                       handleRowClick(task);
                     }
-                  }}
-                >
-                  <td className="font-bold">{index + 1}</td>
-                  <td>{task.title}</td>
+                  }}>
+                  <td className="font-bold ">{index + 1}</td>
+                  <td className="">{truncateText(task.title, 50)}</td>
+
                   <td className="truncate-multiline ">{task.description}</td>
                   <td>{formatDateShort(task.dueDate)}</td>
                   <td>{task.status}</td>

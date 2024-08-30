@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
-import { AuthContext } from "../../Context/AuthProvider";
+// import { AuthContext } from "../../Context/AuthProvider";
 import { getToken } from "../../Utils/TokenUtils";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import TaskCard from "./TaskCard";
@@ -13,7 +13,7 @@ function StaffDashboard() {
   const token = getToken();
 
   useEffect(() => {
-    console.log(token);
+    // console.log(token);
     axios
       .get(getTasksUrl, {
         headers: {
@@ -37,14 +37,15 @@ function StaffDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen w-full">
+      <div className="min-h-screen w-full overflow-hidden ">
+        <LoadingSpinner />
         <LoadingSpinner />
       </div>
     );
   }
 
   return (
-    <div className="min-h-svh w-full pt-16 pb-24 bg-base-100">
+    <div className="min-h-svh w-full pt-16 pb-24 bg-base-100 overflow-hidden">
       <p className="font-bold text-3xl py-4">Dashboard</p>
       <div className="flex flex-col items-center w-full gap-2  px-4">
         {tasks.map((task) => (
