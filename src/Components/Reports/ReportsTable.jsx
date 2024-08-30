@@ -87,7 +87,6 @@ function ReportsTable({
     );
   });
 
-  console.log(selectedAreaName)
   const generatePDF = () => {
     setIsGeneratingPDF(true)
     

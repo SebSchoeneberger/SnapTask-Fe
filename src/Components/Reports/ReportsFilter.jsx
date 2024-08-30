@@ -29,7 +29,9 @@ const ReportsFilter = ({
 }) => {
   const [areas, setAreas] = useState([]);
   const [managers, setManagers] = useState([]);
-
+  const [loadingAreas, setLoadingAreas] = useState(false);
+  const [loadingManagers, setLoadingManagers] = useState(false);
+  
   const token = getToken();
   const areasUrl = `${API_URL}/areas/`;
   const usersUrl = `${API_URL}/users`;
