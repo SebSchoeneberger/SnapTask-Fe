@@ -12,6 +12,7 @@ import sortTables from "../../Utils/SortTablesUtils";
 const API_URL = import.meta.env.VITE_API_URL;
 
 function ReportsTable({
+  selectedAreaName,
   selectedArea,
   taskName,
   status,
@@ -26,6 +27,7 @@ function ReportsTable({
   const [isLoading, setIsLoading] = useState(true);
   const [selectedTask, setSelectedTask] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const tasksUrl = `${API_URL}/tasks`;
   const token = getToken();
 
@@ -85,32 +87,59 @@ function ReportsTable({
     );
   });
 
+  console.log(selectedAreaName)
   const generatePDF = () => {
-    html2canvasPro(document.getElementById("table-container")).then(
-      (canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("p", "mm", "a4");
+    setIsGeneratingPDF(true)
+    
+    const style = document.createElement('style');
+    style.innerHTML = `
+    #table-container tr {
+      background-color: white !important;
+    }
+    #table-container * {
+      color: black !important;
+    }`;
 
-        // Add logo
-        pdf.addImage(logo, "PNG", 10, 10, 20, 20);
-        pdf.setFontSize(16);
-        pdf.text("SnapTask", 10 + 20 + 5, 21);
+    document.head.appendChild(style);
+  
+    const tableContainer = document.getElementById('table-container');
+  
+    // Step 3: Generate the PDF
+    html2canvasPro(tableContainer).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+  
+      // Add logo
+      pdf.addImage(logo, 'PNG', 10, 10, 20, 20);
+      pdf.setFontSize(16);
+      pdf.text('SnapTask', 10 + 20 + 5, 21);
+  
+      // Add title
+      pdf.setFontSize(20);
+      pdf.text('Task Reports', 105, 30, { align: 'center' });
 
-        // Add title
-        pdf.setFontSize(20);
-        pdf.text("Task Reports", 105, 30, { align: "center" });
-
-        // Add table image from canvas
-        pdf.addImage(imgData, "PNG", 10, 40, 190, 0);
-
-        const today = new Date();
-        const formatedDay = formatDateShort(today);
-
-        // Save the PDF
-        pdf.save(`Tasks-report-${formatedDay}.pdf`);
+      if (startDate != null && endDate != null){
+        pdf.setFontSize(15);
+        pdf.text(`${formatDateShort(startDate)} - ${formatDateShort(endDate)}`, 105, 40, {align: 'center'})
       }
-    );
+
+      pdf.setFontSize(15);
+      pdf.text(`${selectedAreaName}`, 10, 40, {align: 'left'})
+      
+      // Add table image from canvas
+      pdf.addImage(imgData, 'PNG', 10, 45, 190, 0);
+  
+      const today = new Date();
+      const formattedDay = formatDateShort(today);
+  
+      // Save the PDF
+      pdf.save(`Tasks-report-${formattedDay}.pdf`);
+  
+      document.head.removeChild(style);
+      setIsGeneratingPDF(false);
+    });
   };
+  
 
   const handleSortClick = (key) => {
     const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
@@ -119,7 +148,7 @@ function ReportsTable({
     setTasks(sortedTasks);
   };
 
-  if (isLoading)
+  if (isLoading || isGeneratingPDF)
     return (
       <div className="min-h-screen w-full text-left px-12">
         <LoadingSpinner />
