@@ -22,7 +22,9 @@ const TaskDetailsView = ({ task, onClose }) => {
             <h3 className="font-bold text-lg">{task.title}</h3>
 
             <form method="dialog">
-              <button className="btn btn-sm btn-circle absolute right-2 top-2">✕</button>
+              <button className="btn btn-sm btn-circle absolute right-2 top-2">
+                ✕
+              </button>
             </form>
           </div>
           <div className="flex justify-between">
@@ -49,10 +51,12 @@ const TaskDetailsView = ({ task, onClose }) => {
             </p>
             <div className="text-sm">
               <p className="py-0">
-                Created at: <strong>{new Date(task.createdAt).toLocaleString()}</strong>
+                Created at:{" "}
+                <strong>{new Date(task.createdAt).toLocaleString()}</strong>
               </p>
               <p className="py-0">
-                Due date: <strong>{new Date(task.dueDate).toLocaleString()}</strong>
+                Due date:{" "}
+                <strong>{new Date(task.dueDate).toLocaleString()}</strong>
               </p>
             </div>
           </div>

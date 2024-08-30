@@ -108,13 +108,6 @@ const ReportsFilter = ({
     setCreatedBy(e.target.value);
   };
 
-  if (loadingAreas || loadingManagers)
-    return (
-      <div className="min-h-screen  w-full m-auto text-left px-12  mb-8">
-        <LoadingSpinner />
-      </div>
-    );
-
   return (
     <div className="border-base-content py-6 px-8 mt-6 mx-6 border-opacity-40 bg-base-200 rounded-md shadow-md">
       <h1 className="text-left font-bold text-lg">Records Filter</h1>
