@@ -27,7 +27,10 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
       setValue("title", taskData.title);
       // console.log(taskData);
       setValue("description", taskData.description);
-      setValue("dueDate", new Date(taskData.dueDate).toISOString().slice(0, 10));
+      setValue(
+        "dueDate",
+        new Date(taskData.dueDate).toISOString().slice(0, 10)
+      );
       setValue("priority", taskData.priority);
 
       if (taskData.assignedTo) {
@@ -108,10 +111,23 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
     <dialog className="modal modal-bottom sm:modal-middle" open>
       <div className="modal-box flex flex-col bg-base-200 p-6 my-8 min-w-[700px]">
         <div className="flex justify-between items-center gap-3 pb-4">
-          <h3 className="text-2xl font-semibold text-left w-full max-w-xl">Edit Task</h3>
+          <h3 className="text-2xl font-semibold text-left w-full max-w-xl">
+            Edit Task
+          </h3>
           <button type="button" onClick={onClose} className="">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -120,9 +136,24 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
             <div className="flex flex-col gap-6 w-11/12">
               <div className="w-full flex flex-col items-start gap-2">
                 <span className="label-text">Task Name</span>
-                <label className={`input input-bordered w-full relative flex items-center gap-2 ${errors.title ? "input-error" : ""}`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                <label
+                  className={`input input-bordered w-full relative flex items-center gap-2 ${
+                    errors.title ? "input-error" : ""
+                  }`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m4.5 12.75 6 6 9-13.5"
+                    />
                   </svg>
                   <input
                     id="title"
@@ -141,14 +172,16 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
                       position: "absolute",
                       top: "150px",
                       fontSize: "12px",
-                    }}>
+                    }}
+                  >
                     {errors.title.message}
                   </span>
                 )}
               </div>
               <div className="w-full flex flex-col items-start gap-2">
                 <span className="label-text">
-                  Task Description <span className="text-[12px]">(optional)</span>
+                  Task Description{" "}
+                  <span className="text-[12px]">(optional)</span>
                 </span>
                 <label className="w-full block">
                   <textarea
@@ -171,7 +204,9 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
                     {...register("dueDate", {
                       required: "Due date is required",
                     })}
-                    className={`input input-bordered w-full ${errors.dueDate ? "input-error" : ""}`}
+                    className={`input input-bordered w-full ${
+                      errors.dueDate ? "input-error" : ""
+                    }`}
                   />
                 </label>
                 {errors.dueDate && (
@@ -181,7 +216,8 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
                       position: "absolute",
                       top: "150px",
                       fontSize: "12px",
-                    }}>
+                    }}
+                  >
                     {errors.dueDate.message}
                   </span>
                 )}
@@ -194,7 +230,10 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
                     {...register("priority", {
                       required: "Priority is required",
                     })}
-                    className={`select input-bordered w-full ${errors.priority ? "input-error" : ""}`}>
+                    className={`select input-bordered w-full ${
+                      errors.priority ? "input-error" : ""
+                    }`}
+                  >
                     <option value="">Select Priority</option>
                     <option value="High">High</option>
                     <option value="Medium">Medium</option>
@@ -208,7 +247,8 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
                       position: "absolute",
                       top: "250px",
                       fontSize: "12px",
-                    }}>
+                    }}
+                  >
                     {errors.priority.message}
                   </span>
                 )}
@@ -238,7 +278,10 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
                     {...register("area", {
                       required: "Area selection is required",
                     })}
-                    className={`select input-bordered w-full ${errors.area ? "input-error" : ""}`}>
+                    className={`select input-bordered w-full ${
+                      errors.area ? "input-error" : ""
+                    }`}
+                  >
                     <option value="">Select Area</option>
                     {areas.map((area) => (
                       <option key={area._id} value={area._id}>
@@ -254,7 +297,8 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
                       position: "absolute",
                       top: "480px",
                       fontSize: "12px",
-                    }}>
+                    }}
+                  >
                     {errors.area.message}
                   </span>
                 )}
@@ -293,7 +337,11 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
               // }}
             />
           </div>
-          <button type="submit" className="btn btn-primary" disabled={isLoading}>
+          <button
+            type="submit"
+            className="btn btn-primary rounded-2xl"
+            disabled={isLoading}
+          >
             Update
           </button>
         </form>

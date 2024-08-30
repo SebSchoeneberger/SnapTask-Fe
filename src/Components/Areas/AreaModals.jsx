@@ -168,7 +168,7 @@ export function CreateAreaModal({ updateAreas }) {
                 }}
               />
             </div>
-            <button className="btn btn-primary" type="submit" disabled={isLoading}>
+            <button className="btn btn-primary rounded-2xl" type="submit" disabled={isLoading}>
               Create Area
             </button>
           </form>
@@ -330,7 +330,7 @@ export function UpdateAreaModal({ areaData, updateAreas, areaUsers }) {
             />
           </div>
 
-          <button className="btn btn-primary" type="submit" disabled={isLoading}>
+          <button className="btn btn-primary rounded-2xl" type="submit" disabled={isLoading}>
             Update Area
           </button>
         </form>

@@ -91,7 +91,9 @@ export function CreateUser({ setUsers, name, updateUsers }) {
       <dialog id={name} className="modal modal-bottom sm:modal-middle">
         <div className="modal-box bg-base-200 p-6 my-8 rounded-2xl min-w-[700px]">
           <div className="flex justify-between items-center gap-3 pb-4">
-            <h3 className="text-2xl font-semibold text-left w-full max-w-xl">Create User</h3>
+            <h3 className="text-2xl font-semibold text-left w-full max-w-xl">
+              Create User
+            </h3>
             <button
               type="button"
               className=""
@@ -99,28 +101,62 @@ export function CreateUser({ setUsers, name, updateUsers }) {
                 reset();
                 setPassword(generatePassword());
                 document.getElementById(name).close();
-              }}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
-          <form method="dialog" onSubmit={handleSubmit(onSubmit)} action="submit" className="flex flex-col gap-6 items-center" autoComplete="off">
+          <form
+            method="dialog"
+            onSubmit={handleSubmit(onSubmit)}
+            action="submit"
+            className="flex flex-col gap-6 items-center"
+            autoComplete="off"
+          >
             <div className="w-full flex flex-col items-start gap-2">
               <span className="label-text">First Name</span>
               <label className="w-full input input-bordered flex items-center gap-2">
-                <input {...register("firstName")} name="firstName" label="First Name" placeholder="" className="w-full" />
+                <input
+                  {...register("firstName")}
+                  name="firstName"
+                  label="First Name"
+                  placeholder=""
+                  className="w-full"
+                />
               </label>
             </div>
             <div className="w-full flex flex-col items-start gap-2">
               <span className="label-text">Last Name</span>
               <label className="w-full input input-bordered flex items-center gap-2">
-                <input {...register("lastName")} name="lastName" label="Last Name" placeholder="" className="w-full" />
+                <input
+                  {...register("lastName")}
+                  name="lastName"
+                  label="Last Name"
+                  placeholder=""
+                  className="w-full"
+                />
               </label>
             </div>
             <div className="w-full flex flex-col items-start gap-2">
               <span className="label-text">Email Account*</span>
-              <label className={`input input-bordered w-full relative flex items-center gap-2 ${errors.email ? "input-error" : ""}`}>
+              <label
+                className={`input input-bordered w-full relative flex items-center gap-2 ${
+                  errors.email ? "input-error" : ""
+                }`}
+              >
                 <input
                   type="text"
                   placeholder=""
@@ -138,7 +174,8 @@ export function CreateUser({ setUsers, name, updateUsers }) {
                     position: "absolute",
                     top: "350px",
                     fontSize: "12px",
-                  }}>
+                  }}
+                >
                   {errors.email.message}
                 </span>
               )}
@@ -151,7 +188,10 @@ export function CreateUser({ setUsers, name, updateUsers }) {
                   {...register("role", {
                     required: "Account type is required",
                   })}
-                  className={`select input-bordered w-full ${errors.role ? "input-error" : ""}`}>
+                  className={`select input-bordered w-full ${
+                    errors.role ? "input-error" : ""
+                  }`}
+                >
                   {/* <option value="">Choose one</option> */}
                   <option value="staff">Staff</option>
                   <option value="manager">Manager</option>
@@ -164,14 +204,19 @@ export function CreateUser({ setUsers, name, updateUsers }) {
                     position: "absolute",
                     top: "500px",
                     fontSize: "12px",
-                  }}>
+                  }}
+                >
                   {errors.role.message}
                 </span>
               )}
             </div>
             <div className="w-full flex flex-col items-start gap-2">
               <span className="label-text">Password*</span>
-              <label className={`input input-bordered w-full relative flex items-center gap-2 ${errors.password ? "input-error" : ""}`}>
+              <label
+                className={`input input-bordered w-full relative flex items-center gap-2 ${
+                  errors.password ? "input-error" : ""
+                }`}
+              >
                 <input
                   type="text"
                   placeholder=""
@@ -185,14 +230,17 @@ export function CreateUser({ setUsers, name, updateUsers }) {
                 />
 
                 <div className="flex justify-between gap-3">
-                  <button onClick={() => navigator.clipboard.writeText(password)}>
+                  <button
+                    onClick={() => navigator.clipboard.writeText(password)}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
-                      className="size-6">
+                      className="size-6"
+                    >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -207,7 +255,8 @@ export function CreateUser({ setUsers, name, updateUsers }) {
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
-                      className="size-6">
+                      className="size-6"
+                    >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -224,12 +273,17 @@ export function CreateUser({ setUsers, name, updateUsers }) {
                     position: "absolute",
                     top: "550px",
                     fontSize: "12px",
-                  }}>
+                  }}
+                >
                   {errors.password.message}
                 </span>
               )}
             </div>
-            <button type="submit" className="btn btn-primary" disabled={errors.email || errors.role || errors.password}>
+            <button
+              type="submit"
+              className="btn btn-primary rounded-2xl"
+              disabled={errors.email || errors.role || errors.password}
+            >
               Create User
             </button>
           </form>

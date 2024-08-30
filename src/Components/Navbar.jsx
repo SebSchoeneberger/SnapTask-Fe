@@ -28,10 +28,14 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar bg-base-200">
+      <div className="navbar bg-base-300">
         <div className="flex-1 gap-12  ml-4 mr-4">
-          <div onClick={() => navigate("/dashboard")} className="flex gap-3 align-middle justify-center  hover:cursor-pointer">
-            <img className="w-8" src="src/assets/Logo-white.png" alt="Logo" />
+          <div
+            onClick={() => navigate("/dashboard")}
+            className="flex gap-3 align-middle justify-center  hover:cursor-pointer"
+          >
+            <img className="w-8" src="src/assets/Logo.png" alt="Logo" />
+
             <p className="text-xl logo">SnapTask</p>
           </div>
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">

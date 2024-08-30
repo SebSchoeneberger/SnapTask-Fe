@@ -145,28 +145,39 @@ const TasksList = () => {
       <div className="flex justify-between">
         <p className="text-xl font-semibold">Task Management</p>
 
-        <button className="btn btn-primary" onClick={() => setModalOpen(true)}>
+        <button
+          className="btn btn-primary rounded-2xl"
+          onClick={() => setModalOpen(true)}
+        >
           Create Task
         </button>
       </div>
       {tasks.length > 0 ? (
-        <div>
-          <table className="table w-full ">
-            <thead>
-              <tr>
-                <th className=""></th>
+        <div className="rounded-md">
+          <table className="table rounded-md  table-zebra table-sm w-full shadow-md">
+            <thead className="text-sm bg-base-300 rounded-md  ">
+              <tr className="border-solid rounded-md ">
+                <th></th>
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Task Name</span>
-                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("title")}>
+                    <button
+                      className="hover:cursor-pointer"
+                      onClick={() => handleSortClick("title")}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                        className="size-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -174,15 +185,23 @@ const TasksList = () => {
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Description</span>
-                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("description")}>
+                    <button
+                      className="hover:cursor-pointer"
+                      onClick={() => handleSortClick("description")}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                        className="size-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -190,15 +209,23 @@ const TasksList = () => {
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Due Date</span>
-                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("dueDate")}>
+                    <button
+                      className="hover:cursor-pointer"
+                      onClick={() => handleSortClick("dueDate")}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                        className="size-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -207,15 +234,23 @@ const TasksList = () => {
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Status</span>
-                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("status")}>
+                    <button
+                      className="hover:cursor-pointer"
+                      onClick={() => handleSortClick("status")}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                        className="size-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -224,15 +259,23 @@ const TasksList = () => {
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Priority</span>
-                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("priority")}>
+                    <button
+                      className="hover:cursor-pointer"
+                      onClick={() => handleSortClick("priority")}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                        className="size-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -240,15 +283,23 @@ const TasksList = () => {
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Assigned to</span>
-                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("assignedTo.firstName")}>
+                    <button
+                      className="hover:cursor-pointer"
+                      onClick={() => handleSortClick("assignedTo.firstName")}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                        className="size-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -256,20 +307,29 @@ const TasksList = () => {
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Area</span>
-                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("area.name")}>
+                    <button
+                      className="hover:cursor-pointer"
+                      onClick={() => handleSortClick("area.name")}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                        className="size-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                        />
                       </svg>
                     </button>
                   </div>
                 </th>
                 {/* <th className="border-b-2"></th> */}
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -278,12 +338,16 @@ const TasksList = () => {
                   key={task._id}
                   className="hover:cursor-pointer hover:bg-base-200 h-28"
                   onClick={(e) => {
-                    if (!e.target.closest(".dropdown-content") && !e.target.closest(".dropdown")) {
+                    if (
+                      !e.target.closest(".dropdown-content") &&
+                      !e.target.closest(".dropdown")
+                    ) {
                       handleRowClick(task);
                     }
                   }}>
                   <td className="font-bold ">{index + 1}</td>
                   <td className="">{truncateText(task.title, 50)}</td>
+
                   <td className="truncate-multiline ">{task.description}</td>
                   <td>{formatDateShort(task.dueDate)}</td>
                   <td>{task.status}</td>
@@ -300,14 +364,15 @@ const TasksList = () => {
                   <td>{task.area?.name}</td>
                   <td ref={dropdownRef}>
                     <details className="dropdown dropdown-end">
-                      <summary className="btn m-0 p-0 border-none bg-transparent hover:bg-transparent">
+                      <summary className="btn m-0 p-0 border-none bg-transparent hover:bg-transparen hover:cursor-pointer shadow-none">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
                           strokeWidth="1.5"
                           stroke="currentColor"
-                          className="w-6 h-6">
+                          className="w-6 h-6"
+                        >
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -321,7 +386,8 @@ const TasksList = () => {
                             onClick={(e) => {
                               e.stopPropagation();
                               handleEdit(task);
-                            }}>
+                            }}
+                          >
                             Edit
                           </button>
                         </li>
@@ -330,7 +396,8 @@ const TasksList = () => {
                             onClick={(e) => {
                               e.stopPropagation();
                               handleDelete(task);
-                            }}>
+                            }}
+                          >
                             Delete
                           </button>
                         </li>
@@ -341,23 +408,58 @@ const TasksList = () => {
               ))}
             </tbody>
           </table>
-          <Pagination page={page} setPage={setPage} perPage={perPage} setPerPage={setPerPage} totalPages={totalPages} totalResults={totalResults} />
+          <Pagination
+            page={page}
+            setPage={setPage}
+            perPage={perPage}
+            setPerPage={setPerPage}
+            totalPages={totalPages}
+            totalResults={totalResults}
+          />
         </div>
       ) : (
         <p>No tasks found.</p>
       )}
 
-      {modalOpen && !editTask && <CreateTask isOpen={modalOpen} onClose={() => setModalOpen(false)} onCreate={updateTasks} />}
-      {editTask && <EditTaskModal taskUsers={taskUsers} taskData={editTask} updateTasks={updateTasks} onClose={() => setEditTask(null)} />}
+      {modalOpen && !editTask && (
+        <CreateTask
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          onCreate={updateTasks}
+        />
+      )}
+      {editTask && (
+        <EditTaskModal
+          taskUsers={taskUsers}
+          taskData={editTask}
+          updateTasks={updateTasks}
+          onClose={() => setEditTask(null)}
+        />
+      )}
       <TaskDetailsPopup task={selectedTask} />
-      <dialog id="delete_task_modal" className="modal modal-bottom sm:modal-middle">
+      <dialog
+        id="delete_task_modal"
+        className="modal modal-bottom sm:modal-middle"
+      >
         <div className="modal-box">
           <button
             type="button"
             onClick={() => document.getElementById("delete_task_modal").close()}
-            className="btn btn-square absolute top-4 right-4">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            className="btn btn-square absolute top-4 right-4"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
           <h3 className="font-bold text-lg">Delete Task</h3>

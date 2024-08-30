@@ -4,7 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 function Sidebar() {
   return (
     <>
-      <ul className="menu rounded-box w-56 flex-col gap-3 mt-10">
+      <ul className="menu w-56 flex-col gap-3 pt-10 bg-base-300">
         <li>
           <NavLink to="/dashboard">
             <svg

@@ -264,7 +264,15 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
               // }}
             />
           </div>
-          <button type="submit" className="btn btn-primary" disabled={errors.title || errors.dueDate || errors.priority || errors.area}>
+
+          <button
+            type="submit"
+            className="btn btn-primary rounded-2xl"
+            disabled={
+              errors.title || errors.dueDate || errors.priority || errors.area
+            }
+          >
+
             Save Task
           </button>
         </form>

@@ -10,7 +10,9 @@ const TaskDetailsPopup = ({ task }) => {
     // QR code is rendered as a <canvas> element inside the qrcode.react component
     const canvas = qrRef.current.querySelector("canvas");
     //The toDataURL() method of the canvas element converts the QR code into a data URL that represents the image in PNG format.
-    const pngUrl = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    const pngUrl = canvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
 
     //A temporary <a> element is created to trigger the download. This element's href is set to the PNG data URL, and the download attribute specifies the filename.
     const downloadLink = document.createElement("a");
@@ -23,14 +25,17 @@ const TaskDetailsPopup = ({ task }) => {
   };
 
   return (
-    <dialog id="taskDetails" className="modal">
+    <dialog id="taskDetails" className="modal modal-bottom sm:modal-middle">
       {task && (
-        <div className="modal-box max-w-[60rem]">
-          <div className="flex justify-between items-center">
-            <h3 className="font-bold text-lg">{task.title}</h3>
+        <div className="modal-box bg-base-200 p-6 my-8 rounded-2xl min-w-[700px]">
+          <div className="flex justify-between items-center gap-3 pb-4">
+            <h3 className="font-bold text-lg">Task Details</h3>
+            <p className="label-text"> Task Name: {task.title}</p>
 
             <form method="dialog">
-              <button className="btn btn-sm btn-circle  absolute right-2 top-2">✕</button>
+              <button className="btn btn-sm btn-circle  absolute right-2 top-2">
+                ✕
+              </button>
             </form>
           </div>
           <div className="flex justify-between">
@@ -55,7 +60,10 @@ const TaskDetailsPopup = ({ task }) => {
           </div>
 
           <p className="py-12 font-semibold text-lg">{task.description}</p>
-          <div ref={qrRef} className="flex items-center justify-center gap-12 pb-4 ">
+          <div
+            ref={qrRef}
+            className="flex items-center justify-center gap-12 pb-4 "
+          >
             <QRCode value={`${API_URL}/tasks/${task._id}`} />
             <button className="btn btn-outline" onClick={downloadQRCode}>
               Download QR Code
