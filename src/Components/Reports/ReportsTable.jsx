@@ -98,7 +98,7 @@ function ReportsTable({ selectedArea, taskName, status, priority, startDate, end
 
   if (isLoading)
     return (
-      <div className="min-h-screen w-full m-auto text-left px-12 mb-8">
+      <div className="min-h-screen w-full text-left px-12">
         <LoadingSpinner />
       </div>
     );
