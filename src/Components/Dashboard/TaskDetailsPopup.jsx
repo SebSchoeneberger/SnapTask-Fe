@@ -3,16 +3,14 @@ import React, { useRef } from "react";
 import { formatDateFull } from "../../Utils/DateUtils";
 
 const TaskDetailsPopup = ({ task }) => {
-  const API_URL = import.meta.env.VITE_API_URL;
+  const URL = import.meta.env.VITE_FRONTEND_URL;
   const qrRef = useRef(null);
 
   const downloadQRCode = () => {
     // QR code is rendered as a <canvas> element inside the qrcode.react component
     const canvas = qrRef.current.querySelector("canvas");
     //The toDataURL() method of the canvas element converts the QR code into a data URL that represents the image in PNG format.
-    const pngUrl = canvas
-      .toDataURL("image/png")
-      .replace("image/png", "image/octet-stream");
+    const pngUrl = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
     //A temporary <a> element is created to trigger the download. This element's href is set to the PNG data URL, and the download attribute specifies the filename.
     const downloadLink = document.createElement("a");
@@ -33,9 +31,7 @@ const TaskDetailsPopup = ({ task }) => {
             <p className="label-text"> Task Name: {task.title}</p>
 
             <form method="dialog">
-              <button className="btn btn-sm btn-circle  absolute right-2 top-2">
-                ✕
-              </button>
+              <button className="btn btn-sm btn-circle  absolute right-2 top-2">✕</button>
             </form>
           </div>
           <div className="flex justify-between">
@@ -60,11 +56,8 @@ const TaskDetailsPopup = ({ task }) => {
           </div>
 
           <p className="py-12 font-semibold text-lg">{task.description}</p>
-          <div
-            ref={qrRef}
-            className="flex items-center justify-center gap-12 pb-4 "
-          >
-            <QRCode value={`${API_URL}/tasks/${task._id}`} />
+          <div ref={qrRef} className="flex items-center justify-center gap-12 pb-4 ">
+            <QRCode value={`${URL}/tasks/${task._id}`} />
             <button className="btn btn-outline" onClick={downloadQRCode}>
               Download QR Code
             </button>

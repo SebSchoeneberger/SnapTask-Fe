@@ -17,6 +17,7 @@ const AuthProvider = ({ children }) => {
       if (res.status === 200) {
         setUser(res.data.user);
         storeToken(res.data.token);
+
         return res.data.user;
       }
     } catch (error) {
