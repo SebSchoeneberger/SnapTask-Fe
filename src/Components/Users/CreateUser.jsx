@@ -9,8 +9,8 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 // Create new user
 
-export function CreateUser({ setUsers, name }) {
-  const url = "http://localhost:3333/users";
+export function CreateUser({ setUsers, name, updateUsers }) {
+  const url = `${API_URL}/users`;
   const token = getToken();
   const [password, setPassword] = useState(generatePassword());
 
@@ -36,6 +36,7 @@ export function CreateUser({ setUsers, name }) {
       .then((res) => {
         setUsers((prev) => [...prev, res.data]);
         // emailInvitation(data)
+        updateUsers();
         document.getElementById(name).close();
         reset();
         setPassword("");
