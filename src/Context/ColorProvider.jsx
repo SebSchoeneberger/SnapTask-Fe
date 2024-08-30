@@ -1,11 +1,12 @@
 import React, { createContext, useState, useEffect } from "react";
+import { themesSwap } from "../Components/ThemesSwap";
 export const ColorContext = createContext();
 
 const storageKey = "snap-task-theme";
 
 const ColorProvider = ({ children }) => {
   const [colors, setColors] = useState({});
-  const [theme, setTheme] = React.useState(JSON.parse(localStorage.getItem(storageKey)) || "emerald");
+  const [theme, setTheme] = React.useState(JSON.parse(localStorage.getItem(storageKey)) || themesSwap[0]);
 
   useEffect(() => {
     const rootStyle = getComputedStyle(document.documentElement);
