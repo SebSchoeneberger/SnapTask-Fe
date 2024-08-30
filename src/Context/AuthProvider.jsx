@@ -47,7 +47,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     storeToken(null);
-    console.log("User logged out successfully");
+    // console.log("User logged out successfully");
     setStoredPath(null);
   };
 
