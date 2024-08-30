@@ -1,14 +1,15 @@
-import "../App.css";
-import React, { useContext, useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import ThemesSwap from "./ThemesSwap";
-import axios from "axios";
+
 import { toast } from "react-toastify";
 import { AuthContext } from "../Context/AuthProvider";
 import DefaultProfileImage from "./DefaultProfileImage";
-import logo from "../assets//Logo.png"
+
+import logo from "../assets/Logo.png"
 
 const API_URL = import.meta.env.VITE_API_URL;
+
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -31,11 +32,13 @@ const Navbar = () => {
     <>
       <div className="navbar bg-base-300">
         <div className="flex-1 gap-12  ml-4 mr-4">
+
           <div
             onClick={() => navigate("/dashboard")}
             className="flex gap-3 align-middle justify-center  hover:cursor-pointer"
           >
             <img className="w-8" src={logo} alt="Logo" />
+
 
             <p className="text-xl logo">SnapTask</p>
           </div>
