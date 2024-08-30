@@ -26,69 +26,101 @@ const TaskDetailsPopup = ({ task }) => {
     <dialog id="taskDetails" className="modal modal-bottom sm:modal-middle">
       {task && (
         <div className="modal-box bg-base-200 p-6 my-8 rounded-2xl min-w-[700px]">
-          <div className="flex justify-between items-center gap-3 pb-4">
-            <h3 className="font-bold text-lg">Task Details</h3>
-            <p className="label-text"> Task Name: {task.title}</p>
-
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-2xl font-semibold text-left w-full max-w-xl">
+              Task Details
+            </h3>
             <form method="dialog">
-              <button className="btn btn-sm btn-circle  absolute right-2 top-2">✕</button>
+
+              <button className="">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+
             </form>
           </div>
-          <div className="flex justify-between">
-            <div>
-              <p className="pt-4">
-                Status: <strong>{task.status}</strong>
-              </p>
-              {task.startedDate && (
-                <p className="py-0">
-                  Started: <strong>{formatDateFull(task.startedDate)}</strong>
-                </p>
-              )}
-              {task.finishedDate && (
-                <p className="py-0">
-                  Finished: <strong>{formatDateFull(task.finishedDate)}</strong>
-                </p>
-              )}
-            </div>
-            <p className="py-4">
-              Priority:<strong> {task.priority}</strong>
-            </p>
-          </div>
 
-          <p className="py-12 font-semibold text-lg">{task.description}</p>
-          <div ref={qrRef} className="flex items-center justify-center gap-12 pb-4 ">
-            <QRCode value={`${URL}/tasks/${task._id}`} />
-            <button className="btn btn-outline" onClick={downloadQRCode}>
+          <div className="flex">
+            {/* Left Column: Task Name and Description */}
+            <div className="w-3/5 pr-4">
+              <p className="flex gap-1 mb-6">
+                <strong>Task Name:</strong> {task.title}
+              </p>
+              <p className="flex flex-col items-start gap-1">
+                <strong>Description:</strong>{" "}
+                <span className="text-left">{task.description}</span>
+              </p>
+            </div>
+
+            {/* Right Column: Task Details */}
+            <div className="w-2/5 pl-4">
+              <div className="flex flex-col items-start">
+                <p className="mb-6">
+                  <strong>Status:</strong> {task.status}
+                </p>
+                <p className="mb-6">
+                  <strong>Priority:</strong> {task.priority}
+                </p>
+                <p className="">
+                  <strong>Created at:</strong> {formatDateFull(task.createdAt)}
+                </p>
+                <p className="">
+                  <strong>Due Date:</strong> {formatDateFull(task.dueDate)}
+                </p>
+                {task.startedDate && (
+                  <p className="">
+                    <strong>Started:</strong> {formatDateFull(task.startedDate)}
+                  </p>
+                )}
+                {task.finishedDate && (
+                  <p className="mb-6">
+                    <strong>Finished:</strong>
+                    {formatDateFull(task.finishedDate)}
+                  </p>
+                )}
+                <div className="flex flex-col items-start">
+                  <p className="mb-6 flex gap-1">
+                    <strong>Created by: </strong> {task.creator.firstName}{" "}
+                    {task.creator.lastName}
+                  </p>
+                  {task.assignedTo.length > 0 && (
+                    <p className="mb-6 flex flex-col gap-1">
+                      <strong className="text-left">Assigned to:</strong>{" "}
+                      {task.assignedTo.map((user) => (
+                        <span className="flex" key={user._id}>
+                          {user.firstName} {user.lastName}
+                        </span>
+                      ))}
+                    </p>
+                  )}
+                </div>
+
+                <div
+                  ref={qrRef}
+                  className="flex items-center justify-center gap-12 pb-4 mt-4"
+                >
+                  <QRCode hidden value={`${API_URL}/tasks/${task._id}`} />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button className="btn btn-primary" onClick={downloadQRCode}>
+
               Download QR Code
             </button>
-          </div>
-          <div className="flex justify-between">
-            <div>
-              <p>
-                Created by:{" "}
-                <strong>
-                  {task.creator.firstName} {task.creator.lastName}
-                </strong>
-              </p>
-              {task.assignedTo.length > 0 && (
-                <p>
-                  Assigned to:{" "}
-                  {task.assignedTo.map((user) => (
-                    <strong key={user._id}>
-                      {user.firstName} {user.lastName}
-                    </strong>
-                  ))}
-                </p>
-              )}
-            </div>
-            <div className="text-sm">
-              <p className="py-0">
-                Created at: <strong>{formatDateFull(task.createdAt)}</strong>
-              </p>
-              <p className="py-0">
-                Due Date: <strong>{formatDateFull(task.dueDate)}</strong>
-              </p>
-            </div>
           </div>
         </div>
       )}
