@@ -8,6 +8,7 @@ function MultiselectComponent({ users, setSelectedUsers, defaultSeleted }) {
 
   if (!users || !setSelectedUsers) return null;
 
+  // Convert users to options for the select component
   const options = users.map((user) => {
     let label = "";
     if (user.firstName) label += user.firstName;
@@ -17,6 +18,7 @@ function MultiselectComponent({ users, setSelectedUsers, defaultSeleted }) {
     return { label, value: user._id };
   });
 
+  // Set default values if they are passed
   if (defaultSeleted)
     defaultValues = defaultSeleted
       .map((user) => {
@@ -24,10 +26,12 @@ function MultiselectComponent({ users, setSelectedUsers, defaultSeleted }) {
       })
       .filter(Boolean);
 
+  // Sending selected users to the parent component
   useEffect(() => {
     setSelectedUsers(selectedOptions.map((option) => option.value));
   }, [selectedOptions]);
 
+  // Reset selected options when defaultSelected changes from the outside
   useEffect(() => {
     setSelectedOptions(defaultValues);
   }, [defaultSeleted]);

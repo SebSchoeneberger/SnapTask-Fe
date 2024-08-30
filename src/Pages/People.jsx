@@ -32,25 +32,29 @@ export default function Users() {
 
   const dropdownRef = useRef(null);
 
+  const fetchUsers = () => {
+  axios
+  .get(`${API_URL}/users?page=${page}&perPage=${perPage}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then((response) => {
+    setUsers(response.data.staff);
+    setTotalPages(response.data.totalPages);
+    setTotalResults(response.data.totalResults);
+    window.scrollTo(0, 0);
+  })
+  .catch((error) => {
+    toast.error("Error loading users");
+    console.log(error.message);
+  })
+  .finally(() => setLoading(false));
+};
+
   useEffect(() => {
-    axios
-      .get(`${API_URL}/users?page=${page}&perPage=${perPage}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        setUsers(response.data.staff);
-        setTotalPages(response.data.totalPages);
-        setTotalResults(response.data.totalResults);
-        window.scrollTo(0, 0);
-      })
-      .catch((error) => {
-        toast.error("Error loading users");
-        console.log(error.message);
-      })
-      .finally(() => setLoading(false));
+    fetchUsers();
   }, [page, perPage]);
 
   const openModalFunction = (name) => {
@@ -67,6 +71,10 @@ export default function Users() {
     console.log(user);
     setDeleteUser(user);
     document.getElementById("delete_user_modal").showModal();
+  };
+
+  const updateUsers = () => {
+    fetchUsers();
   };
 
   const deleteUserHandler = () => {
@@ -334,7 +342,7 @@ export default function Users() {
         <p>No users found.</p>
       )}
 
-      <CreateUser setUsers={setUsers} name="people" />
+      <CreateUser updateUsers={updateUsers} setUsers={setUsers} name="people" />
 
       {/* Delete User Modal */}
       <dialog
@@ -373,14 +381,9 @@ export default function Users() {
       </dialog>
 
       {/* Update User Modal */}
-      {editUser && (
-        <UpdateUserModal
-          userData={editUser}
-          setUsers={setUsers}
-          editModal={editModal}
-          setEditModal={setEditModal}
-        />
-      )}
+
+      {editUser && <UpdateUserModal updateUsers={updateUsers} userData={editUser} setUsers={setUsers} editModal={editModal} setEditModal={setEditModal} />}
+
       {/* <UpdateUserModal setUsers={setUsers} name="people" /> */}
     </div>
   );

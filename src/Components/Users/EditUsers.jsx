@@ -8,7 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 // Edit user
 
-export function UpdateUserModal({ userData, setEditModal, editModal }) {
+export function UpdateUserModal({ userData, setEditModal, editModal, updateUsers }) {
   const {
     register,
     handleSubmit,
@@ -48,6 +48,7 @@ export function UpdateUserModal({ userData, setEditModal, editModal }) {
       );
       toast.success("User updated successfully!");
       setEditModal(false);
+      updateUsers();
       // setUsers((prev) =>
       //   prev.map((user) =>
       //     user._id === response.data._id ? response.data : user
