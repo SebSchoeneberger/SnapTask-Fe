@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "../Context/AuthProvider";
 import DefaultProfileImage from "./DefaultProfileImage";
+import logo from "../assets//Logo.png"
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -34,7 +35,7 @@ const Navbar = () => {
             onClick={() => navigate("/dashboard")}
             className="flex gap-3 align-middle justify-center  hover:cursor-pointer"
           >
-            <img className="w-8" src="src/assets/Logo.png" alt="Logo" />
+            <img className="w-8" src={logo} alt="Logo" />
 
             <p className="text-xl logo">SnapTask</p>
           </div>
