@@ -22,7 +22,7 @@ export default function TopNavBar() {
       )}
       <div className="flex justify-end items-center gap-4">
         <img className="w-12 h-12" src={logoLight} alt="" />
-        <p className="text-4xl">SnapTask</p>
+        <p className="text-2xl">SnapTask</p>
       </div>
     </div>
   );

@@ -48,6 +48,7 @@ export default function StaffTasks() {
     return (
       <div className="min-h-screen w-full">
         <LoadingSpinner />
+        <LoadingSpinner />
       </div>
     );
   }
@@ -55,11 +56,15 @@ export default function StaffTasks() {
   return (
     <div className="min-h-svh w-full pt-16 pb-24 bg-base-100">
       <p className="font-bold text-3xl py-4">{area}</p>
-      <div className="flex flex-col items-center w-full gap-2  px-4">
+      <div className="flex flex-col items-center w-full gap-2 px-4 h-full pb-20">
         {tasks.length > 0 ? (
           tasks.map((task) => <TaskCard key={task._id} task={task} />)
         ) : (
-          <p className="text-3xl flex items-center mt-32">No tasks available</p>
+          <>
+            <div className=" flex items-center justify-center h-full w-full">
+              <p className="text-3xl ">No tasks available</p>
+            </div>
+          </>
         )}
       </div>
     </div>
