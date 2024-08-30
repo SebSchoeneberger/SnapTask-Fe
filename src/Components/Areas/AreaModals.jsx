@@ -222,7 +222,7 @@ export function UpdateAreaModal({ areaData, updateAreas, areaUsers }) {
       const response = await axios.put(
         `${API_URL}/areas/${areaData._id}`,
 
-        { ...areaData, users: selectedUsers },
+        { ...data, users: selectedUsers },
         {
           headers: {
             Authorization: `Bearer ${token}`,
