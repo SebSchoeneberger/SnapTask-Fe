@@ -17,6 +17,7 @@ const AuthProvider = ({ children }) => {
       if (res.status === 200) {
         setUser(res.data.user);
         storeToken(res.data.token);
+
         return res.data.user;
       }
     } catch (error) {
@@ -47,7 +48,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     storeToken(null);
-    console.log("User logged out successfully");
+    // console.log("User logged out successfully");
     setStoredPath(null);
   };
 

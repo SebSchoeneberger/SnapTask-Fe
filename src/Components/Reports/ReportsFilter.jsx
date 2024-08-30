@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const ReportsFilter = ({
+  setSelectedAreaName,
   selectedArea,
   setSelectedArea,
   taskName,
@@ -28,9 +29,9 @@ const ReportsFilter = ({
 }) => {
   const [areas, setAreas] = useState([]);
   const [managers, setManagers] = useState([]);
-  const [loadingAreas, setLoadingAreas] = useState(true);
-  const [loadingManagers, setLoadingManagers] = useState(true);
-
+  const [loadingAreas, setLoadingAreas] = useState(false);
+  const [loadingManagers, setLoadingManagers] = useState(false);
+  
   const token = getToken();
   const areasUrl = `${API_URL}/areas/`;
   const usersUrl = `${API_URL}/users`;
@@ -73,7 +74,10 @@ const ReportsFilter = ({
 
   // Handle Area Change
   const handleAreaChange = (e) => {
-    setSelectedArea(e.target.value);
+    const areaId = e.target.value;
+    const area = areas.find(area => area._id === areaId);
+    setSelectedArea(areaId);
+    setSelectedAreaName(area ? area.name : "All Areas");
   };
 
   // Handle Task Name Change

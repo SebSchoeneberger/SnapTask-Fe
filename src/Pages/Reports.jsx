@@ -17,10 +17,12 @@ const Reports = () => {
   const [dueDate, setDueDate] = useState(null);
   const [isDelayed, setIsDelayed] = useState(false);
   const [createdBy, setCreatedBy] = useState("All");
+  const [selectedAreaName, setSelectedAreaName] = useState("All Areas");
 
   return (
     <div className="flex flex-col">
       <ReportsFilter
+        setSelectedAreaName={setSelectedAreaName}
         selectedArea={selectedArea}
         setSelectedArea={setSelectedArea}
         taskName={taskName}
@@ -39,6 +41,7 @@ const Reports = () => {
         setCreatedBy={setCreatedBy}
       />
       <ReportsTable
+        selectedAreaName={selectedAreaName}
         selectedArea={selectedArea}
         taskName={taskName}
         status={status}

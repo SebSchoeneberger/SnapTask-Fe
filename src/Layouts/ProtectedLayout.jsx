@@ -1,19 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../Context/AuthProvider";
 
 function ProtectedLayout() {
-  const { user, loading } = useContext(AuthContext);
+  const { setStoredPath, loading, user } = useContext(AuthContext);
+  // if (!user) setStoredPath(useLocation().pathname);
+  useEffect(() => {
+    if (!user) {
+      setStoredPath(location.pathname);
+    }
+  }, [user, location.pathname, setStoredPath]);
 
-  return <>{!loading && <>{user ? <Outlet /> : <AutoRedirect />}</>}</>;
+  return <>{!loading && <>{user ? <Outlet /> : <Navigate to="/login" />}</>}</>;
 }
 
 export default ProtectedLayout;
-
-function AutoRedirect() {
-  const { setStoredPath } = useContext(AuthContext);
-  const location = useLocation();
-  setStoredPath(location.pathname);
-  // console.log("Path:" + location.pathname);
-  return <Navigate to="/login" />;
-}

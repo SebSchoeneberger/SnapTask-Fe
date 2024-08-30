@@ -3,16 +3,14 @@ import React, { useRef } from "react";
 import { formatDateFull } from "../../Utils/DateUtils";
 
 const TaskDetailsPopup = ({ task }) => {
-  const API_URL = import.meta.env.VITE_API_URL;
+  const URL = import.meta.env.VITE_FRONTEND_URL;
   const qrRef = useRef(null);
 
   const downloadQRCode = () => {
     // QR code is rendered as a <canvas> element inside the qrcode.react component
     const canvas = qrRef.current.querySelector("canvas");
     //The toDataURL() method of the canvas element converts the QR code into a data URL that represents the image in PNG format.
-    const pngUrl = canvas
-      .toDataURL("image/png")
-      .replace("image/png", "image/octet-stream");
+    const pngUrl = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
     //A temporary <a> element is created to trigger the download. This element's href is set to the PNG data URL, and the download attribute specifies the filename.
     const downloadLink = document.createElement("a");
@@ -33,6 +31,7 @@ const TaskDetailsPopup = ({ task }) => {
               Task Details
             </h3>
             <form method="dialog">
+
               <button className="">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -49,6 +48,7 @@ const TaskDetailsPopup = ({ task }) => {
                   />
                 </svg>
               </button>
+
             </form>
           </div>
 
@@ -118,6 +118,7 @@ const TaskDetailsPopup = ({ task }) => {
           </div>
           <div>
             <button className="btn btn-primary" onClick={downloadQRCode}>
+
               Download QR Code
             </button>
           </div>
