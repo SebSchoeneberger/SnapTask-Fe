@@ -1,5 +1,5 @@
 import logo from "../../assets/Logo.png";
-import logoLight from "../../assets/Logo-white.png";
+import logoLight from "../../assets/Logo.png";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function TopNavBar() {
@@ -14,7 +14,8 @@ export default function TopNavBar() {
             navigate(-1);
             // window.history.back();
           }}
-          className="btn btn-neutral btn-outline">
+          className="btn btn-neutral btn-outline"
+        >
           Back
         </button>
       ) : (

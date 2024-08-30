@@ -6,10 +6,13 @@ function ImageCropper({ imageSrc, onCropComplete }) {
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
-  const onCropCompleteCallback = useCallback((croppedArea, croppedAreaPixels) => {
-    // console.log(croppedArea, croppedAreaPixels);
-    setCroppedAreaPixels(croppedAreaPixels);
-  }, []);
+  const onCropCompleteCallback = useCallback(
+    (croppedArea, croppedAreaPixels) => {
+      // console.log(croppedArea, croppedAreaPixels);
+      setCroppedAreaPixels(croppedAreaPixels);
+    },
+    []
+  );
 
   const handleCrop = useCallback(async () => {
     const croppedImageUrl = await getCroppedImage(imageSrc, croppedAreaPixels);
@@ -41,10 +44,13 @@ function ImageCropper({ imageSrc, onCropComplete }) {
         className="range range-primary w-full max-w-lg"
       />
       <div className="flex space-x-4 mt-4">
-        <button className="btn btn-primary" onClick={handleCrop}>
+        <button className="btn btn-primary rounded-2xl" onClick={handleCrop}>
           Confirm
         </button>
-        <button className="btn btn-secondary" onClick={() => onCropComplete(null)}>
+        <button
+          className="btn btn-secondary"
+          onClick={() => onCropComplete(null)}
+        >
           Cancel
         </button>
       </div>
@@ -66,7 +72,17 @@ async function getCroppedImage(imageSrc, pixelCrop) {
   canvas.width = pixelCrop.width;
   canvas.height = pixelCrop.height;
 
-  ctx.drawImage(image, pixelCrop.x, pixelCrop.y, pixelCrop.width, pixelCrop.height, 0, 0, pixelCrop.width, pixelCrop.height);
+  ctx.drawImage(
+    image,
+    pixelCrop.x,
+    pixelCrop.y,
+    pixelCrop.width,
+    pixelCrop.height,
+    0,
+    0,
+    pixelCrop.width,
+    pixelCrop.height
+  );
 
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {

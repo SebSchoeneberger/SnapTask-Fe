@@ -178,7 +178,7 @@ export function UpdateUserModal({ userData, setEditModal, editModal, updateUsers
           </div>
           <button
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-primary rounded-2xl"
             disabled={errors.email || errors.role}
           >
             Update User
