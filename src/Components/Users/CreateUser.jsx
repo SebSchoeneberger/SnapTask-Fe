@@ -35,6 +35,7 @@ export function CreateUser({ setUsers, name }) {
       )
       .then((res) => {
         setUsers((prev) => [...prev, res.data]);
+        // emailInvitation(data)
         document.getElementById(name).close();
         reset();
         setPassword("");
@@ -45,6 +46,42 @@ export function CreateUser({ setUsers, name }) {
       })
       .finally(() => {});
   }
+
+  const emailInvitation = (data) => {
+
+    const emailText = `Hi ${data.firstName} ${data.lastName},
+
+  Welcome to SnapTask! You've been invited to join our app as a Staff Member.
+
+  Please use the following credentials to log into your account:
+
+  Email: ${data.email}
+  Password: ${password}
+
+  You can change your password on your profile page after logging in: http://localhost:5173/login
+
+  Enjoy using SnapTask!
+
+  Best regards,
+  The SnapTask Team`;
+
+    axios.post(`${API_URL}/email/invitation`, {
+      to: data.email,
+      text: emailText,
+    },{ 
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+    },}
+   )
+   .then((res) => {
+    toast.success("Invitation Email has been send sucesfully!");
+    console.log(res)
+   })
+   .catch((error) => {
+    console.log(error);
+   })
+  };
 
   useEffect(() => setPassword(generatePassword()), [reset]);
 
