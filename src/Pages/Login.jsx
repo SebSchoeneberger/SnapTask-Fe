@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import image1 from "../assets/7178573_61336.svg";
 import { toast } from "react-toastify";
 import { getToken } from "../Utils/TokenUtils.jsx";
+import illustrationSignin from "../assets/illustration-signin.svg";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -234,7 +235,13 @@ function Login() {
           </button>
         </form>
       </div>
-      <div className="bg-gradient-to-r from-violet-400 to-fuchsia-400 h-full from-"></div>
+      <div className="bg-gradient-to-r from-violet-400 to-fuchsia-400 h-full flex items-center justify-center">
+        <img
+          className="max-w-screen-md"
+          src={illustrationSignin}
+          alt="Illustration of a woman and charts"
+        />
+      </div>
     </div>
   );
 }
