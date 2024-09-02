@@ -22,7 +22,9 @@ function StaffDashboard() {
         },
       })
       .then((res) => {
-        const finishedTasks = res.data.tasks.filter((task) => task.status == "Finished");
+        const finishedTasks = res.data.tasks.filter(
+          (task) => task.status == "Finished"
+        );
         setTasks(finishedTasks);
         setLoading(false);
         // console.log(finishedTasks);
@@ -45,8 +47,8 @@ function StaffDashboard() {
   }
 
   return (
-    <div className="min-h-svh w-full pt-16 pb-24 bg-base-100 overflow-hidden">
-      <p className="font-bold text-3xl py-4">Dashboard</p>
+    <div className="pt-20 w-full flex flex-col items-center ">
+      <p className="font-bold text-3xl py-4 mb-4">Dashboard</p>
       <div className="flex flex-col items-center w-full gap-2  px-4">
         {tasks.map((task) => (
           <TaskCard key={task._id} task={task} />
