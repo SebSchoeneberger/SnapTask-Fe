@@ -44,7 +44,7 @@ const TaskDetailsPopup = ({ task }) => {
               <p className="flex gap-1 mb-6">
                 <strong>Task Name:</strong> {task.title}
               </p>
-              <div className="flex flex-col items-start gap-0">
+              <div className="flex flex-col items-start gap-1 mb-4">
                 <strong>Description:</strong> <span className="text-left mb-4">{task.description}</span>
                 {task.steps.length > 0 && <strong>Steps:</strong>}
                 {task.steps.map((step, index) => (

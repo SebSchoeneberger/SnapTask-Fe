@@ -8,15 +8,12 @@ const TaskCard = ({ task }) => {
   return (
     <div
       onClick={() => navigate(`/tasks/${task._id}`)}
-      className=" card bg-base-300 text-base-content border-[1px] border-base-content border-opacity-25  w-full mb-6 hover:cursor-pointer hover:bg-base-200 hover:border-opacity-50"
-    >
+      className=" card bg-base-300 text-base-content border-[1px] border-base-content border-opacity-25  w-full mb-6 hover:cursor-pointer hover:bg-base-200 hover:border-opacity-50">
       <div className="card-body p-6 items-center text-center">
         <div className="w-full">
           <div className="flex flex-col w-full items-start gap-2 ">
             <div className="flex w-full mb-4">
-              <p className="card-title mb-2 text-lg w-full">
-                {truncateText(task.title, 80)}
-              </p>
+              <p className="card-title mb-2 text-lg w-full">{truncateText(task.title, 80)}</p>
               <p
                 className={`card-title text-center m-auto px-4 text-sm py-1 ${
                   task.status === "New"
@@ -24,21 +21,21 @@ const TaskCard = ({ task }) => {
                     : task.status == "Finished"
                     ? "bg-success text-success-content"
                     : "bg-warning text-warning-content"
-                }`}
-              >
+                }`}>
                 {task.status}
+                {task.steps.length > 0 && (
+                  <>
+                    {" "}
+                    ({task.steps.filter((x) => x.isCompleted == true).length}/{task.steps.length})
+                  </>
+                )}
               </p>
             </div>
             <div className="flex  w-full justify-between ">
               <p
                 className={`card-title text-sm font-semibold ${
-                  task.priority === "High"
-                    ? "text-red-500"
-                    : task.priority === "Medium"
-                    ? "text-yellow-500"
-                    : "text-green-500"
-                }`}
-              >
+                  task.priority === "High" ? "text-red-500" : task.priority === "Medium" ? "text-yellow-500" : "text-green-500"
+                }`}>
                 {task.priority} priority
               </p>
               <div className="flex flex-col  items-center ">
@@ -54,8 +51,7 @@ const TaskCard = ({ task }) => {
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
-                      className="size-6"
-                    >
+                      className="size-6">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
