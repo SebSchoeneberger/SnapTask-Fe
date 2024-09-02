@@ -98,32 +98,135 @@ export default function TaskDetails() {
   }
 
   return (
-    <div className="min-h-svh w-full pt-20 pb-28 bg-base-100">
-      <div className="flex flex-col h-full justify-around items-center gap-3 px-1">
-        <p className="text-4xl mt-2 text-primary">{task.title}</p>
-        <p className="text-3xl mt-2">{area}</p>
-        {status == "Finished" ? (
-          <p className="text-2xl mt-1 text-success italic">Finished on: {formatDateFull(task.finishedDate || new Date())}</p>
-        ) : (
-          <p className="text-2xl mt-1">Due date: {formatDateShort(task.dueDate)}</p>
-        )}
-        <p className="text-xl mt-2 text-justify px-4">Priority: {task.priority}</p>
-        <p className="text-2xl mt-2 text-justify px-4">{task.description}</p>
+    <div className="min-h-svh w-full pt-20 pb-28 bg-base-200">
+      <div className="flex flex-col h-full justify-around items-center gap-3 px-2">
+        <div className="p-4 flex flex-col gap-4 bg-base-100 rounded-lg shadow-md">
+          <div className="flex items-start gap-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-7"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m4.5 12.75 6 6 9-13.5"
+              />
+            </svg>
+            <p className="text-xl base-content mb-2 leading-normal text-start">
+              {task.title}
+            </p>
+          </div>
+          <div className="flex flex-col items-start gap-4">
+            <div className="flex gap-1 items-center ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"
+                />
+              </svg>
+              <p className="text-xl">{area}</p>
+            </div>
+            <div className="flex justify-between min-w-[360px] gap-4">
+              {status == "Finished" ? (
+                <div className="flex gap-1 items-center justify-center text-success-content bg-success p-1 rounded-lg">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
+                  <p className="text-xl">
+                    {formatDateFull(task.finishedDate || new Date())}
+                  </p>
+                </div>
+              ) : (
+                <div className="flex gap-1 items-center justify-center text-warning-content bg-warning p-1 rounded-lg">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+                    />
+                  </svg>
+                  <p className="text-xl">{formatDateShort(task.dueDate)}</p>
+                </div>
+              )}
+              <p
+                className={`text-xl text-justify ${
+                  task.priority === "High"
+                    ? "text-error"
+                    : task.priority === "Medium"
+                    ? "text-warning"
+                    : "text-accent"
+                }`}
+              >
+                {task.priority} priority
+              </p>
+            </div>
+            <div className="flex flex-col items-start">
+              <span className="text-lg font-light">Additional Info:</span>
+              <p className="text-lg mt-2 text-justify info-content">
+                {task.description}
+              </p>
+            </div>
+          </div>
+        </div>
 
-        <div className="text-xl italic flex flex-col gap-2">
+        <div className="text-xl italic flex flex-col gap-2 w-full rounded-lg">
           {task.steps.map((step, index) => (
-            <TaskStep key={index} step={step} index={index} checkbox={status == "In Progress"} setTask={setTask} task={task} />
+            <TaskStep
+              key={index}
+              step={step}
+              index={index}
+              checkbox={status == "In Progress"}
+              setTask={setTask}
+              task={task}
+            />
           ))}
         </div>
         <div className="w-full mt-4 px-4">
           {status == "New" ? (
-            <button onClick={startTask} className="btn btn-success btn-lg w-full md:max-w-lg ">
+            <button
+              onClick={startTask}
+              className="btn btn-success btn-lg w-full md:max-w-lg "
+            >
               Start Task
             </button>
           ) : (
             status == "In Progress" && (
               <div className="flex flex-col gap-8 w-full m-auto md:max-w-xl">
-                <button disabled={!allStepsFinished} onClick={finishTask} className="btn btn-lg btn-error w-full">
+                <button
+                  disabled={!allStepsFinished}
+                  onClick={finishTask}
+                  className="btn btn-lg btn-error w-full"
+                >
                   Finish Task
                 </button>
                 <button onClick={cancelTask} className="btn btn-lg btn-neutral">
