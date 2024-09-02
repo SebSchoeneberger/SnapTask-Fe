@@ -4,10 +4,12 @@ import { toast } from "react-toastify";
 import { getToken } from "../Utils/TokenUtils";
 import axios from "axios";
 import MultiselectComponent from "../Components/MutiselectComponent";
+import TaskSteps from "./TaskSteps";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const CreateTask = ({ isOpen, onClose, onCreate }) => {
+  const [steps, setSteps] = useState([]);
   const {
     register,
     handleSubmit,
@@ -40,9 +42,10 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
 
   const createTask = async (data) => {
     try {
+      // console.log({ ...data, assignedTo: selectedUsers, steps });
       const response = await axios.post(
         `${API_URL}/tasks`,
-        { ...data, assignedTo: selectedUsers },
+        { ...data, assignedTo: selectedUsers, steps },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -68,7 +71,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
       onCreate(newTask);
     } catch (error) {
       console.error("Failed to create task:", error);
-      toast.error("Failed to create task, please try again.");
+      toast.error(error.response.data.error);
     }
   };
 
@@ -188,19 +191,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                   </span>
                 )}
               </div>
-              {/* <div className="w-full flex flex-col items-start gap-2">
-                <span className="label-text">
-                  Assign to <span className="text-[12px]">(optional)</span>
-                </span>
-               
-                <MultiselectComponent
-                  users={users.filter((user) => user.role != "manager")}
-                  setSelectedUsers={setSelectedUsers}
-                  styles={{
-                    color: "blue",
-                  }}
-                />
-              </div> */}
+
               <div className="w-full flex flex-col items-start gap-2" style={{ position: "relative" }}>
                 <span className="label-text">Select Area</span>
                 <label className="w-full relative">
@@ -231,28 +222,11 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
               </div>
             </div>
           </div>
-
           {/* Dropdown for Assign To */}
           <div className="w-full flex flex-col items-start gap-2 mb-4">
             <span className="label-text">
               Assign to <span className="text-[12px]">(optional)</span>
             </span>
-            {/* <label className="w-full">
-                  <select
-                    {...register("assignedTo")}
-                    multiple
-                    className={`select input-bordered w-full ${
-                      errors.assignedTo ? "input-error" : ""
-                    }`}
-                  >
-                    <option value="">Choose one or more</option>
-                    {users.map((user) => (
-                      <option key={user._id} value={user._id}>
-                        {user.firstName} {user.lastName}
-                      </option>
-                    ))}
-                  </select>
-                </label> */}
 
             <MultiselectComponent
               users={users.filter((user) => user.role === "staff")}
@@ -264,15 +238,8 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
               // }}
             />
           </div>
-
-          <button
-            type="submit"
-            className="btn btn-primary rounded-2xl"
-            disabled={
-              errors.title || errors.dueDate || errors.priority || errors.area
-            }
-          >
-
+          <TaskSteps steps={steps} setSteps={setSteps} />
+          <button type="submit" className="btn btn-primary rounded-2xl" disabled={errors.title || errors.dueDate || errors.priority || errors.area}>
             Save Task
           </button>
         </form>

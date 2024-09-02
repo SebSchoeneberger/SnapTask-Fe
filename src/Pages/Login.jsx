@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import image1 from "../assets/7178573_61336.svg";
 import { toast } from "react-toastify";
 import { getToken } from "../Utils/TokenUtils.jsx";
+import illustrationSignin from "../assets/illustration-signin.svg";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -57,8 +58,8 @@ function Login() {
       return <Navigate to={storedPath || "/staff/areas"} />;
 
   return (
-    <div className="grid grid-cols-[500px_minmax(0,_1fr)]">
-      <div className="p-8 flex flex-col items-start h-screen">
+    <div className="grid grid-cols-[500px_minmax(0,_1fr)] max-md:inline">
+      <div className="p-8 flex flex-col items-start min-h-screen">
         {/* <img className="h-40 w-auto" src={image1} alt="QR code Picture" /> */}
         <h2 className="text-2xl mb-4">Sign in</h2>
         <p className="pb-3 text-sm mb-10">
@@ -234,7 +235,13 @@ function Login() {
           </button>
         </form>
       </div>
-      <div className="bg-gradient-to-r from-violet-400 to-fuchsia-400 h-full from-"></div>
+      <div className="bg-gradient-to-r from-base-100 to-primary h-full flex items-center justify-center max-md:hidden">
+        <img
+          className="max-w-screen-md max-xl:w-4/5 max-md:hidden"
+          src={illustrationSignin}
+          alt="Illustration of a woman and charts"
+        />
+      </div>
     </div>
   );
 }

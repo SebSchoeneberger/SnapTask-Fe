@@ -5,7 +5,7 @@ import { AuthContext } from "../../Context/AuthProvider";
 export default function BottomNavBar() {
   const { logout } = useContext(AuthContext);
 
-  document.querySelector("html").setAttribute("data-theme", "dim");
+  // document.querySelector("html").setAttribute("data-theme", "dim");
 
   const buttonMarkup = "rounded-none h-full w-1/5";
 
@@ -16,7 +16,7 @@ export default function BottomNavBar() {
         className={({ isActive }) => (isActive ? "btn btn-primary text-primary-content " + buttonMarkup : "btn btn-ghost " + buttonMarkup)}>
         <div className="p-2 flex flex-col items-center">
           <AreasIcon />
-          <span className="text-sm">Areas</span>
+          <span className="text-xs">Areas</span>
         </div>
       </NavLink>
 
@@ -25,7 +25,7 @@ export default function BottomNavBar() {
         className={({ isActive }) => (isActive ? "btn btn-primary text-primary-content " + buttonMarkup : "btn btn-ghost " + buttonMarkup)}>
         <div className="p-2 flex flex-col items-center">
           <DashboardIcon />
-          <span className="text-sm">Dashboard</span>
+          <span className="text-xs">Dashboard</span>
         </div>
       </NavLink>
 
@@ -34,7 +34,7 @@ export default function BottomNavBar() {
         className={({ isActive }) => (isActive ? "btn btn-primary text-primary-content " + buttonMarkup : "btn btn-ghost " + buttonMarkup)}>
         <div className="flex flex-col items-center p-2">
           <SettingsIcon />
-          <span className="text-sm">Settings</span>
+          <span className="text-xs">Settings</span>
         </div>
       </NavLink>
 
@@ -43,14 +43,14 @@ export default function BottomNavBar() {
         className={({ isActive }) => (isActive ? "btn btn-primary text-primary-content " + buttonMarkup : "btn btn-ghost " + buttonMarkup)}>
         <div className="flex flex-col items-center p-2">
           <FAQicon />
-          <span className="text-sm">FAQ</span>
+          <span className="text-xs">FAQ</span>
         </div>
       </NavLink>
 
       <button onClick={() => logout()} className={"btn btn-ghost " + buttonMarkup}>
         <div className="flex flex-col p-2 items-center">
           <LogoutIcon />
-          <span className="text-sm">Logout</span>
+          <span className="text-xs">Logout</span>
         </div>
       </button>
     </div>
