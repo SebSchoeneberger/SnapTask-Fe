@@ -277,7 +277,7 @@ const TasksList = () => {
               {tasks.map((task, index) => (
                 <tr
                   key={task._id}
-                  className="hover:cursor-pointer hover:bg-base-200 max-h-24"
+                  className="hover cursor-pointer max-h-24"
                   onClick={(e) => {
                     if (!e.target.closest(".dropdown-content") && !e.target.closest(".dropdown")) {
                       handleRowClick(task);
@@ -288,7 +288,7 @@ const TasksList = () => {
 
                   <td className="">{truncateText(task.description, 120)}</td>
                   <td>{formatDateShort(task.dueDate)}</td>
-                  <td>{task.status}</td>
+                  <td className="w-1/12">{task.status}</td>
                   <td>{task.priority}</td>
                   <td>
                     {task.assignedTo && task.assignedTo.length > 0

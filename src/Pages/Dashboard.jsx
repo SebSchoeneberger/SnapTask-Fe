@@ -276,7 +276,7 @@ function Dashboard() {
 
           {!loadingTasks ? (
             <div className="overflow-x-auto rounded-md ">
-              <table className="table rounded-md table-zebra table-sm w-full shadow-md">
+              <table className="table rounded-md  table-zebra table-sm w-full shadow-md">
                 <thead className="text-sm bg-base-300">
                   <tr>
                     <th className="font-bold">
@@ -398,7 +398,7 @@ function Dashboard() {
                     return (
                       <tr
                         key={task._id}
-                        className="hover:bg-base-300 hover:cursor-pointer"
+                        className="hover cursor-pointer"
                         onClick={() => {
                           setSelectedTask(task);
                           document.getElementById("taskDetails").showModal();
