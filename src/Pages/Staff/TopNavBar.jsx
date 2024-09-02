@@ -1,6 +1,7 @@
 import logo from "../../assets/Logo.png";
 import logoLight from "../../assets/Logo.png";
 import { useNavigate, useLocation } from "react-router-dom";
+import ThemesSwapStaff from "../../Components/ThemesSwapStaff";
 
 export default function TopNavBar() {
   const navigate = useNavigate();
@@ -21,6 +22,10 @@ export default function TopNavBar() {
       ) : (
         <div></div>
       )}
+        <div className="flex justify-center items-center">
+          <ThemesSwapStaff />
+        </div>
+
       <div className="flex justify-end items-center gap-4">
         <img className="w-12 h-12" src={logoLight} alt="" />
         <p className="text-2xl">SnapTask</p>

@@ -6,6 +6,7 @@ import { getToken } from "../../Utils/TokenUtils";
 import { toast } from "react-toastify";
 import { formatDateShort, formatDateFull } from "../../Utils/DateUtils";
 import { TaskContext } from "../../Context/TaskProvider";
+import { TaskStep } from "../../Components/TaskSteps";
 
 export default function TaskDetails() {
   const { area } = useContext(TaskContext);
@@ -14,6 +15,7 @@ export default function TaskDetails() {
   const [task, setTask] = useState(null);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState(false);
+  const [allStepsFinished, setAllStepsFinished] = useState(false);
   const token = getToken();
   const url = `${API_URL}/tasks/${id}`;
 
@@ -39,6 +41,15 @@ export default function TaskDetails() {
       .finally(() => {});
   }, []);
 
+  useEffect(() => {
+    if (!task) return;
+    updateTask(null);
+    let completed = task.steps.filter((step) => step.isCompleted).length;
+
+    if (completed === task.steps.length) setAllStepsFinished(true);
+    else setAllStepsFinished(false);
+  }, [task]);
+
   function startTask() {
     updateTask("In Progress");
   }
@@ -52,12 +63,13 @@ export default function TaskDetails() {
   }
 
   function updateTask(status) {
-    setStatus(status);
+    if (status) setStatus(status);
     axious
       .put(
         url,
         {
-          status: status,
+          status,
+          steps: task.steps,
         },
         {
           headers: {
@@ -97,6 +109,12 @@ export default function TaskDetails() {
         )}
         <p className="text-xl mt-2 text-justify px-4">Priority: {task.priority}</p>
         <p className="text-2xl mt-2 text-justify px-4">{task.description}</p>
+
+        <div className="text-xl italic flex flex-col gap-2">
+          {task.steps.map((step, index) => (
+            <TaskStep key={index} step={step} index={index} checkbox={status == "In Progress"} setTask={setTask} task={task} />
+          ))}
+        </div>
         <div className="w-full mt-4 px-4">
           {status == "New" ? (
             <button onClick={startTask} className="btn btn-success btn-lg w-full md:max-w-lg ">
@@ -105,7 +123,7 @@ export default function TaskDetails() {
           ) : (
             status == "In Progress" && (
               <div className="flex flex-col gap-8 w-full m-auto md:max-w-xl">
-                <button onClick={finishTask} className="btn btn-lg btn-error w-full">
+                <button disabled={!allStepsFinished} onClick={finishTask} className="btn btn-lg btn-error w-full">
                   Finish Task
                 </button>
                 <button onClick={cancelTask} className="btn btn-lg btn-neutral">
