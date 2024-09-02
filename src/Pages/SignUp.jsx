@@ -6,6 +6,7 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import image1 from "../assets/7178573_61336.svg";
 import { toast } from "react-toastify";
+import illustrationSignup from "../assets/illustration-signup.svg";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -336,7 +337,13 @@ function SignUp() {
           </button>
         </form>
       </div>
-      <div className="bg-gradient-to-r from-cyan-500 to-blue-500 h-full"></div>
+      <div className="bg-gradient-to-r from-cyan-500 to-blue-500 h-full flex items-center justify-center">
+        <img
+          className="max-w-screen-md"
+          src={illustrationSignup}
+          alt="Illustration of a woman and charts"
+        />
+      </div>
     </div>
   );
 }
