@@ -1,5 +1,18 @@
 # SnapTask Frontend
 
+# SnapTask
+
+Snaptask: QR Code-Based Task Management for Businesses and Households
+Snaptask is a versatile SaaS platform designed to streamline task management for businesses and households across various industries. By leveraging QR code technology, Snaptask simplifies the process of assigning, tracking, and completing tasks.
+
+Key Features:
+
+- Admin Dashboard: Manage areas, users, tasks, and generate reports from a comprehensive web-based interface.
+-Staff Interface: Easily accessible via mobile devices, staff members can start and finish tasks by scanning unique QR codes.
+-Versatile Use Cases: Ideal for businesses in industries such as cleaning, logistics, and hospitality, as well as for personal use in shared households.
+
+With Snaptask, you can improve efficiency, ensure accountability, and gain valuable insights through detailed analytics—all powered by the simplicity and convenience of QR codes.
+
 ## Setup
 
 - `npm i` to install dependencies
