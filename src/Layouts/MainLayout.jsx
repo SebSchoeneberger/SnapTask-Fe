@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
@@ -9,9 +9,21 @@ import ColorProvider from "../Context/ColorProvider";
 import BottomNavBar from "../Pages/Staff/BottomNavBar";
 import TopNavBar from "../Pages/Staff/TopNavBar";
 import TaskProvider from "../Context/TaskProvider";
+import Home from "../Pages/Home";
 
 function MainLayout() {
   const { user } = useContext(AuthContext);
+  const location = useLocation();
+
+  const { pathname } = location;
+
+  if (pathname === "/") {
+    return (
+      <>
+      <Home />
+      </>
+    )
+  }
 
   return (
     <>
