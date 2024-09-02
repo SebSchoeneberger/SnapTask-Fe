@@ -2,7 +2,6 @@ import { useState } from "react";
 
 export default function TaskSteps({ steps, setSteps }) {
   const [isAdding, setIsAdding] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const [editTaskNumber, setEditTaskNumber] = useState(null);
 
   return (
@@ -20,8 +19,6 @@ export default function TaskSteps({ steps, setSteps }) {
                 key={index}
                 step={step}
                 index={index}
-                isEditing={isEditing}
-                setIsEditing={setIsEditing}
                 setIsAdding={setIsAdding}
                 setEditTaskNumber={setEditTaskNumber}
                 setSteps={setSteps}
@@ -108,7 +105,7 @@ export function AddStep({ setIsAdding, setSteps, step, index, setEditTaskNumber 
   );
 }
 
-export function TaskStep({ step, index, isEditing, setIsEditing, setIsAdding, setEditTaskNumber, setSteps, steps, checkbox, setTask, task }) {
+export function TaskStep({ step, index, setIsAdding, setEditTaskNumber, setSteps, steps, checkbox, setTask, task }) {
   const [completed, setCompleted] = useState(step.isCompleted);
 
   function handleClick(e) {

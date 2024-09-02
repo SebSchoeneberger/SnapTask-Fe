@@ -86,8 +86,8 @@ const TaskDetailsPopup = ({ task }) => {
                   {task.assignedTo.length > 0 && (
                     <p className="mb-6 flex flex-col gap-1">
                       <strong className="text-left">Assigned to:</strong>{" "}
-                      {task.assignedTo.map((user) => (
-                        <span className="flex" key={user._id}>
+                      {task.assignedTo.map((user, index) => (
+                        <span className="flex" key={index}>
                           {user.firstName} {user.lastName}
                         </span>
                       ))}
