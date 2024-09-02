@@ -33,25 +33,25 @@ export default function Users() {
   const dropdownRef = useRef(null);
 
   const fetchUsers = () => {
-  axios
-  .get(`${API_URL}/users?page=${page}&perPage=${perPage}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-  .then((response) => {
-    setUsers(response.data.staff);
-    setTotalPages(response.data.totalPages);
-    setTotalResults(response.data.totalResults);
-    window.scrollTo(0, 0);
-  })
-  .catch((error) => {
-    toast.error("Error loading users");
-    console.log(error.message);
-  })
-  .finally(() => setLoading(false));
-};
+    axios
+      .get(`${API_URL}/users?page=${page}&perPage=${perPage}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setUsers(response.data.staff);
+        setTotalPages(response.data.totalPages);
+        setTotalResults(response.data.totalResults);
+        window.scrollTo(0, 0);
+      })
+      .catch((error) => {
+        toast.error("Error loading users");
+        console.log(error.message);
+      })
+      .finally(() => setLoading(false));
+  };
 
   useEffect(() => {
     fetchUsers();
@@ -68,7 +68,7 @@ export default function Users() {
   };
 
   const handleDelete = (user) => {
-    console.log(user);
+    // console.log(user);
     setDeleteUser(user);
     document.getElementById("delete_user_modal").showModal();
   };
@@ -133,10 +133,7 @@ export default function Users() {
     <div className="flex flex-col gap-6 mt-10 p-5 min-h-screen w-full">
       <div className="flex justify-between">
         <p className="text-xl font-semibold">User Management</p>
-        <button
-          className="btn btn-primary rounded-2xl"
-          onClick={() => openModalFunction("people")}
-        >
+        <button className="btn btn-primary rounded-2xl" onClick={() => openModalFunction("people")}>
           Create User
         </button>
       </div>
@@ -149,23 +146,15 @@ export default function Users() {
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Name</span>
-                    <button
-                      className="hover:cursor-pointer"
-                      onClick={() => handleSortClick("firstName")}
-                    >
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("firstName")}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                        />
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                       </svg>
                     </button>
                   </div>
@@ -173,23 +162,15 @@ export default function Users() {
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Email Adress</span>
-                    <button
-                      className="hover:cursor-pointer"
-                      onClick={() => handleSortClick("email")}
-                    >
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("email")}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                        />
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                       </svg>
                     </button>
                   </div>
@@ -197,23 +178,15 @@ export default function Users() {
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Created by</span>
-                    <button
-                      className="hover:cursor-pointer"
-                      onClick={() => handleSortClick("creator.firstName")}
-                    >
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("creator.firstName")}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                        />
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                       </svg>
                     </button>
                   </div>
@@ -221,23 +194,15 @@ export default function Users() {
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Created at</span>
-                    <button
-                      className="hover:cursor-pointer"
-                      onClick={() => handleSortClick("createdAt")}
-                    >
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("createdAt")}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                        />
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                       </svg>
                     </button>
                   </div>
@@ -245,23 +210,15 @@ export default function Users() {
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Account type</span>
-                    <button
-                      className="hover:cursor-pointer"
-                      onClick={() => handleSortClick("role")}
-                    >
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("role")}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                        />
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                       </svg>
                     </button>
                   </div>
@@ -276,11 +233,7 @@ export default function Users() {
                   <td>
                     <div className="flex items-center gap-2">
                       {user.profileImage ? (
-                        <img
-                          className="w-12 h-12 rounded-full"
-                          src={user.profileImage}
-                          alt="profile image"
-                        />
+                        <img className="w-12 h-12 rounded-full" src={user.profileImage} alt="profile image" />
                       ) : (
                         <div className="w-12 h-12">
                           <DefaultProfileImage />
@@ -304,8 +257,7 @@ export default function Users() {
                           viewBox="0 0 24 24"
                           strokeWidth="1.5"
                           stroke="currentColor"
-                          className="w-6 h-6"
-                        >
+                          className="w-6 h-6">
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -318,9 +270,7 @@ export default function Users() {
                           <button onClick={() => handleEdit(user)}>Edit</button>
                         </li>
                         <li className="text-red-600">
-                          <button onClick={() => handleDelete(user)}>
-                            Delete
-                          </button>
+                          <button onClick={() => handleDelete(user)}>Delete</button>
                         </li>
                       </ul>
                     </details>
@@ -329,14 +279,7 @@ export default function Users() {
               ))}
             </tbody>
           </table>
-          <Pagination
-            page={page}
-            setPage={setPage}
-            perPage={perPage}
-            setPerPage={setPerPage}
-            totalPages={totalPages}
-            totalResults={totalResults}
-          />
+          <Pagination page={page} setPage={setPage} perPage={perPage} setPerPage={setPerPage} totalPages={totalPages} totalResults={totalResults} />
         </div>
       ) : (
         <p>No users found.</p>
@@ -345,29 +288,14 @@ export default function Users() {
       <CreateUser updateUsers={updateUsers} setUsers={setUsers} name="people" />
 
       {/* Delete User Modal */}
-      <dialog
-        id="delete_user_modal"
-        className="modal modal-bottom sm:modal-middle"
-      >
+      <dialog id="delete_user_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <button
             type="button"
             onClick={() => document.getElementById("delete_user_modal").close()}
-            className="btn btn-square absolute top-4 right-4"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
+            className="btn btn-square absolute top-4 right-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
           <h3 className="font-bold text-lg">Delete User</h3>
@@ -382,7 +310,9 @@ export default function Users() {
 
       {/* Update User Modal */}
 
-      {editUser && <UpdateUserModal updateUsers={updateUsers} userData={editUser} setUsers={setUsers} editModal={editModal} setEditModal={setEditModal} />}
+      {editUser && (
+        <UpdateUserModal updateUsers={updateUsers} userData={editUser} setUsers={setUsers} editModal={editModal} setEditModal={setEditModal} />
+      )}
 
       {/* <UpdateUserModal setUsers={setUsers} name="people" /> */}
     </div>

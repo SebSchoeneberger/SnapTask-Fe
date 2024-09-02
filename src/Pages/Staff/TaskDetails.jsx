@@ -64,20 +64,24 @@ export default function TaskDetails() {
 
   function updateTask(status) {
     if (status) setStatus(status);
-    axious
-      .put(
-        url,
-        {
-          status,
+
+    const body = status
+      ? {
+          status: status,
           steps: task.steps,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
         }
-      )
+      : {
+          steps: task.steps,
+        };
+
+    // console.log(status);
+    axious
+      .put(url, body, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         // console.log(res.data);
         setStatus(res.data.status);

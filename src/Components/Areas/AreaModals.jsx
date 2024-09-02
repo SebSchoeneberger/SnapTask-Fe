@@ -217,12 +217,12 @@ export function UpdateAreaModal({ areaData, updateAreas, areaUsers }) {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
-    // console.log(data);
+    // console.log({ ...data, users: selectedUsers });
     try {
       const response = await axios.put(
         `${API_URL}/areas/${areaData._id}`,
 
-        { ...data, users: selectedUsers },
+        { address: data.address, contact: data.contact, name: data.name, users: selectedUsers },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -233,7 +233,7 @@ export function UpdateAreaModal({ areaData, updateAreas, areaUsers }) {
       document.getElementById("update_area_modal").close();
       updateAreas();
     } catch (error) {
-      toast.error(`Error updating area: ${error.message}`);
+      toast.error(`Error updating area: ${error.response.data.error}`);
       console.error(error);
     } finally {
       setIsLoading(false);

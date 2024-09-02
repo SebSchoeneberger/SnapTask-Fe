@@ -71,7 +71,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
       onCreate(newTask);
     } catch (error) {
       console.error("Failed to create task:", error);
-      toast.error("Failed to create task, please try again.");
+      toast.error(error.response.data.error);
     }
   };
 
@@ -191,19 +191,7 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
                   </span>
                 )}
               </div>
-              {/* <div className="w-full flex flex-col items-start gap-2">
-                <span className="label-text">
-                  Assign to <span className="text-[12px]">(optional)</span>
-                </span>
-               
-                <MultiselectComponent
-                  users={users.filter((user) => user.role != "manager")}
-                  setSelectedUsers={setSelectedUsers}
-                  styles={{
-                    color: "blue",
-                  }}
-                />
-              </div> */}
+
               <div className="w-full flex flex-col items-start gap-2" style={{ position: "relative" }}>
                 <span className="label-text">Select Area</span>
                 <label className="w-full relative">
@@ -239,22 +227,6 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
             <span className="label-text">
               Assign to <span className="text-[12px]">(optional)</span>
             </span>
-            {/* <label className="w-full">
-                  <select
-                    {...register("assignedTo")}
-                    multiple
-                    className={`select input-bordered w-full ${
-                      errors.assignedTo ? "input-error" : ""
-                    }`}
-                  >
-                    <option value="">Choose one or more</option>
-                    {users.map((user) => (
-                      <option key={user._id} value={user._id}>
-                        {user.firstName} {user.lastName}
-                      </option>
-                    ))}
-                  </select>
-                </label> */}
 
             <MultiselectComponent
               users={users.filter((user) => user.role === "staff")}

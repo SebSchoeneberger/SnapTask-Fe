@@ -53,8 +53,10 @@ function SignUp() {
       return <Navigate to={storedPath || "/staff/areas"} />;
 
   return (
+
     <div className="grid grid-cols-[500px_minmax(0,_1fr)] max-md:inline">
       <div className="p-8 flex flex-col items-start min-h-screen">
+
         {/* <img className="h-40 w-auto" src={image1} alt="QR code Picture" /> */}
         <h2 className="text-2xl mb-4">Sign up</h2>
         <p className="pb-3 text-sm mb-10">
