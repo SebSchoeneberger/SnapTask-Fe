@@ -9,7 +9,7 @@ import ColorProvider from "../Context/ColorProvider";
 import BottomNavBar from "../Pages/Staff/BottomNavBar";
 import TopNavBar from "../Pages/Staff/TopNavBar";
 import TaskProvider from "../Context/TaskProvider";
-import Home from "../Pages/Home";
+import LandingPage from "../Pages/LandingPage";
 
 function MainLayout() {
   const { user } = useContext(AuthContext);
@@ -20,7 +20,7 @@ function MainLayout() {
   if (pathname === "/") {
     return (
       <>
-      <Home />
+      <LandingPage />
       </>
     )
   }
