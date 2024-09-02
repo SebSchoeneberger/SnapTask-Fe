@@ -4,10 +4,12 @@ import { toast } from "react-toastify";
 import { getToken } from "../Utils/TokenUtils";
 import axios from "axios";
 import MultiselectComponent from "../Components/MutiselectComponent";
+import TaskSteps from "./TaskSteps";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const CreateTask = ({ isOpen, onClose, onCreate }) => {
+  const [steps, setSteps] = useState([]);
   const {
     register,
     handleSubmit,
@@ -40,9 +42,10 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
 
   const createTask = async (data) => {
     try {
+      // console.log({ ...data, assignedTo: selectedUsers, steps });
       const response = await axios.post(
         `${API_URL}/tasks`,
-        { ...data, assignedTo: selectedUsers },
+        { ...data, assignedTo: selectedUsers, steps },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -231,7 +234,6 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
               </div>
             </div>
           </div>
-
           {/* Dropdown for Assign To */}
           <div className="w-full flex flex-col items-start gap-2 mb-4">
             <span className="label-text">
@@ -264,15 +266,8 @@ const CreateTask = ({ isOpen, onClose, onCreate }) => {
               // }}
             />
           </div>
-
-          <button
-            type="submit"
-            className="btn btn-primary rounded-2xl"
-            disabled={
-              errors.title || errors.dueDate || errors.priority || errors.area
-            }
-          >
-
+          <TaskSteps steps={steps} setSteps={setSteps} />
+          <button type="submit" className="btn btn-primary rounded-2xl" disabled={errors.title || errors.dueDate || errors.priority || errors.area}>
             Save Task
           </button>
         </form>

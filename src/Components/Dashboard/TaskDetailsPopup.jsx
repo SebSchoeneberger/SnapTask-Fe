@@ -1,6 +1,7 @@
 import QRCode from "qrcode.react";
 import React, { useRef } from "react";
 import { formatDateFull } from "../../Utils/DateUtils";
+import { TaskStep } from "../TaskSteps";
 
 const TaskDetailsPopup = ({ task }) => {
   const URL = import.meta.env.VITE_FRONTEND_URL;
@@ -43,9 +44,13 @@ const TaskDetailsPopup = ({ task }) => {
               <p className="flex gap-1 mb-6">
                 <strong>Task Name:</strong> {task.title}
               </p>
-              <p className="flex flex-col items-start gap-1">
-                <strong>Description:</strong> <span className="text-left">{task.description}</span>
-              </p>
+              <div className="flex flex-col items-start gap-0">
+                <strong>Description:</strong> <span className="text-left mb-4">{task.description}</span>
+                {task.steps.length > 0 && <strong>Steps:</strong>}
+                {task.steps.map((step, index) => (
+                  <TaskStep key={index} step={step} index={index} />
+                ))}
+              </div>
             </div>
 
             {/* Right Column: Task Details */}

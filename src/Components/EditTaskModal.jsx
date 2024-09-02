@@ -5,10 +5,12 @@ import { useState, useEffect } from "react";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { getToken } from "../Utils/TokenUtils";
 import MultiselectComponent from "../Components/MutiselectComponent";
+import TaskSteps from "./TaskSteps";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
+  const [steps, setSteps] = useState([]);
   const {
     register,
     handleSubmit,
@@ -30,7 +32,7 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
       setValue("dueDate", new Date(taskData.dueDate).toISOString().slice(0, 10));
       setValue("priority", taskData.priority);
       // console.log(taskData.area._id);
-
+      setSteps(taskData.steps);
       if (taskData.assignedTo) {
         setValue(
           "assignedTo",
@@ -81,7 +83,7 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
     try {
       await axios.put(
         `${API_URL}/tasks/${taskData._id}`,
-        { ...data, assignedTo: selectedUsers },
+        { ...data, assignedTo: selectedUsers, steps },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -295,6 +297,7 @@ const EditTaskModal = ({ taskData, updateTasks, onClose, taskUsers }) => {
               // }}
             />
           </div>
+          <TaskSteps steps={steps} setSteps={setSteps} />
           <button type="submit" className="btn btn-primary rounded-2xl" disabled={isLoading}>
             Update
           </button>
