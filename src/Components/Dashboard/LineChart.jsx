@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend } from "chart.js";
 import { ColorContext } from "../../Context/ColorProvider";
+import { formatDateShort } from "../../Utils/DateUtils";
 
 // Register the required components with Chart.js
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
@@ -26,19 +27,19 @@ export default function LineChart({ tasks }) {
     for (let i = 6; i > 0; i--) {
       let date = new Date();
       date.setDate(date.getDate() - i);
-      let dateStr = date.toLocaleDateString();
+      let dateStr = formatDateShort(date); //.toLocaleDateString();
       if (!chartTasks[dateStr]) {
         let done = [];
-        if (status == "all") done = _tasks.filter((x) => new Date(x.createdAt).toLocaleDateString() == dateStr);
-        else done = _tasks.filter((x) => new Date(x.finishedDate).toLocaleDateString() == dateStr);
+        if (status == "all") done = _tasks.filter((x) => formatDateShort(x.createdAt) == dateStr);
+        else done = _tasks.filter((x) => formatDateShort(x.finishedDate) == dateStr);
         chartTasks[dateStr] = done.length;
       }
     }
     let dateToday = [];
 
-    dateToday = new Date().toLocaleDateString();
-    if (status == "all") chartTasks[dateToday] = _tasks.filter((x) => new Date(x.createdAt).toLocaleDateString() == dateToday).length;
-    else chartTasks[dateToday] = _tasks.filter((x) => new Date(x.finishedDate).toLocaleDateString() == dateToday).length;
+    dateToday = formatDateShort(new Date()); //.toLocaleDateString();
+    if (status == "all") chartTasks[dateToday] = _tasks.filter((x) => formatDateShort(x.createdAt) == dateToday).length;
+    else chartTasks[dateToday] = _tasks.filter((x) => formatDateShort(x.finishedDate) == dateToday).length;
 
     return chartTasks;
   }
