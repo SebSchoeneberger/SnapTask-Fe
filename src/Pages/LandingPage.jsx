@@ -54,13 +54,13 @@ const LandingPage = () => {
           <div className="hidden sm:flex gap-4">
             <Link
               to="/login"
-              className="bg-[#40446b] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#7e5035] transition-colors duration-300"
+              className="bg-primary text-white px-4 py-2 rounded-lg font-semibold hover:bg-fuchsia-500 transition-colors duration-300"
             >
               Login
             </Link>
             <Link
               to="/signup"
-              className="bg-[#40446b] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#7e5035] transition-colors duration-300"
+              className="bg-primary text-white px-4 py-2 rounded-lg font-semibold hover:bg-fuchsia-500 transition-colors duration-300"
             >
               Sign Up
             </Link>
@@ -72,10 +72,10 @@ const LandingPage = () => {
         <section className="bg-white relative mt-36" data-aos="fade-up">
           <div className="relative z-10 max-w-screen-xl mx-auto flex flex-col-reverse lg:flex-row items-center px-4 sm:px-6 lg:px-8 py-10">
             <div className="lg:w-1/2 text-start" data-aos="fade-right">
-              <h2 className="text-3xl sm:text-5xl lg:text-5xl font-extrabold mb-4 text-left text-primary">
-                Easy management
+              <h2 className="text-3xl sm:text-5xl lg:text-5xl font-extrabold mb-8 text-left text-primary">
+                Keep track, optimize resources
               </h2>
-              <p className="text-sm lg:text-lg mb-6 text-left text-black">
+              <p className="text-sm lg:text-lg mb-10 text-left text-black">
                 At Snap Tasks, we understand that organizing tasks can be
                 overwhelming. Our mission is to simplify your life by providing
                 a powerful platform that helps you streamline your tasks, set
@@ -86,7 +86,7 @@ const LandingPage = () => {
               </p>
               <Link
                 to="/signup"
-                className="bg-primary text-white w-full sm:w-auto py-3 px-6 rounded-lg font-semibold hover:bg-[#7e5035] transition-colors duration-300 text-center"
+                className="bg-primary text-white w-full sm:w-auto py-3 px-6 rounded-lg font-semibold hover:bg-fuchsia-500 transition-colors duration-300 text-center"
               >
                 Get Started
               </Link>
@@ -504,9 +504,7 @@ const LandingPage = () => {
                     <span className="flex justify-start text-lg font-bold text-indigo-900">
                       Phone
                     </span>
-                    <p className="text-secondary text-indigo-700">
-                      +49 186 73636 838
-                    </p>
+                    <p className=" text-indigo-700">+49 186 73636 838</p>
                   </div>
                 </div>
                 <div className="flex items-center">
@@ -530,9 +528,7 @@ const LandingPage = () => {
                     <span className="flex justify-start text-lg font-bold text-indigo-900">
                       Email
                     </span>
-                    <p className="text-secondary text-indigo-700">
-                      hello@dogadoptionagency.com
-                    </p>
+                    <p className="text-indigo-700">hello@snaptask.com</p>
                   </div>
                 </div>
               </address>
