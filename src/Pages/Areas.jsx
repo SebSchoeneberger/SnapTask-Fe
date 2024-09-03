@@ -1,14 +1,12 @@
 import React from "react";
-import {
-  CreateAreaModal,
-  UpdateAreaModal,
-} from "../Components/Areas/AreaModals";
+import { CreateAreaModal, UpdateAreaModal } from "../Components/Areas/AreaModals";
 import { useState, useEffect, useRef } from "react";
 import { getToken } from "../Utils/TokenUtils";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Pagination from "../Components/Dashboard/Pagination";
 import sortTables from "../Utils/SortTablesUtils";
+import LoadingSpinner from "../Components/LoadingSpinner";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -112,14 +110,18 @@ const Areas = () => {
     setAreas(sortedAreas);
   };
 
+  if (loading)
+    return (
+      <div className="min-h-screen  w-full m-auto text-left px-12  mb-8">
+        <LoadingSpinner />
+      </div>
+    );
+
   return (
     <div className="min-h-screen w-full flex flex-col gap-6 mt-10 p-5">
       <div className="flex justify-between">
         <p className="text-xl font-semibold">Area Management</p>
-        <button
-          className="btn btn-primary rounded-2xl"
-          onClick={() => document.getElementById("my_modal_5").showModal()}
-        >
+        <button className="btn btn-primary rounded-2xl" onClick={() => document.getElementById("my_modal_5").showModal()}>
           Create Area
         </button>
       </div>
@@ -137,23 +139,15 @@ const Areas = () => {
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Area Name</span>
-                    <button
-                      className="hover:cursor-pointer"
-                      onClick={() => handleSortClick("name")}
-                    >
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("name")}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                        />
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                       </svg>
                     </button>
                   </div>
@@ -161,23 +155,15 @@ const Areas = () => {
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Location</span>
-                    <button
-                      className="hover:cursor-pointer"
-                      onClick={() => handleSortClick("address")}
-                    >
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("address")}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                        />
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                       </svg>
                     </button>
                   </div>
@@ -185,23 +171,15 @@ const Areas = () => {
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Contact Info</span>
-                    <button
-                      className="hover:cursor-pointer"
-                      onClick={() => handleSortClick("contact")}
-                    >
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("contact")}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                        />
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                       </svg>
                     </button>
                   </div>
@@ -209,23 +187,15 @@ const Areas = () => {
                 <th>
                   <div className="flex gap-1 items-center">
                     <span>Assigned to</span>
-                    <button
-                      className="hover:cursor-pointer"
-                      onClick={() => handleSortClick("users")}
-                    >
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("users")}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                        />
+                        className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                       </svg>
                     </button>
                   </div>
@@ -257,8 +227,7 @@ const Areas = () => {
                           viewBox="0 0 24 24"
                           strokeWidth="1.5"
                           stroke="currentColor"
-                          className="w-6 h-6"
-                        >
+                          className="w-6 h-6">
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -271,9 +240,7 @@ const Areas = () => {
                           <button onClick={() => handleEdit(area)}>Edit</button>
                         </li>
                         <li className="text-red-600">
-                          <button onClick={() => handleDelete(area)}>
-                            Delete
-                          </button>
+                          <button onClick={() => handleDelete(area)}>Delete</button>
                         </li>
                       </ul>
                     </details>
@@ -282,41 +249,19 @@ const Areas = () => {
               ))}
             </tbody>
           </table>
-          <Pagination
-            page={page}
-            setPage={setPage}
-            totalPages={totalPages}
-            perPage={perPage}
-            setPerPage={setPerPage}
-            totalResults={totalTasks}
-          />
+          <Pagination page={page} setPage={setPage} totalPages={totalPages} perPage={perPage} setPerPage={setPerPage} totalResults={totalTasks} />
         </div>
       )}
 
       {/* Delete Area Modal */}
-      <dialog
-        id="delete_area_modal"
-        className="modal modal-bottom sm:modal-middle"
-      >
+      <dialog id="delete_area_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <button
             type="button"
             onClick={() => document.getElementById("delete_area_modal").close()}
-            className="btn btn-square absolute top-4 right-4"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
+            className="btn btn-square absolute top-4 right-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
           <h3 className="font-bold text-lg">Delete Area</h3>
@@ -330,11 +275,7 @@ const Areas = () => {
       </dialog>
 
       <CreateAreaModal updateAreas={updateAreas} />
-      <UpdateAreaModal
-        areaData={editArea}
-        updateAreas={updateAreas}
-        areaUsers={areaUsers}
-      />
+      <UpdateAreaModal areaData={editArea} updateAreas={updateAreas} areaUsers={areaUsers} />
     </div>
   );
 };
