@@ -87,7 +87,7 @@ function Faq() {
   ];
 
   return (
-    <div className="min-h-screen py-20 w-full px-4">
+    <div className="min-h-screen py-20 w-full px-4 max-w-[70rem] m-auto">
       <p className="text-3xl">Frequently Asked Questions</p>
       <div className="flex flex-col gap-4 my-8 w-full text-left">
         {faqs.map((faq, index) => (
