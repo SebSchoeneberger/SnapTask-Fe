@@ -188,15 +188,6 @@ const LandingPage = () => {
             </div>
           </div>
         </section>
-
-        <section
-          className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-52"
-          data-aos="fade-up"
-        >
-          <h2 className="text-4xl font-extrabold text-center mb-6 text-primary">
-            What we provide
-          </h2>
-
         <section className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-28" data-aos="fade-up">
           <h2 className="text-4xl font-extrabold text-center mb-6">What we provide</h2>
           <div className="flex justify-center">
@@ -248,102 +239,6 @@ const LandingPage = () => {
             </div>
           </div>
         </section>
-
-
-<section className="bg-indigo-100 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-44 mb-44 w-full rounded-xl shadow-lg">
-    <div className="container mx-auto grid grid-cols-1 gap-20 text-center">
-        <div>
-            <span className="block text-lg font-bold text-primary uppercase tracking-wider mb-4">
-                Contact us
-            </span>
-            <h2 className="text-4xl font-bold text-neutral mb-8">Have a question?</h2>
-            <p className="text-lg text-black leading-relaxed mb-12">
-                Have you ever thought about getting rid of all the tracking paper sheets
-                and modernizing your operation? We're here to help!
-            </p>
-            <form className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="space-y-8">
-                    <div className="form-control">
-                        <label htmlFor="name" className="label">
-                            <span className="label-text font-medium text-black">First Name</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="name"
-                            placeholder="Enter your First Name"
-                            className="input input-bordered w-full bg-slate-50"
-                        />
-                    </div>
-                    <div className="form-control">
-                        <label htmlFor="surname" className="label">
-                            <span className="label-text font-medium text-black">Last Name</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="surname"
-                            placeholder="Enter your Last Name"
-                            className="input input-bordered w-full bg-slate-50"
-                        />
-                    </div>
-                    <div className="form-control">
-                        <label htmlFor="email" className="label">
-                            <span className="label-text font-medium text-black">Email</span>
-                        </label>
-                        <input
-                            type="email"
-                            id="email"
-                            placeholder="Enter your Email"
-                            className="input input-bordered w-full bg-slate-50"
-                        />
-                    </div>
-                </div>
-                <div className="form-control">
-                    <label htmlFor="message" className="label">
-                        <span className="label-text font-medium text-black">Message</span>
-                    </label>
-                    <textarea
-                        id="message"
-                        cols="20"
-                        rows="10"
-                        placeholder="Write your message here"
-                        className="textarea textarea-bordered w-full bg-slate-50 h-full"
-                    ></textarea>
-
-                    
-                    <div className="mt-4">
-                        <div className="flex items-start justify-start">
-                            <label htmlFor="agree" className="label cursor-pointer flex items-start">
-                                <input
-                                    required
-                                    type="checkbox"
-                                    id="agree"
-                                    className="checkbox checkbox-primary mt-1 mr-2"
-                                />
-                                <span className="label-text text-sm text-black text-left">
-                                    <span className="text-red-500">*</span> By submitting this
-                                    message, I confirm that I have read and agree to the terms of use
-                                    and privacy policy of SnapTask.
-                                </span>
-                            </label>
-                        </div>
-                        <div className="flex justify-start mt-4">
-                            <button type="submit" className="btn btn-primary w-44">
-                                Send Message
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div className="bg-base-200 p-8 rounded-xl bg-indigo-300">
-            <div className="mb-12 text-center">
-                <span className="block text-2xl font-bold mb-6 text-indigo-900">
-                    Get in touch
-                </span>
-                <p className="text-lg leading-relaxed text-indigo-900">
-                    We love to hear from you. Our team is always here to chat.
-                </p>
-
         <section className="py-24 bg-indigo-100 m-auto">
           <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 px-16">
             <div>
@@ -467,92 +362,10 @@ const LandingPage = () => {
                   </div>
                 </div>
               </address>
-
             </div>
-            <address className="not-italic flex flex-col lg:flex-row lg:justify-between">
-    <div className="flex items-center mb-6 lg:mb-0">
-        <div className="bg-primary p-4 rounded-full text-white text-2xl">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
-            >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                />
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                />
-            </svg>
-        </div>
-        <div className="ml-4">
-            <span className="flex justify-start text-lg font-bold text-indigo-900">
-                Address
-            </span>
-            <p className="text-indigo-700 text-start">Tierstr. 119, Leipzig, Germany</p>
-        </div>
-    </div>
-    <div className="flex items-center mb-6 lg:mb-0">
-        <div className="bg-primary p-4 rounded-full text-white text-2xl">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
-            >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"
-                />
-            </svg>
-        </div>
-        <div className="ml-4">
-            <span className="flex justify-start text-lg font-bold text-indigo-900">
-                Phone
-            </span>
-            <p className="text-indigo-700 text-start">+49 186 73636 838</p>
-        </div>
-    </div>
-    <div className="flex items-center">
-        <div className="bg-primary p-4 rounded-full text-white text-2xl">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
-            >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 1 0-2.636 6.364M16.5 12V8.25"
-                />
-            </svg>
-        </div>
-        <div className="ml-4">
-            <span className="flex justify-start text-lg font-bold text-indigo-900">
-                Email
-            </span>
-            <p className="text-indigo-700 text-start">hello@snaptask.com</p>
-        </div>
-        </div>
-        </address>
-      </div>
-    </div>
-</section>
-</main>
-  
+          </div>
+        </section>
+      </main>
 
       <footer className="bg-white text-gray-600 p-10 mx-auto max-w-screen-xl pt-16">
         <div className="flex flex-wrap justify-between">
