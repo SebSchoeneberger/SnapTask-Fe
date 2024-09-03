@@ -2,7 +2,7 @@
 
 # SnapTask
 
-Snaptask: QR Code-Based Task Management for Businesses and Households
+QR Code-Based Task Management for Businesses and Households
 Snaptask is a versatile SaaS platform designed to streamline task management for businesses and households across various industries. By leveraging QR code technology, Snaptask simplifies the process of assigning, tracking, and completing tasks.
 
 Key Features:

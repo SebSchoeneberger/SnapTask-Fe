@@ -18,6 +18,7 @@ export function UpdateUserModal({ userData, setEditModal, editModal, updateUsers
     defaultValues: userData || {},
   });
 
+  // console.log(userData);
   const [isLoading, setIsLoading] = useState(false);
   const token = getToken();
 
@@ -42,6 +43,7 @@ export function UpdateUserModal({ userData, setEditModal, editModal, updateUsers
           firstName: data.firstName,
           lastName: data.lastName,
           email: data.email,
+          phone: data.phone,
           role: data.role,
         },
         {
@@ -54,6 +56,7 @@ export function UpdateUserModal({ userData, setEditModal, editModal, updateUsers
       toast.success("User updated successfully!");
       setEditModal(false);
       updateUsers();
+      reset(userData);
       // setUsers((prev) =>
       //   prev.map((user) =>
       //     user._id === response.data._id ? response.data : user
@@ -101,6 +104,12 @@ export function UpdateUserModal({ userData, setEditModal, editModal, updateUsers
             <span className="label-text">Last Name</span>
             <label className="w-full input input-bordered flex items-center gap-2">
               <input {...register("lastName")} name="lastName" label="Last Name" placeholder="" />
+            </label>
+          </div>
+          <div className="w-full flex flex-col items-start gap-2">
+            <span className="label-text">Phone</span>
+            <label className="w-full input input-bordered flex items-center gap-2">
+              <input {...register("phone")} name="phone" label="Phone" placeholder="" />
             </label>
           </div>
           <div className="w-full flex flex-col items-start gap-2">
