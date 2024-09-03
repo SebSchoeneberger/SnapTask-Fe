@@ -9,6 +9,8 @@ import ColorProvider from "../Context/ColorProvider";
 import BottomNavBar from "../Pages/Staff/BottomNavBar";
 import TopNavBar from "../Pages/Staff/TopNavBar";
 import TaskProvider from "../Context/TaskProvider";
+import Home from "../Pages/Home";
+import SnapAdvisor from "../Components/SnapAdvisor";
 import LandingPage from "../Pages/LandingPage";
 
 function MainLayout() {
@@ -35,6 +37,7 @@ function MainLayout() {
               <div className="flex">
                 {user.role !== "staff" && <Sidebar />}
                 <Outlet />
+                <SnapAdvisor />
               </div>
               {user.role == "staff" && <BottomNavBar />}
             </>
