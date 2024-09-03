@@ -5,6 +5,7 @@ import AiAvatar from "../assets/128561149_GIU AMA 255-08.svg"
 
 function SnapAdvisor() {
   const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([
     {
@@ -19,8 +20,8 @@ function SnapAdvisor() {
   const headers = {
     'Content-Type': 'application/json',
     'Provider': 'open-ai',
-    'Mode': 'development',
-    'Authorization': `${apiToken}`,
+    'Mode': 'production',
+    'Authorization': `Bearer ${apiToken}`,
   };
 
   // Scroll into the view function
@@ -35,28 +36,30 @@ function SnapAdvisor() {
     if (!userMessage || userMessage.trim().length === 0) {
       return;
     }
-
     const newMessages = [...messages, { role: "user", content: userMessage }];
     setMessages(newMessages);
 
     const body = {
-      "model": "gpt-3.5-turbo",
-      'response_format': { 'type': 'json_object' },
+      "model": "ft:gpt-3.5-turbo-1106:snaptask:snap-advisor:A3PCryYO",
       "messages": [
         {
           "role": "system",
-          "content": "You are Snap Advisor, a assistant for our SnapTask Taskmanagement App."
+          "content": "You are Snap Advisor, a highly knowledgeable assistant for the Snaptask Task Management App. You provide detailed guidance, answer questions related to task management, generating reports, analyzing performance, and using QR codes effectively within Snaptask. Try to answer users Questions as shortly as possible."
         },
         {
           "role": "user",
           "content": userMessage,
         }
-      ]
+      ],
+      "max_tokens": 100
     }
+
+    setLoading(true);
 
     axios
       .post(`${API_URL}/chat/completion`, body, { headers })
       .then((response) => {
+        console.log(response)
         // Adjusted to properly access the assistant's reply from the response
         const assistantReply = response.data.message.content;
         setMessages([...newMessages, { role: "assistant", content: assistantReply }]);
@@ -64,6 +67,9 @@ function SnapAdvisor() {
       })
       .catch(error => {
         console.error("Error:", error);
+    })
+    .finally(() => {
+      setLoading(false);
     });
   };
 
@@ -129,6 +135,11 @@ function SnapAdvisor() {
                           </div>
                   
                     ))}
+                    {loading && (
+                    <div className="flex justify-start items-center mt-2 pl-2">
+                      <span className="loading loading-dots loading-md"></span>
+                    </div>
+                  )}
                     <div ref={messagesEndRef} />
               </div>
               </div>
@@ -160,24 +171,24 @@ function SnapAdvisor() {
             </div>
 
             <label className="input input-bordered flex input-primary items-center w-[840px] gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.068.157 2.148.279 3.238.364.466.037.893.281 1.153.671L12 21l2.652-3.978c.26-.39.687-.634 1.153-.67 1.09-.086 2.17-.208 3.238-.365 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-            </svg>
-            <input
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.068.157 2.148.279 3.238.364.466.037.893.281 1.153.671L12 21l2.652-3.978c.26-.39.687-.634 1.153-.67 1.09-.086 2.17-.208 3.238-.365 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+              </svg>
+              <input
                 type="text"
-                className="grow"
+                className={`grow ${loading ? 'disabled' : ''}`}
                 placeholder="Ask Snap Advisor anything about your Data..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") {
+                  if (e.key === "Enter" && !loading) {
                     e.preventDefault();
                     handleSubmit();
                   }
                 }}
+                disabled={loading}
               />
-
-              <button onClick={() => handleSubmit()}>
+              <button onClick={() => handleSubmit()} disabled={loading}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -192,6 +203,7 @@ function SnapAdvisor() {
                 </svg>
               </button>
             </label>
+
 
           </div>
         </div>
