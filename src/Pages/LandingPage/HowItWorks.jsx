@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export default function HowItWorks() {
   return (
-    <section className="w-full py-16 mt-12">
+    <section className="w-full py-12 mt-52">
       <div className="max-w-6xl mx-auto text-center px-4">
         <motion.h2
           className="text-4xl font-bold text-primary mb-10"
@@ -12,7 +12,7 @@ export default function HowItWorks() {
           transition={{ duration: 1 }}>
           <p className="text-black">How It Works</p>
         </motion.h2>
-        <div className="grid grid-cols-2 m-auto justify-center gap-12">
+        <div className="grid grid-cols-2 m-auto justify-center gap-12 mt-16">
           <motion.div
             className="flex flex-col items-center max-w-xs text-center m-auto"
             initial={{ opacity: 0, y: 20 }}
