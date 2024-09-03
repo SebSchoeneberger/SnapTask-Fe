@@ -6,7 +6,7 @@ import { CreateUser } from "../Components/Users/CreateUser";
 import { getToken } from "../Utils/TokenUtils";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { toast } from "react-toastify";
-import { formatDateFull } from "../Utils/DateUtils";
+import { formatDateFull, formatDateShort } from "../Utils/DateUtils";
 import Pagination from "../Components/Dashboard/Pagination";
 import defaultAvatar from "../assets/defaultAvatar.svg";
 import DefaultProfileImage from "../Components/DefaultProfileImage";
@@ -193,8 +193,8 @@ export default function Users() {
                 </th>
                 <th>
                   <div className="flex gap-1 items-center">
-                    <span>Created at</span>
-                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("createdAt")}>
+                    <span>Phone</span>
+                    <button className="hover:cursor-pointer" onClick={() => handleSortClick("phone")}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -246,8 +246,9 @@ export default function Users() {
                   <td>
                     {user.creator.firstName} {user.creator.lastName}
                   </td>
-                  <td>{formatDateFull(user.createdAt)}</td>
-                  <td>{user.role}</td>
+                  <td>{user.phone}</td>
+                  {/* Uppercasing the first letter of the role */}
+                  <td>{user.role.charAt(0).toUpperCase() + user.role.slice(1)}</td>
                   <td ref={dropdownRef}>
                     <details className="dropdown dropdown-end">
                       <summary className="btn m-0 p-0 border-none bg-transparent hover:bg-transparent">
