@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import axios from "axios";
 import { AuthContext } from "../Context/AuthProvider";
 import AiAvatar from "../assets/128561149_GIU AMA 255-08.svg"
@@ -23,11 +23,16 @@ function SnapAdvisor() {
     'Authorization': `${apiToken}`,
   };
 
-  const handleSubmit = (message) => {
+  // Scroll into the view function
+  const messagesEndRef = useRef(null);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
+  const handleSubmit = (message) => {
     const userMessage = message || input;
-    
-    if (!userMessage) {
+
+    if (!userMessage || userMessage.trim().length === 0) {
       return;
     }
 
@@ -76,12 +81,12 @@ function SnapAdvisor() {
   }
 
   const suggestedQuestions = [
+    "Can you help me analyze the performance in a particular area?",
+    "Help me create a performance report for a specific staff member over the last month.",
+    "Can you help me analyze the performance trends of my staff over the past month?",
     "How can I generate and assign a QR code for a new task in a specific area?",
     "How do I add or remove staff members and assign them tasks from the admin dashboard?",
     "What’s the process for a staff member to start and complete a task using their phone?",
-    "Help me create a performance report for a specific staff member over the last month.",
-    "Can you help me analyze the performance trends of my staff over the past month?",
-    "Can you help me analyze the performance in a particular area?",
   ];
 
   const handleSuggestedQuestion = (question) => {
@@ -124,6 +129,7 @@ function SnapAdvisor() {
                           </div>
                   
                     ))}
+                    <div ref={messagesEndRef} />
               </div>
               </div>
 
@@ -157,15 +163,21 @@ function SnapAdvisor() {
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.068.157 2.148.279 3.238.364.466.037.893.281 1.153.671L12 21l2.652-3.978c.26-.39.687-.634 1.153-.67 1.09-.086 2.17-.208 3.238-.365 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
             </svg>
-              <input
+            <input
                 type="text"
                 className="grow"
                 placeholder="Ask Snap Advisor anything about your Data..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleSubmit();
+                  }
+                }}
               />
-              <button onClick={handleSubmit} >
+
+              <button onClick={() => handleSubmit()}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
