@@ -19,9 +19,9 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}>
-            <div className="text-5xl mb-4">🏢</div>
-            <h3 className="text-xl font-semibold mb-2">1. Create Areas</h3>
-            <p className="text-gray-600">Set up distinct areas within your organization for better task segmentation.</p>
+            <div className="text-6xl mb-4">🏢</div>
+            <h3 className="text-xl font-semibold mb-2 text-gray-800">1. Create Areas</h3>
+            <p className="text-gray-700">Set up distinct areas within your organization for better task segmentation.</p>
           </motion.div>
 
           <motion.div
@@ -30,9 +30,9 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}>
-            <div className="text-5xl mb-4">📝</div>
-            <h3 className="text-xl font-semibold mb-2">2. Assign Tasks</h3>
-            <p className="text-gray-600">Assign tasks to the right staff members based on their roles and expertise.</p>
+            <div className="text-6xl mb-4">📝</div>
+            <h3 className="text-xl font-semibold mb-2 text-gray-800">2. Assign Tasks</h3>
+            <p className="text-gray-700">Assign tasks to the right staff members based on their roles and expertise.</p>
           </motion.div>
 
           <motion.div
@@ -41,9 +41,9 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.6 }}>
-            <div className="text-5xl mb-4">📊</div>
-            <h3 className="text-xl font-semibold mb-2">3. Monitor Progress</h3>
-            <p className="text-gray-600">Track the status of tasks in real-time and ensure everything is on schedule.</p>
+            <div className="text-6xl mb-4">📊</div>
+            <h3 className="text-xl font-semibold mb-2 text-gray-800">3. Monitor Progress</h3>
+            <p className="text-gray-700">Track the status of tasks in real-time and ensure everything is on schedule.</p>
           </motion.div>
 
           <motion.div
@@ -52,9 +52,9 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.8 }}>
-            <div className="text-5xl mb-4">📱</div>
-            <h3 className="text-xl font-semibold mb-2">4. Use QR Codes</h3>
-            <p className="text-gray-600">Easily access tasks by scanning QR codes placed in specific areas.</p>
+            <div className="text-6xl mb-4">📱</div>
+            <h3 className="text-xl font-semibold mb-2 text-gray-800">4. Use QR Codes</h3>
+            <p className="text-gray-700">Easily access tasks by scanning QR codes placed in specific areas.</p>
           </motion.div>
         </div>
       </div>
