@@ -2,11 +2,14 @@ import { useState, useContext, useRef, useEffect } from "react";
 import axios from "axios";
 import { AuthContext } from "../Context/AuthProvider";
 import AiAvatar from "../assets/128561149_GIU AMA 255-08.svg"
+import { getToken } from "../Utils/TokenUtils";
 
 function SnapAdvisor() {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState("");
+  const [tasks, setTasks] = useState([]);
+  const [includeData, setIncludeData] = useState(false); 
   const [messages, setMessages] = useState([
     {
       role: "assistant",
@@ -16,6 +19,44 @@ function SnapAdvisor() {
 
   const apiToken = import.meta.env.VITE_OPENAI_API_KEY;
   const API_URL = import.meta.env.VITE_API_URL;
+  const token = getToken();
+
+  useEffect(() => {
+    const fetchTasks = () => {
+      axios.get(`${API_URL}/tasks`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setTasks(res.data.tasks);
+      })
+      .catch((error) => {
+        toast.error("Error loading tasks");
+        console.log(error.message);
+      });
+    };
+
+    fetchTasks();
+  }, []);
+
+  function formatTasksForPrompt(tasks) {
+    return tasks.map(task => {
+        return `
+        Task: ${task.title}
+        Area: ${task.area.name}
+        Status: ${task.status}
+        Priority: ${task.priority}
+        Description: ${task.description || "No description provided"}
+        Due Date: ${new Date(task.dueDate).toLocaleDateString()}
+        Assigned To: ${task.assignedTo.length > 0 
+            ? task.assignedTo.map(assignee => `${assignee.firstName} ${assignee.lastName}`).join(", ") 
+            : "Not assigned yet"}
+        Is Overdue: ${task.isOverdue ? "Yes" : "No"}
+        `;
+    }).join("\n\n"); // Separate each task with a double newline
+}
 
   const headers = {
     'Content-Type': 'application/json',
@@ -52,6 +93,14 @@ function SnapAdvisor() {
         }
       ],
       "max_tokens": 100
+    }
+
+    if (includeData && tasks.length > 0) {
+      const formattedTasks = formatTasksForPrompt(tasks);
+      body.messages.push({
+        "role": "system",
+        "content": `Here is the relevant task data:\n\n${formattedTasks}`
+      });
     }
 
     setLoading(true);
@@ -170,40 +219,49 @@ function SnapAdvisor() {
               </div>
             </div>
 
-            <label className="input input-bordered flex input-primary items-center w-[840px] gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.068.157 2.148.279 3.238.364.466.037.893.281 1.153.671L12 21l2.652-3.978c.26-.39.687-.634 1.153-.67 1.09-.086 2.17-.208 3.238-.365 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-              </svg>
-              <input
-                type="text"
-                className={`grow ${loading ? 'disabled' : ''}`}
-                placeholder="Ask Snap Advisor anything about your Data..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !loading) {
-                    e.preventDefault();
-                    handleSubmit();
-                  }
-                }}
-                disabled={loading}
-              />
-              <button onClick={() => handleSubmit()} disabled={loading}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="h-6 w-6 opacity-70">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+    <div className="flex items-center gap-6">
+              <label className="input input-bordered flex input-primary items-center w-[840px] gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.068.157 2.148.279 3.238.364.466.037.893.281 1.153.671L12 21l2.652-3.978c.26-.39.687-.634 1.153-.67 1.09-.086 2.17-.208 3.238-.365 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
                 </svg>
-              </button>
-            </label>
+                <input
+                  type="text"
+                  className={`grow ${loading ? 'disabled' : ''}`}
+                  placeholder="Ask Snap Advisor anything about your Data..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !loading) {
+                      e.preventDefault();
+                      handleSubmit();
+                    }
+                  }}
+                  disabled={loading}
+                />
+                <button onClick={() => handleSubmit()} disabled={loading}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="h-6 w-6 opacity-70">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                  </svg>
+                </button>
+              </label>
 
+              <div className="form-control flex">
+                <label className="cursor-pointer label gap-2">
+                  <input type="checkbox" className="checkbox checkbox-primary" checked={includeData} onChange={() => setIncludeData(!includeData)} />
+                  <span className="label-text text-base">Include your Data</span>
+                </label>
+              </div>
+
+            </div>
 
           </div>
         </div>
