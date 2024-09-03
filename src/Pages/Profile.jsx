@@ -80,6 +80,7 @@ export default function Profile() {
           firstName: userData.firstName,
           lastName: userData.lastName,
           email: userData.email,
+          phone: userData.phone,
           newPassword: data.newPassword,
           currentPassword: data.currentPassword,
         },
@@ -283,19 +284,42 @@ export default function Profile() {
             </div>
             <div className="w-full md:w-[60%] ">
               <label className="form-control w-full ">
-                <div className="label">
+                {/* <div className="label">
                   <span className="label-text font-semibold">Email</span>
-                </div>
+                </div> */}
                 <input
                   {...register("email", { required: true })}
                   type="email"
                   autoComplete="off"
-                  placeholder="Type here"
+                  placeholder="Type your email here"
                   className={`input input-bordered`}
                   value={userData.email}
                   onChange={handleChange}
                 />
                 {errors.email && <p className="text-error font-semibold">Email is required.</p>}
+              </label>
+            </div>
+          </div>
+          <div className="flex mt-8 gap-12 flex-wrap md:flex-nowrap">
+            <div className="w-full md:w-[40%] pt-1">
+              <p className="font-bold">Phone number</p>
+              <p className="text-xs">Optional</p>
+            </div>
+            <div className="w-full md:w-[60%] ">
+              <label className="form-control w-full ">
+                {/* <div className="label">
+                  <span className="label-text font-semibold">Email</span>
+                </div> */}
+                <input
+                  {...register("phone", { required: false })}
+                  type="tel"
+                  autoComplete="off"
+                  placeholder="Enter your phone number"
+                  className={`input input-bordered`}
+                  value={userData.phone}
+                  onChange={handleChange}
+                />
+                {/* {errors.phone && <p className="text-error font-semibold">Email is required.</p>} */}
               </label>
             </div>
           </div>
