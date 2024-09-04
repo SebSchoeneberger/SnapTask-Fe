@@ -10,6 +10,7 @@ import person3Image from "../img/3rd-person-main.jpg";
 import sergeImage from "../assets/serge.jpg";
 import felipeImage from "../assets/felipe.jpg";
 import sebastianImage from "../assets/sebastian.jpg";
+import michalImage from "../assets/michal.jpeg";
 import dashboardUI from "../img/dashboard.png";
 import peopleUI from "../img/people.png";
 import advisorUI from "../img/snapadvisor.png";
@@ -243,7 +244,7 @@ const LandingPage = () => {
               {/* <p className="text-gray-500 text-base">CEO</p> */}
             </div>
             <div className="p-6 rounded-lg drop-shadow-lg" data-aos="fade-right">
-              <img src={person3Image} alt="Matt Baker" className="mb-6 max-w-full h-auto border-0 rounded-[2.5rem]" />
+              <img src={michalImage} alt="Matt Baker" className="mb-6 max-w-full h-auto border-0 rounded-[2.5rem]" />
               <h5 className="text-primary text-2xl font-medium">Michal</h5>
               {/* <p className="text-gray-500 text-base">CEO</p> */}
             </div>
