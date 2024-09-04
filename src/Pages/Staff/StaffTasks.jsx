@@ -30,7 +30,8 @@ export default function StaffTasks() {
         },
       })
       .then((res) => {
-        const notFinishedTasks = res.data.tasks.filter((task) => task.status !== "Finished" && task.area._id == id);
+        console.log(res.data.tasks);
+        const notFinishedTasks = res.data.tasks.filter((task) => task.status !== "Finished" && task.area && task.area._id == id);
 
         setTasks(notFinishedTasks);
         setLoading(false);
