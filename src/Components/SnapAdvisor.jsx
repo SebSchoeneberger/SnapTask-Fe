@@ -53,7 +53,11 @@ function SnapAdvisor() {
         Description: ${task.description || "No description provided"}
         Due Date: ${new Date(task.dueDate).toLocaleDateString()}
         Assigned To: ${
-          task.assignedTo.length > 0 ? task.assignedTo.map((assignee) => `${assignee.firstName} ${assignee.lastName}`).join(", ") : "Not assigned yet"
+          task.assignedTo.length > 0
+            ? task.assignedTo
+                .map((assignee) => `${assignee.firstName} ${assignee.lastName}`)
+                .join(", ")
+            : "Not assigned yet"
         }
         Is Overdue: ${task.isOverdue ? "Yes" : "No"}
         `;
@@ -115,7 +119,10 @@ function SnapAdvisor() {
         // console.log(response);
         // Adjusted to properly access the assistant's reply from the response
         const assistantReply = response.data.message.content;
-        setMessages([...newMessages, { role: "assistant", content: assistantReply }]);
+        setMessages([
+          ...newMessages,
+          { role: "assistant", content: assistantReply },
+        ]);
         setInput(""); // Clear input after submission
       })
       .catch((error) => {
@@ -156,10 +163,23 @@ function SnapAdvisor() {
       <dialog id="snapAdvisor" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box bg-base-200 rounded-2xl min-w-[1200px] h-full">
           <div className="flex justify-between items-center">
-            <h3 className="text-2xl font-semibold text-left w-full max-w-xl">Snap Advisor</h3>
+            <h3 className="text-2xl font-semibold text-left w-full max-w-xl">
+              Snap Advisor
+            </h3>
             <button type="button" onClick={handleClose} className="">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
@@ -169,13 +189,29 @@ function SnapAdvisor() {
               <div className="modal-action border-2 flex flex-col h-[600px] overflow-y-auto w-full">
                 <div className="flex flex-col gap-2 flex-grow overflow-y-auto p-4">
                   {messages.map((msg, index) => (
-                    <div key={index} className={`chat ${msg.role === "assistant" ? "chat-start" : "chat-end"}`}>
+                    <div
+                      key={index}
+                      className={`chat ${
+                        msg.role === "assistant" ? "chat-start" : "chat-end"
+                      }`}
+                    >
                       <div className="chat-image avatar">
                         <div className="w-10 rounded-full">
-                          <img alt="Avatar" src={msg.role === "user" ? user.profileImage : AiAvatar} />
+                          <img
+                            alt="Avatar"
+                            src={
+                              msg.role === "user" ? user.profileImage : AiAvatar
+                            }
+                          />
                         </div>
                       </div>
-                      <div className={`chat-bubble ${msg.role == "user" ? "bg-neutral text-neutral-content" : "bg-neutral-content text-neutral"}`}>
+                      <div
+                        className={`chat-bubble text-left ${
+                          msg.role == "user"
+                            ? "bg-neutral text-neutral-content"
+                            : "bg-neutral-content text-neutral"
+                        }`}
+                      >
                         {msg.content}
                       </div>
                     </div>
@@ -197,8 +233,15 @@ function SnapAdvisor() {
                       <a
                         onClick={() => {
                           handleSuggestedQuestion(question);
-                        }}>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        }}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -216,7 +259,14 @@ function SnapAdvisor() {
 
             <div className="flex items-center gap-6">
               <label className="input input-bordered flex input-primary items-center w-[840px] gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="size-6"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -244,7 +294,8 @@ function SnapAdvisor() {
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
-                    className="h-6 w-6 opacity-70">
+                    className="h-6 w-6 opacity-70"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -256,8 +307,15 @@ function SnapAdvisor() {
 
               <div className="form-control flex">
                 <label className="cursor-pointer label gap-2">
-                  <input type="checkbox" className="checkbox checkbox-primary" checked={includeData} onChange={() => setIncludeData(!includeData)} />
-                  <span className="label-text text-sm">Share your account data with the advisor?</span>
+                  <input
+                    type="checkbox"
+                    className="checkbox checkbox-primary"
+                    checked={includeData}
+                    onChange={() => setIncludeData(!includeData)}
+                  />
+                  <span className="label-text text-sm">
+                    Share your account data with the advisor?
+                  </span>
                 </label>
               </div>
             </div>
