@@ -12,7 +12,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 export function CreateUser({ setUsers, name, updateUsers }) {
   const url = `${API_URL}/users`;
   const token = getToken();
-  const [password, setPassword] = useState(generatePassword());
+  const [password, setPassword] = useState();
 
   const {
     register,
@@ -22,10 +22,11 @@ export function CreateUser({ setUsers, name, updateUsers }) {
   } = useForm();
 
   function onSubmit(data) {
+    // console.log({ ...data });
     axios
       .post(
         url,
-        { ...data, password },
+        { ...data },
         {
           headers: {
             "Content-Type": "application/json",
@@ -88,7 +89,7 @@ export function CreateUser({ setUsers, name, updateUsers }) {
       });
   };
 
-  useEffect(() => setPassword(generatePassword()), [reset]);
+  // useEffect(() => setPassword(generatePassword()), [reset]);
 
   return (
     <>
@@ -187,13 +188,14 @@ export function CreateUser({ setUsers, name, updateUsers }) {
                   type="text"
                   placeholder=""
                   name="password"
+                  defaultValue={generatePassword()}
                   className="w-full"
                   {...register("password", {
                     required: "Password is required",
                   })}
                 />
 
-                <div className="flex justify-between gap-3">
+                {/* <div className="flex justify-between gap-3">
                   <button onClick={() => navigator.clipboard.writeText(password)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -224,7 +226,7 @@ export function CreateUser({ setUsers, name, updateUsers }) {
                       />
                     </svg>
                   </button>
-                </div>
+                </div> */}
               </label>
               {errors.password && (
                 <span
