@@ -59,7 +59,7 @@ export function CreateUser({ setUsers, name, updateUsers }) {
   Email: ${data.email}
   Password: ${password}
 
-  You can change your password on your profile page after logging in: http://localhost:5173/login
+  You can change your password on your profile page after logging in: https://app-snaptask.onrender.com/login
 
   Enjoy using SnapTask!
 
