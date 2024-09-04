@@ -38,7 +38,7 @@ SnapTask is a versatile SaaS platform that uses QR code technology to streamline
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/snap-task-frontend.git
+    git clone https://github.com/SebSchoeneberger/SnapTask-Fe.git
     cd snap-task-frontend
     ```
 
