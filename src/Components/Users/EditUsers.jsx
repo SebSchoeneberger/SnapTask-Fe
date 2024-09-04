@@ -77,7 +77,7 @@ export function UpdateUserModal({ userData, setEditModal, editModal, updateUsers
   }
   if (!userData) return null;
   return (
-    <dialog id="update_user_modal" className="modal modal-bottom sm:modal-middle">
+    <dialog id="update_user_modal" className="modal modal-bottom sm:modal-middle bg-black bg-opacity-50">
       <div className="modal-box bg-base-200 p-6 my-8 rounded-2xl min-w-[700px]">
         <div className="flex justify-between items-center gap-3 pb-4">
           <h3 className="text-2xl font-semibold text-left w-full max-w-xl">Update User</h3>
