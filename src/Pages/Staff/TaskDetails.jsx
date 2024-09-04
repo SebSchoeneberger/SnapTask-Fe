@@ -106,34 +106,14 @@ export default function TaskDetails() {
       <div className="flex flex-col h-full justify-around items-center gap-3 px-2">
         <div className="p-4 flex flex-col gap-4 bg-base-100 rounded-lg shadow-md">
           <div className="flex items-start gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="size-7"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m4.5 12.75 6 6 9-13.5"
-              />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-7">
+              <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
             </svg>
-            <p className="text-xl base-content mb-2 leading-normal text-start">
-              {task.title}
-            </p>
+            <p className="text-xl base-content mb-2 leading-normal text-start">{task.title}</p>
           </div>
           <div className="flex flex-col items-start gap-4">
             <div className="flex gap-1 items-center ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="size-6"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -145,34 +125,14 @@ export default function TaskDetails() {
             <div className="flex justify-between min-w-[360px] gap-4">
               {status == "Finished" ? (
                 <div className="flex gap-1 items-center justify-center text-success-content bg-success p-1 rounded-lg">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                    />
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
-                  <p className="text-xl">
-                    {formatDateFull(task.finishedDate || new Date())}
-                  </p>
+                  <p className="text-xl">{formatDateFull(task.finishedDate || new Date())}</p>
                 </div>
               ) : (
                 <div className="flex gap-1 items-center justify-center text-warning-content bg-warning p-1 rounded-lg">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="size-6"
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -183,54 +143,33 @@ export default function TaskDetails() {
                 </div>
               )}
               <p
-                className={`text-xl text-justify ${
-                  task.priority === "High"
-                    ? "text-error"
-                    : task.priority === "Medium"
-                    ? "text-warning"
-                    : "text-accent"
-                }`}
-              >
+                className={`text-xl text-justify font-bold ${
+                  task.priority === "High" ? "text-red-500" : task.priority === "Medium" ? "text-yellow-500" : "text-green-500"
+                }`}>
                 {task.priority} priority
               </p>
             </div>
             <div className="flex flex-col items-start">
               <span className="text-lg font-light">Additional Info:</span>
-              <p className="text-lg mt-2 text-justify info-content">
-                {task.description}
-              </p>
+              <p className="text-lg mt-2 text-justify info-content">{task.description}</p>
             </div>
           </div>
         </div>
 
         <div className="text-xl italic flex flex-col gap-2 w-full rounded-lg">
           {task.steps.map((step, index) => (
-            <TaskStep
-              key={index}
-              step={step}
-              index={index}
-              checkbox={status == "In Progress"}
-              setTask={setTask}
-              task={task}
-            />
+            <TaskStep key={index} step={step} index={index} checkbox={status == "In Progress"} setTask={setTask} task={task} />
           ))}
         </div>
         <div className="w-full mt-4 px-4">
           {status == "New" ? (
-            <button
-              onClick={startTask}
-              className="btn btn-success btn-lg w-full md:max-w-lg "
-            >
+            <button onClick={startTask} className="btn btn-success btn-lg w-full md:max-w-lg ">
               Start Task
             </button>
           ) : (
             status == "In Progress" && (
               <div className="flex flex-col gap-8 w-full m-auto md:max-w-xl">
-                <button
-                  disabled={!allStepsFinished}
-                  onClick={finishTask}
-                  className="btn btn-lg btn-error w-full"
-                >
+                <button disabled={!allStepsFinished} onClick={finishTask} className="btn btn-lg btn-error w-full">
                   Finish Task
                 </button>
                 <button onClick={cancelTask} className="btn btn-lg btn-neutral">
