@@ -33,8 +33,8 @@ const TaskCard = ({ task }) => {
             </div>
             <div className="flex  w-full justify-between ">
               <p
-                className={`card-title text-sm font-semibold ${
-                  task.priority === "High" ? "text-red-500" : task.priority === "Medium" ? "text-yellow-500" : "text-green-500"
+                className={`card-title text-sm font-bold ${
+                  task.priority === "High" ? "text-red-500" : task.priority === "Medium" ? "text-yellow-600" : "text-green-500"
                 }`}>
                 {task.priority} priority
               </p>
