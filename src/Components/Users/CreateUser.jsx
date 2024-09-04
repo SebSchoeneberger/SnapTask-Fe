@@ -179,6 +179,7 @@ export function CreateUser({ setUsers, name, updateUsers }) {
                 </span>
               )}
             </div>
+
             <div className="w-full flex flex-col items-start gap-2">
               <span className="label-text">Password*</span>
               <label className={`input input-bordered w-full relative flex items-center gap-2 ${errors.password ? "input-error" : ""}`}>
@@ -187,11 +188,9 @@ export function CreateUser({ setUsers, name, updateUsers }) {
                   placeholder=""
                   name="password"
                   className="w-full"
-                  value={password}
                   {...register("password", {
                     required: "Password is required",
                   })}
-                  onChange={(e) => setPassword(e.target.value)}
                 />
 
                 <div className="flex justify-between gap-3">
@@ -232,7 +231,7 @@ export function CreateUser({ setUsers, name, updateUsers }) {
                   style={{
                     color: "red",
                     position: "absolute",
-                    top: "550px",
+                    top: "650px",
                     fontSize: "12px",
                   }}>
                   {errors.password.message}
