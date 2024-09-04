@@ -168,7 +168,7 @@ export default function Profile() {
         },
       })
       .then((res) => {
-        console.log(res.data.imageUrl);
+        // console.log(res.data.imageUrl);
         // setUserData({ ...userData, profileImage: res.data.location });
       })
       .catch((err) => {
