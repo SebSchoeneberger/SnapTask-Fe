@@ -231,22 +231,18 @@ const LandingPage = () => {
             <div className="p-6 rounded-lg drop-shadow-lg" data-aos="fade-right">
               <img src={sebastianImage} alt="Daniel Avery" className="mb-6 max-w-full h-auto border-0 rounded-[2.5rem]" />
               <h5 className="text-primary text-2xl font-medium">Sebastian</h5>
-              {/* <p className="text-gray-500 text-base">CEO</p> */}
             </div>
             <div className="p-6 rounded-lg drop-shadow-lg" data-aos="fade-up">
               <img src={felipeImage} alt="Jessi Howard" className="mb-6 max-w-full h-auto border-0 rounded-[2.5rem]" />
               <h5 className="text-primary text-2xl font-medium">Felipe</h5>
-              {/* <p className="text-gray-500 text-base">CEO</p> */}
             </div>
             <div className="p-6 rounded-lg drop-shadow-lg" data-aos="fade-left">
               <img src={sergeImage} alt="Matt Baker" className="mb-6 max-w-full h-auto border-0 rounded-[2.5rem]" />
-              <h5 className="text-primary text-2xl font-medium">Serhii</h5>
-              {/* <p className="text-gray-500 text-base">CEO</p> */}
+              <h5 className="text-primary text-2xl font-medium">Serge</h5>
             </div>
             <div className="p-6 rounded-lg drop-shadow-lg" data-aos="fade-right">
               <img src={michalImage} alt="Matt Baker" className="mb-6 max-w-full h-auto border-0 rounded-[2.5rem]" />
               <h5 className="text-primary text-2xl font-medium">Michal</h5>
-              {/* <p className="text-gray-500 text-base">CEO</p> */}
             </div>
           </div>
         </section>
