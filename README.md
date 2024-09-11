@@ -22,8 +22,7 @@ SnapTask is a versatile SaaS platform that uses QR code technology to streamline
 ## Table of Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
-- [Environment Variables](#environment-variables)
+- [Backend](#backend)
 - [Technologies](#technologies)
 - [Deployment ](#deployment )
 
@@ -51,7 +50,7 @@ SnapTask is a versatile SaaS platform that uses QR code technology to streamline
     - Create a `.env.development.local` file in the root directory.
     - Add the following environment variables:
       ```env
-      VITE_API_URL=http://localhost:3333
+      VITE_API_URL=http://localhost:8000
       ```
 
 4. **Start the development server**:
@@ -59,25 +58,38 @@ SnapTask is a versatile SaaS platform that uses QR code technology to streamline
     npm run dev
     ```
 
-   The development server will start on `http://localhost:5173`.
+   The frontend will start on `http://localhost:5173`.
 
-## Usage
+## Backend
 
-### Running the Frontend
+### Running the Backend
 
-- **Development**: 
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/hexzoner/final-project-be.git
+    cd snap-task-backend
+    ```
+
+2. **Install dependencies**:
+    ```bash
+    npm install
+    ```
+
+3. **Set up environment variables**:
+    - Create a `.env` file in the root directory.
+    - Add the following environment variables:
+      ```env
+      PORT=5000
+      MONGODB_URI=mongodb://your_connection_string
+      JWT_SECRET=your_secret_key
+      ```
+
+4. **Start the development server**:
     ```bash
     npm run dev
     ```
-  The frontend will be accessible at `http://localhost:5173`.
 
-## Environment Variables
-
-Ensure the following environment variable is set in your `.env.development.local` file:
-
-```env
-VITE_API_URL=http://localhost:3333
-```
+   The server will start on `http://localhost:8000`.
 
 ## Technologies
 
