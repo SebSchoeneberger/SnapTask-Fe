@@ -36,7 +36,7 @@ export function CreateUser({ setUsers, name, updateUsers }) {
       )
       .then((res) => {
         setUsers((prev) => [...prev, res.data]);
-        // emailInvitation(data)
+        emailInvitation(data)
         updateUsers();
         document.getElementById(name).close();
         reset();
